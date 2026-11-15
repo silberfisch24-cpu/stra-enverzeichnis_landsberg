@@ -26,7 +26,7 @@ def zerlegen(name):
     m = re.match(r"^(.*?)\s*(\(.*\))$", name)
     if m:
         return m.group(1), m.group(2)
-    m = re.match(r"^(.*?)\s+((?:ab|bis|Hausnr\.|zwischen|Einmündung)\s.*)$", name)
+    m = re.match(r"^(.*?)\s+((?:ab|bis|Hausnr\.|zwischen|Einmündung|Rondell)\s.*)$", name)
     if m:
         return m.group(1), m.group(2)
     return name, ""

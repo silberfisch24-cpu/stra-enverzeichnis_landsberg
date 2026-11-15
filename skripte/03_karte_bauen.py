@@ -27,13 +27,19 @@ def norm(s):
 def lesen():
     with open(ROOT / "daten/verzeichnis.csv", encoding="utf-8") as f:
         verz = list(csv.DictReader(f))
-    anp = {}
+    anp = defaultdict(list)  # norm(OSM-Name) -> [(Ortsteil oder "", Verzeichnisname, vermutet)]
     p = ROOT / "daten/namensanpassungen.csv"
     if p.exists():
         with open(p, encoding="utf-8") as f:
             for r in csv.DictReader(f):
-                anp[norm(r["strasse_osm"])] = r["strasse_verzeichnis"]
-    return verz, anp
+                anp[norm(r["strasse_osm"])].append((r["ortsteil"], r["strasse_verzeichnis"], r.get("vermutet", "") == "ja"))
+    offen_manuell = {}
+    p = ROOT / "daten/offene_strassen.csv"
+    if p.exists():
+        with open(p, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                offen_manuell[(r["ortsteil"], norm(r["strasse"]))] = (r["osm_status"], r["notiz"])
+    return verz, anp, offen_manuell
 
 
 def abstand(a, b):
@@ -41,10 +47,12 @@ def abstand(a, b):
 
 
 def main():
-    verz, anp = lesen()
-    eintrag = {}
+    verz, anp, offen_manuell = lesen()
+    eintrag, zusaetze = {}, defaultdict(list)
     for r in verz:
         k = (r["ortsteil"], norm(r["strasse"]))
+        if r["zusatz"]:  # Zusätze (Hausnr., Rondell …) bleiben als Hinweis erhalten, werden aber nicht gematcht
+            zusaetze[k].append(f'{r["zusatz"]}: {NAME[r["baulast"]]}')
         if k not in eintrag or (eintrag[k]["zusatz"] and not r["zusatz"]):
             eintrag[k] = r
     orte_osm = json.loads((ROOT / "daten/osm_orte.json").read_text("utf-8"))["elements"]
@@ -59,43 +67,62 @@ def main():
         print("Ortsteil ohne OSM-Punkt:", fehlend)
     wege = json.loads((ROOT / "daten/osm_strassen.json").read_text("utf-8"))["elements"]
 
-    feats, genutzt, offen = [], set(), []
+    feats, genutzt, offen_osm = [], {}, []
     for w in wege:
         geo = [(p["lon"], p["lat"]) for p in w.get("geometry", [])]
         if len(geo) < 2:
             continue
         name = w["tags"]["name"]
         mitte = geo[len(geo) // 2]
-        # Namensvarianten: OSM-Schreibweise und Schreibweise laut Namensliste
-        namen = [norm(name)] + ([norm(anp[norm(name)])] if norm(name) in anp else [])
-        # Ortsteile, in denen das Verzeichnis einen dieser Namen kennt; unter ihnen entscheidet die Nähe
-        kand = [o for o in punkte if any((o, n) in eintrag for n in namen)]
+        # Namensvarianten (Name, nur in diesem Ortsteil, Status): OSM-Schreibweise und Namensliste.
+        # Ein Alias gilt nur im angegebenen Ortsteil (leer = überall), damit gleichnamige Straßen anderer Orte nicht greifen.
+        varianten = [(norm(name), "", "gefunden")] + [
+            (norm(v), o, "Alias (wahrscheinlich)" if verm else "Alias") for o, v, verm in anp.get(norm(name), [])]
+        # Ortsteile, in denen das Verzeichnis eine Variante kennt; unter ihnen entscheidet die Nähe
+        def passt(o):
+            return [(n, st) for n, nur, st in varianten if (o, n) in eintrag and nur in ("", o)]
+        kand = [o for o in punkte if passt(o)]
         dist = lambda o: min(abstand(mitte, q) for q in punkte[o])
         ort = min(kand or punkte, key=dist) if punkte else ""
-        k = next(((ort, n) for n in namen if (ort, n) in eintrag), (ort, namen[0]))
+        k, status = ((ort, passt(ort)[0][0]), passt(ort)[0][1]) if kand else ((ort, varianten[0][0]), "")
         r = eintrag.get(k)
         if r:
-            genutzt.add(k)
+            genutzt[k] = status
         b = r["baulast"] if r else None
         feats.append({"type": "Feature",
                       "properties": {"name": name, "ortsteil": ort, "baulast": NAME[b],
-                                     "hinweis": (r["baulast_text"] or r["zusatz"]) if r else "",
+                                     "hinweis": "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else "",
+                                     "osm_status": status if r else "nicht im Verzeichnis",
                                      "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5},
                       "geometry": {"type": "LineString", "coordinates": geo}})
         if not r:
-            offen.append((ort, name))
+            offen_osm.append((ort, name))
     feats.sort(key=lambda f: f["properties"]["baulast"] == NAME[None], reverse=True)  # unzugeordnet unten
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
         json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")
 
-    ohne_osm = [(k[0], v["strasse_original"]) for k, v in eintrag.items() if k not in genutzt]
+    ohne_osm = [(k, v) for k, v in eintrag.items() if k not in genutzt]
+    offene = []
+    for (o, n), v in sorted(ohne_osm):
+        st, notiz = offen_manuell.get((o, n), ("nicht vorhanden", ""))
+        offene.append({"ortsteil": o, "strasse": v["strasse_original"], "osm_status": st, "notiz": notiz,
+                       "baulast": NAME[v["baulast"]]})
+    (ROOT / "docs/offene.json").write_text(json.dumps(offene, ensure_ascii=False), encoding="utf-8")
+    md = ["# Offene Straßen (im Verzeichnis, aber ohne OSM-Weg)", "",
+          "Wird vom Skript `03_karte_bauen.py` erzeugt. Status und Notizen pflegt man in `daten/offene_strassen.csv`.", "",
+          "| Ortsteil | Straße | Baulast | Status | Notiz |", "|---|---|---|---|---|"]
+    md += [f"| {x['ortsteil']} | {x['strasse']} | {x['baulast']} | {x['osm_status']} | {x['notiz']} |" for x in offene]
+    (ROOT / "docs/offene-strassen.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    ohne_osm = [(k[0], v["strasse_original"]) for k, v in ohne_osm]
     with open(ROOT / "daten/nicht_zugeordnet.csv", "w", newline="", encoding="utf-8") as f:
         w_ = csv.writer(f); w_.writerow(["art", "ortsteil", "strasse"])
-        w_.writerows(("Verzeichnis ohne OSM-Weg", o, s) for o, s in sorted(ohne_osm))
-        w_.writerows(("OSM-Weg ohne Verzeichnis", o, s) for o, s in sorted(set(offen)))
+        w_.writerows(("Verzeichnis ohne OSM-Weg", o, s_) for o, s_ in sorted(ohne_osm))
+        w_.writerows(("OSM-Weg ohne Verzeichnis", o, s_) for o, s_ in sorted(set(offen_osm)))
+    from collections import Counter
+    print("Status:", dict(Counter(genutzt.values())))
     print(f"{len(eintrag)} Straßen im Verzeichnis, davon {len(genutzt)} in OSM gefunden; "
-          f"{len(ohne_osm)} ohne OSM-Weg, {len(set(offen))} OSM-Namen ohne Verzeichniseintrag")
+          f"{len(ohne_osm)} ohne OSM-Weg, {len(set(offen_osm))} OSM-Namen ohne Verzeichniseintrag")
 
 
 if __name__ == "__main__":
