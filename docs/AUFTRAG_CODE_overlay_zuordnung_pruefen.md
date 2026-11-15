@@ -51,9 +51,7 @@ Webrecherche und Suche in OpenStreetMap (Namens-, Adress- und `alt_name`-Suche i
 Gleichnamige Wege in Frößnitz (Am Berge) und Neukyhna (Alte Salzstraße) sind nicht gemeint. Weitere Fälle mit Art E: Hohenthurm Berliner Straße (Hausnr. 41, 42; in OSM keine Adressen mit diesen Nummern) und Hohenthurm Niemberger Weg, Zufahrt 4, 8, 10, 12 (Zufahrt nicht als Weg erfasst).
 
 ### Rondell Dorfplatz (Dammendorf, Blumenstraße)
-Der Ring (Wege 28731056, 975460640, 390526327) ist die Fahrbahn der Blumenstraße und bleibt beim Haupteintrag. Der Grund der Ausnahme ist die Bushaltestelle am Rondell; da es eine Insel ist, bleiben auch die kleinen Zubringer in übergeordneter Verantwortung. Gemeint ist die Mittelinsel: Way 1104039294 (`landuse=grass`), eine geschlossene Fläche. Sie muss als Fläche gezeichnet werden (nicht als Linie).
-
-Die verallgemeinerten Regeln stehen in `docs/ZUORDNUNGSREGELN.md`.
+**Korrigiert 15.11.2026 (Auftraggeber):** Die Zeile meint den **Ring** (Wege 28731056, 975460640, 390526327, zusammen etwa 67 m) und den **nördlichen Zubringer** (28731058, 18 m), nicht die Mittelinsel (Fläche 1104039294). Der südliche Zubringer (28731059) bleibt beim Haupteintrag. Stadt ist für Räumung und Säuberung zuständig; das PDF nennt bei der Fahrbahnreinigung A, die Abweichung steht begründet in `daten/korrekturen_verzeichnis.csv`.
 
 ### Grundsatz: Stichstraße statt durchgehende Straße
 Wenn Hausnummern an einem Stichweg liegen, wird nur der Stichweg zugeordnet. Die durchgehende Straße bleibt in der übergeordneten Verantwortung, auch wenn eine Hausnummer näher an ihr liegt (Beispiel Am Landrain 8 A bis 8 E). Gibt es keinen Stichweg in OSM (Niemberger Weg, Zufahrt 4, 8, 10, 12), wird Art E vergeben statt die durchgehende Straße zu färben.

@@ -9,7 +9,7 @@ Stand 15.11.2026 (Gesamtdurchgang, vollständige Systematik). Diese Regeln gelte
 3. **Lücken in der Nummernfolge gehören dazu.** Liegen Hausnummern zwischen zwei Zusatzbereichen (zum Beispiel 12 und 13 zwischen „1 - 11“ und „14 - 17“) an Wegen, die das Teilnetz verbinden, gehört dieser Weg zur Zusatzzeile, wenn das Projekt ihn als Stadt/Anlieger bestätigt. (Beispiel: Diagonale der Alten Bahnhofstraße in Hohenthurm.)
 4. **Nur Straßen, keine Pfade.** Wege mit `highway` path, footway, track, steps, cycleway oder bridleway (Fußweg, Grasweg, Feldweg) werden nicht zugeordnet. Hausnummern an solchen Wegen stehen nur in der notiz. (Beispiele: 224882490, 604661716, 923134922, 53512820.) Zugeordnet werden service, residential, living_street, unclassified.
 5. **Teilstücke nur ausnahmsweise.** Ein Teilstück einer Straße wird nur vergeben, wenn die Zusatzzeile erkennbar ein Stück derselben Straße meint (Hausnummern an der Straße selbst, keine Stichstraße). Ein Stichweg wird immer ganz zugeordnet, nicht nur sein Anfang.
-6. **Inseln und Plätze.** Bei einem Rondell oder einer Insel (Grund der Ausnahme: zum Beispiel die Bushaltestelle) wird die Fläche selbst zugeordnet. Der Ring und die kleinen Zubringer bleiben in übergeordneter Verantwortung. Die Fläche wird als Fläche gezeichnet.
+6. **Rondell und Platz (korrigiert 15.11.2026).** Die Zeile „Rondell“ meint die Fahrbahn des Rondells (der Ring) und den Zubringer, der zu ihm führt, **nicht** die Mittelinsel. Die Mittelinsel (Grünfläche, Bushaltestelle) ist keine Straße und wird nicht gefärbt. Beispiel: Dammendorf, Blumenstraße „Rondell Dorfplatz“: Ring (28731056, 975460640, 390526327) und nördlicher Zubringer (28731058). Der südliche Zubringer (28731059) bleibt beim Haupteintrag.
 7. **Kein Stichweg in OSM: Art E.** Wenn eine Zufahrt in OSM nicht als Weg erfasst ist, wird nicht die durchgehende Straße gefärbt, sondern Art E vergeben. Die Hausnummern stehen in der notiz.
 8. **Der Straßenname ist nachrangig.** Abweichende Schreibweisen (Anger / Am Anger) zählen als derselbe Name (Art A). Art C gilt nur, wenn der Weg wirklich zu einer anderen Straße gehört.
 9. **Bestätigung durch das Projekt zählt mehr als die Auswertung.** Was das Projekt entscheidet (zum Beispiel „Anlieger, nicht Stadt“, „Diagonale ist Stadt“), wird übernommen, die Konfidenz ist dann hoch, und die notiz nennt die Bestätigung.
@@ -22,7 +22,7 @@ Stand 15.11.2026 (Gesamtdurchgang, vollständige Systematik). Diese Regeln gelte
 2. Gehören alle zusammenhängenden Wege des Teilnetzes dazu, auch ohne Hausnummer?
 3. Ist ein Weg nur Pfad, Feldweg oder Fußweg? Dann streichen.
 4. Liegt eine genannte Hausnummer nur an der durchgehenden Straße? Dann nicht zuordnen, in der notiz nennen.
-5. Ist das Ergebnis eine Fläche oder Insel? Dann Fläche.
+5. Ist das Ergebnis ein Rondell? Dann Ring und genannter Zubringer, nicht die Mittelinsel.
 
 ## Sonderfälle aus der Session (Systematik)
 
@@ -35,7 +35,7 @@ Stand 15.11.2026 (Gesamtdurchgang, vollständige Systematik). Diese Regeln gelte
 | Gleichnamiger Abzweig einer L/K/B | Weg ohne `ref`, Name wie die Hauptstraße | über Geometrie, nie über den Namen; Wege mit `ref` raus | Alte Bahnhofstraße, Reideburger Straße, Neue Bahnhofstraße |
 | Bereich westlich einer Landesstraße | Projektaussage „Stadt, Anlieger“ | alle Wege westlich bis zur L, ohne L | Alte Bahnhofstraße 42–42 D |
 | Diagonale / Verbindungsweg | Projektaussage „gehört zur Stadt“ | zuordnen, Konfidenz hoch | Alte Bahnhofstraße 1–11 |
-| Insel / Rondell | Grund der Ausnahme ist ein Objekt auf der Insel (Bushaltestelle) | nur die Fläche, als Fläche zeichnen | Blumenstraße Rondell Dorfplatz |
+| Rondell | Zeile nennt „Rondell“ | Ring und der Zubringer, den der Auftraggeber nennt; nicht die Mittelinsel | Blumenstraße Rondell Dorfplatz (Ring + 28731058) |
 | Geteilte Straße mit Zwei-Zeilen-Zuordnung | ein Weg gehört zu zwei Zeilen | Teilstücke mit von/bis, nie dieselbe Spanne doppelt | 188144125 (Zeilen 1–11 und 43 bis Bahnhof) |
 | Pfad, Feldweg, Fußweg | `highway` path, track, footway, steps | nicht zuordnen, Hausnummer in der notiz | 923134922, 53512820, 224882490, 604661716 |
 | Zufahrt ohne eigenen Weg | keine Straße in OSM | Art E | Berliner Straße 41/42, Niemberger Weg Zufahrt, Reinsdorf Merseburger Straße 51/52 |

@@ -34,6 +34,14 @@ def norm(s):
 def lesen():
     with open(ROOT / "daten/verzeichnis.csv", encoding="utf-8") as f:
         verz = list(csv.DictReader(f))
+    # Abweichungen vom PDF, die der Auftraggeber ausdrücklich festgelegt hat (mit Begründung)
+    pk = ROOT / "daten/korrekturen_verzeichnis.csv"
+    if pk.exists():
+        with open(pk, encoding="utf-8") as f:
+            for k in csv.DictReader(f):
+                for r in verz:
+                    if (r["ortsteil"], r["strasse"], r["zusatz"]) == (k["ortsteil"], k["strasse"], k["zusatz"]):
+                        r[k["feld"]] = k["wert"]
     anp = defaultdict(list)  # norm(OSM-Name) -> [(Ortsteil oder "", Verzeichnisname, vermutet)]
     p = ROOT / "daten/namensanpassungen.csv"
     if p.exists():
