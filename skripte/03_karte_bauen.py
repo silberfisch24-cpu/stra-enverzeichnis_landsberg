@@ -138,6 +138,27 @@ def main():
                    "haupteintrag": f'{NAME[h["baulast"]]}, Reinigung {ZUST[h["reinigung_fahrbahn"]]}, Winterdienst {ZUST[h["winterdienst"]]}' if not h["zusatz"] else "(nur Zusatzzeilen)",
                    "abweichend": "ja" if (not h["zusatz"] and (h["baulast"], h["reinigung_fahrbahn"], h["winterdienst"]) != (r["baulast"], r["reinigung_fahrbahn"], r["winterdienst"])) else "nein",
                    "osm_wege": len(ids), "laenge_km": round(laenge, 2), "osm_way_ids": " ".join(map(str, ids))})
+    # Überlagerung "geteilte Straßen": je Teilbereich zugeordnete Wege (laut Auftrag) oder offen mit Begründung
+    notizen, zugeordnet = {}, defaultdict(list)
+    pz = ROOT / "daten/zusatz_zuordnung.csv"
+    if pz.exists():
+        with open(pz, encoding="utf-8") as f:
+            for r_ in csv.DictReader(f):
+                kz = (r_["ortsteil"], r_["strasse"], r_["zusatz"])
+                if r_["osm_way_id"].strip().isdigit():
+                    zugeordnet[kz].append(int(r_["osm_way_id"]))
+                    notizen.setdefault(kz, r_["notiz"])
+                else:
+                    notizen[kz] = r_["notiz"]
+    zj = []
+    for x, r_ in zip(zf, [r for r in verz if r["zusatz"] and (r["ortsteil"], norm(r["strasse"])) in genutzt]):
+        kz = (x["ortsteil"], x["strasse"], x["zusatz"])
+        zj.append({"id": len(zj), "ortsteil": x["ortsteil"], "strasse": x["strasse"], "zusatz": x["zusatz"].strip("()"),
+                   "baulast": x["baulast"], "reinigung": x["reinigung"], "winterdienst": x["winterdienst"],
+                   "haupteintrag": x["haupteintrag"], "wege": zugeordnet.get(kz, []),
+                   "strassenwege": [i for i, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]],
+                   "notiz": notizen.get(kz, "")})
+    (ROOT / "docs/zusatz.json").write_text(json.dumps(zj, ensure_ascii=False), encoding="utf-8")
     with open(ROOT / "daten/zusatzfaelle.csv", "w", newline="", encoding="utf-8") as f:
         w_ = csv.DictWriter(f, fieldnames=list(zf[0])); w_.writeheader(); w_.writerows(zf)
     print("Zusatzfälle:", len(zf), "davon abweichend vom Haupteintrag:", sum(x["abweichend"] == "ja" for x in zf))

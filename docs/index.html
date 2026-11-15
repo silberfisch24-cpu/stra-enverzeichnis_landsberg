@@ -28,7 +28,8 @@ const ANSICHTEN={
 let ansicht='baulast', zeigeGrau=true, ort='';
 const m=L.map('k').setView([51.45,12.2],12);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap-Mitwirkende'}).addTo(m);
-const ebenen={};let g;
+m.createPane('halo');m.getPane('halo').style.zIndex=395;m.getPane('halo').style.pointerEvents='none';
+const ebenen={},nachId={};let g,zdaten=[],halo=L.layerGroup().addTo(m),zwahl='off';
 function stil(f){const p=f.properties,c=ANSICHTEN[ansicht].farbe(p);
  const aus=(ort&&p.ortsteil!==ort)||(!c&&!zeigeGrau);
  return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null};}
@@ -38,7 +39,7 @@ function popup(p){const z=(a,w)=>w?`${a}: ${Z[w]}`:'';
   (p.art?`<br>Straßenart: ${p.art}`:'')+(p.hinweis?`<br><i>${p.hinweis}</i>`:'')+
   (p.osm_status.startsWith('Alias (')?'<br><i>Name wahrscheinlich gleich (nicht bestätigt)</i>':''):'<br><i>nicht im Verzeichnis</i>');}
 fetch('strassen.geojson').then(r=>r.json()).then(d=>{
- g=L.geoJSON(d,{style:stil,onEachFeature:(f,l)=>{l.bindPopup(popup(f.properties));(ebenen[f.properties.name]=ebenen[f.properties.name]||[]).push(l);}}).addTo(m);
+ g=L.geoJSON(d,{style:stil,onEachFeature:(f,l)=>{nachId[f.properties.osm_id]=l;l.bindPopup(popup(f.properties));(ebenen[f.properties.name]=ebenen[f.properties.name]||[]).push(l);}}).addTo(m);
  m.fitBounds(g.getBounds());
  document.getElementById('l').innerHTML=Object.keys(ebenen).sort().map(n=>`<option>${n}`).join('');
  document.getElementById('s').onchange=e=>{const a=ebenen[e.target.value];if(a){m.fitBounds(L.featureGroup(a).getBounds().pad(.3));a[0].openPopup();}};
@@ -49,14 +50,37 @@ const ctl=L.control({position:'topright'});
 ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickPropagation(d);
  d.innerHTML=`<b>Ansicht</b><select id="a">${Object.entries(ANSICHTEN).map(([k,v])=>`<option value="${k}">${v.t}`).join('')}</select>
  <select id="o"><option value="">alle Ortsteile</option></select>
- <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>`;
+ <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>
+ <hr style="margin:6px 0"><b>Geteilte Straßen</b>
+ <select id="z"><option value="off">Deaktiviert</option><option value="all">Alle</option></select><div id="zi" style="max-width:300px"></div>`;
+ d.querySelector('#z').onchange=e=>{zwahl=e.target.value;zeige(true);};
  d.querySelector('#a').onchange=e=>{ansicht=e.target.value;aktual();};
  d.querySelector('#o').onchange=e=>{ort=e.target.value;aktual();if(ort&&g){const b=L.featureGroup(g.getLayers().filter(l=>l.feature.properties.ortsteil===ort)).getBounds();if(b.isValid())m.fitBounds(b.pad(.1));}};
  d.querySelector('#gr').onchange=e=>{zeigeGrau=e.target.checked;aktual();};return d;};
 ctl.addTo(m);
+fetch('zusatz.json').then(r=>r.json()).then(z=>{zdaten=z;const sel=ctl.getContainer().querySelector('#z');
+ sel.options[1].text=`Alle (${z.length})`;
+ const og=document.createElement('optgroup');og.label='Teilbereiche (● zugeordnet, ○ Zuordnung offen)';
+ z.slice().sort((a,b)=>(a.ortsteil+a.strasse+a.zusatz).localeCompare(b.ortsteil+b.strasse+b.zusatz,'de')).forEach(x=>{
+  const o=document.createElement('option');o.value=x.id;o.text=`${x.wege.length?'●':'○'} ${x.ortsteil}: ${x.strasse} (${x.zusatz})`;og.appendChild(o);});
+ sel.appendChild(og);});
+function linien(ids){return ids.map(i=>nachId[i]).filter(Boolean);}
+function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelector('#zi');info.innerHTML='';
+ const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten:zdaten.filter(x=>String(x.id)===zwahl);
+ let alle=[];
+ wahl.forEach(x=>{const offen=!x.wege.length;
+  linien(offen?x.strassenwege:x.wege).forEach(l=>{alle.push(l);
+   L.polyline(l.getLatLngs(),{pane:'halo',color:offen?'#555':'#000',weight:offen?11:10,opacity:offen?0.55:0.6,dashArray:offen?'1 9':null,lineCap:offen?'round':'butt'}).addTo(halo);});});
+ if(zwahl!=='off'&&zwahl!=='all'&&wahl[0]){const x=wahl[0];
+  info.innerHTML=`<br><b>${x.strasse} (${x.zusatz})</b><br>Baulast: ${x.baulast}, Reinigung: ${x.reinigung}, Winterdienst: ${x.winterdienst}<br>Rest der Straße: ${x.haupteintrag}`+
+   (x.wege.length?`<br><i>${x.wege.length} Weg(e) zugeordnet</i>`:`<br><i>Zuordnung offen – ganze Straße gepunktet markiert. ${x.notiz}</i>`);
+  if(zoom&&alle.length)m.fitBounds(L.featureGroup(alle).getBounds().pad(.4));}
+ legende();}
 const leg=L.control({position:'bottomright'});leg.onAdd=()=>L.DomUtil.create('div','box');leg.addTo(m);
-function aktual(){if(g)g.setStyle(stil);
- leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`;}
+function aktual(){if(g)g.setStyle(stil);legende();}
+function legende(){
+ leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`+
+ (zwahl!=='off'?`<div style="margin-top:4px"><i style="background:#000;height:7px"></i>Teilbereich (Zuständigkeit weicht ab)</div><div><i style="height:7px;background:repeating-linear-gradient(90deg,#555 0 2px,transparent 2px 6px)"></i>Zuordnung offen (ganze Straße)</div>`:'');}
 aktual();
 fetch('offene.json').then(r=>r.json()).then(o=>{if(!o.length)return;const c=L.control({position:'bottomleft'});c.onAdd=()=>{const d=L.DomUtil.create('div','box');
  d.innerHTML='<b>Im Verzeichnis, nicht in OSM</b><br>'+o.map(x=>`${x.strasse} (${x.ortsteil}, ${x.baulast}) – ${x.osm_status}`).join('<br>');return d;};c.addTo(m);});
