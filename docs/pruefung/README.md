@@ -120,3 +120,5 @@ Dazu die Notizen in `abschnitte.csv`: Bei jedem Fall steht, welche Hausnummer an
 **Hinweis für die Karte:** Way 1104039294 (Rondell Dorfplatz) ist eine geschlossene Fläche (`landuse=grass`), kein Weg. Sie muss als Fläche (oder ihre Umrisslinie) gezeichnet werden.
 
 **Nachtrag Hohenthurm Alte Bahnhofstraße:** Die Diagonale vom Von-Wuthenau-Platz zur Kreuzung Am Dorfteich (Wege 1176275569, 1422282324, 188144126; Hausnr. 12, 13) ist Stadt und nicht Land. Sie ist der Zeile (Hausnr. 1 - 11) zugeordnet (Art A, hoch), weil sie am Ostende von 188144125 anschließt.
+
+**Nachtrag Hohenthurm Alte Bahnhofstraße 42 - 42 D:** Der gesamte Bereich westlich der L 168 ist Stadt und nicht Land, mit Pflichten bei den Anwohnern. Zugeordnet sind deshalb alle Wege dort ganz: 27016990 (Süd- und Westseite am Gleis), 459207003 (bis zur L 168) und 104384350. Der Weg 604661716 ist nur ein Fußweg (`track`) und entfällt, ebenso der Grasweg 224882490 bei Hausnr. 14 - 17.
