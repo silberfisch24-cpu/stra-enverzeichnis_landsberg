@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
 # OSM-Ortsnamen, die im Verzeichnis anders heißen (Ortsteil mit mehreren Punkten möglich)
 ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "Untermaschwitz": "Maschwitz"}
+ZUST = {"A": "Anlieger", "B": "Baulastträger"}
 NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
 
 
@@ -52,7 +53,7 @@ def main():
     for r in verz:
         k = (r["ortsteil"], norm(r["strasse"]))
         if r["zusatz"]:  # Zusätze (Hausnr., Rondell …) bleiben als Hinweis erhalten, werden aber nicht gematcht
-            zusaetze[k].append(f'{r["zusatz"]}: {NAME[r["baulast"]]}')
+            zusaetze[k].append(f'{r["zusatz"]}: {NAME[r["baulast"]]}, Reinigung {ZUST[r["reinigung_fahrbahn"]]}, Winterdienst {ZUST[r["winterdienst"]]}')
         if k not in eintrag or (eintrag[k]["zusatz"] and not r["zusatz"]):
             eintrag[k] = r
     orte_osm = json.loads((ROOT / "daten/osm_orte.json").read_text("utf-8"))["elements"]
@@ -92,6 +93,8 @@ def main():
         feats.append({"type": "Feature",
                       "properties": {"name": name, "ortsteil": ort, "baulast": NAME[b],
                                      "hinweis": "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else "",
+                                     "reinigung": r["reinigung_fahrbahn"] if r else "", "winterdienst": r["winterdienst"] if r else "",
+                                     "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
                                      "osm_status": status if r else "nicht im Verzeichnis",
                                      "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5},
                       "geometry": {"type": "LineString", "coordinates": geo}})
