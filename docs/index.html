@@ -45,7 +45,7 @@ function stil(f){const p=f.properties,c=ANSICHTEN[ansicht].farbe(p);
  return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null,fillColor:c||GRAU,fillOpacity:aus?0:0.4};}
 function popup(p){
  if(p.baulast==='nicht im Verzeichnis')return `<b>${p.name}</b><br>${p.ortsteil}<br><em>nicht im Straßenverzeichnis</em>`;
- return `<b>${p.name}</b><br>${p.ortsteil}<br>Baulast: ${p.baulast}<br>Reinigung Fahrbahn: ${wer(p.reinigung,p.baulast)}<br>Winterdienst Fahrbahn: ${wer(p.winterdienst,p.baulast)}<br>Gehweg: ${wer(p.gehweg,p.baulast)}`+
+ return `<b>${p.name}</b>${p.ref?' ('+p.ref+')':''}<br>${p.ortsteil}<br>Baulast: ${p.baulast}<br>Reinigung Fahrbahn: ${wer(p.reinigung,p.baulast)}<br>Winterdienst Fahrbahn: ${wer(p.winterdienst,p.baulast)}<br>Gehweg: ${wer(p.gehweg,p.baulast)}`+
   (p.art?`<br>Straßenart: ${p.art}`:'')+(p.hinweis?`<br><em>${p.hinweis}</em>`:'')+(p.pruefen?'<br><em>Zuordnung unsicher</em>':'');}
 
 fetch('strassen.geojson').then(r=>r.json()).then(d=>{

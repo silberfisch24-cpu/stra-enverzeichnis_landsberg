@@ -20,6 +20,9 @@ ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "U
 ZUST = {"A": "Anlieger", "B": "Baulastträger"}
 # Ab welcher Einstufung aus abschnitte.csv eine Zuordnung auf der Karte als "unsicher" gilt (hoch < mittel < niedrig)
 UNSICHER = {"niedrig"}
+# Rangfolge der Baulast bei Durchgangsstraßen: Land (L) vor Kreis (K) vor Stadt (S) vor Privat (P); gemischt bleibt unberührt
+RANG = {"P": 1, "S": 2, "K": 3, "L": 4}
+ZEICHENREIHE = {"nicht im Verzeichnis": 0, "Privat": 1, "gemischt (Text beachten)": 2, "Stadt": 2, "Kreis": 3, "Land": 4}
 KEINE_STRASSE = {"platform", "rest_area", "services", "steps"}  # Haltestellen, Rastplätze …: nur zeichnen, wenn im Verzeichnis
 NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
 
@@ -67,7 +70,7 @@ def abstand(a, b):
     return math.hypot((a[0] - b[0]) * math.cos(math.radians(a[1])), a[1] - b[1])
 
 
-def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False):
+def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False, ref=""):
     """Ein Kartenmerkmal; pl = Abschnitt (Nutzlast aus abschnitte.csv) überschreibt die Verzeichniszeile."""
     extra = {}
     if pl:
@@ -78,7 +81,7 @@ def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False):
                  "a_notiz": a["notiz"], "pruefen": a["konfidenz"] in UNSICHER or a["art"] == "E"}
     b = r["baulast"] if r else None
     return {"type": "Feature",
-            "properties": {"osm_id": wid, "name": name, "ortsteil": ort, "baulast": NAME[b], "hinweis": hinweis,
+            "properties": {"osm_id": wid, "name": name, "ref": ref, "ortsteil": ort, "baulast": NAME[b], "hinweis": hinweis,
                            "reinigung": r["reinigung_fahrbahn"] if r else "", "winterdienst": r["winterdienst"] if r else "",
                            "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
                            "osm_status": status if r else "nicht im Verzeichnis",
@@ -173,8 +176,13 @@ def main():
         hinweis = "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else ""
         if not r and w["tags"].get("highway") in KEINE_STRASSE and w["id"] not in schnitte:
             continue
+        ref = w["tags"].get("ref", "")
+        mr = re.match(r"^([LK])\s?\d", ref)
+        if r and mr and RANG[mr.group(1)] > RANG.get(r["baulast"], 9):
+            # Durchgangsstraße mit L-/K-Nummer: der höhere Rang gilt, auch wenn der Name im Verzeichnis eine Stadtstraße meint
+            r = {**r, "baulast": mr.group(1)}
         for teil, pl in stuecke(w["id"], geo):
-            feats.append(merkmal(w["id"], name, ort, teil, r, hinweis, status, pl))
+            feats.append(merkmal(w["id"], name, ort, teil, r, hinweis, status, pl, ref=ref))
         if not r:
             offen_osm.append((ort, name, w["tags"].get("highway", "")))
     benannt = {w["id"] for w in wege}
@@ -186,7 +194,7 @@ def main():
                 z = pl["zeile"]
                 nm = f'{z["strasse"]} ({"Fläche" if wid in flaechen else "unbenannter Weg"})'
                 feats.append(merkmal(wid, nm, z["ortsteil"], teil, None, "", "", pl, flaeche=wid in flaechen))
-    feats.sort(key=lambda f: f["properties"]["baulast"] == NAME[None], reverse=True)  # unzugeordnet unten
+    feats.sort(key=lambda f: ZEICHENREIHE[f["properties"]["baulast"]])  # höherer Rang wird zuletzt gezeichnet, also oben
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
         json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")

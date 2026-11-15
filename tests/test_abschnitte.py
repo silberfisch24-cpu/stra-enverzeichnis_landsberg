@@ -71,3 +71,17 @@ def test_keine_wege_mit_landes_oder_kreisreferenz():
     schlecht = [(r["strasse"], r["osm_way_id"], refs[int(r["osm_way_id"])]) for r in _lesen("abschnitte.csv")
                 if r["osm_way_id"].strip() and refs.get(int(r["osm_way_id"]), "")]
     assert not schlecht, f"Wege mit ref in abschnitte.csv: {schlecht}"
+
+
+def test_rangfolge_durchgangsstrassen():
+    """Wege mit L-/K-Nummer sind mindestens Land bzw. Kreis (Land vor Kreis vor Stadt); gemischt und nicht im Verzeichnis bleiben."""
+    import re
+    f = json.loads((ROOT / "docs/strassen.geojson").read_text("utf-8"))["features"]
+    rang = {"Privat": 1, "Stadt": 2, "Kreis": 3, "Land": 4}
+    schlecht = []
+    for x in f:
+        p = x["properties"]
+        m = re.match(r"^([LK])\s?\d", p.get("ref", ""))
+        if m and p["baulast"] in rang and rang[p["baulast"]] < {"L": 4, "K": 3}[m.group(1)] and "Abschnitt" not in p.get("hinweis", ""):
+            schlecht.append((p["name"], p["ref"], p["baulast"]))
+    assert not schlecht, schlecht
