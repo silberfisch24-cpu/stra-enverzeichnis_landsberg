@@ -8,7 +8,7 @@ Die Zusatzzeilen und die 5 offenen Straßen werden in der Karte auf das passende
 
 ## Eingabedaten
 
-`daten/abschnitte.csv` (115 Zeilen, 44 Zusatzzeilen + 5 offene Straßen). Spalten:
+`daten/abschnitte.csv` (104 Zeilen, 44 Zusatzzeilen + 5 offene Straßen). Spalten:
 `ortsteil,strasse,zusatz,osm_way_id,von_lat,von_lon,bis_lat,bis_lon,art,konfidenz,grundlage,notiz`
 
 - Schlüssel zur Verzeichniszeile: `ortsteil` + `strasse` + `zusatz` (exakt wie in `daten/zusatzfaelle.csv`; bei den 5 offenen Straßen ist `zusatz` leer und der Schlüssel ist `daten/offene_strassen.csv`).
@@ -21,13 +21,13 @@ Die Zusatzzeilen und die 5 offenen Straßen werden in der Karte auf das passende
 
 | art | Bedeutung | Anzahl |
 |---|---|---|
-| A | Teil eines Weges oder ganzer Weg mit dem Straßennamen | 49 |
+| A | Teil eines Weges oder ganzer Weg mit dem Straßennamen | 40 |
 | B | unbenannter Weg (in `osm_unbenannt.json`) | 30 |
-| C | Weg mit anderem Namen (z. B. Friedrich-Hoffmann-Straße für Hoffmannplatz 8, 9) | 7 |
-| D | Landmarke oder Strecke (Rondell, Zufahrt, „ab Kirche“, Kreuzung bis Kreuzung) | 23 |
-| E | keine Datengrundlage, kein Weg | 6 |
+| C | Weg mit anderem Namen (z. B. Friedrich-Hoffmann-Straße für Hoffmannplatz 8, 9) | 6 |
+| D | Landmarke oder Strecke (Rondell, Zufahrt, „ab Kirche“, Kreuzung bis Kreuzung) | 21 |
+| E | keine Datengrundlage, kein Weg | 7 |
 
-konfidenz: hoch 42 · mittel 58 · niedrig 15. grundlage: Adressen / Kreuzungen / Name / Nähe / sonstiges.
+konfidenz: hoch 39 · mittel 49 · niedrig 16. grundlage: Adressen / Kreuzungen / Name / Nähe / sonstiges.
 
 ## Umsetzung in der Karte
 
@@ -48,10 +48,13 @@ Webrecherche und Suche in OpenStreetMap (Namens-, Adress- und `alt_name`-Suche i
 - Plößnitz: Rosenhain
 - Schwerz: Am Berge (Am Teich in Schwerz entspricht „Zum Teich“ in Kneipe und gehört nicht zur Liste)
 - Sietzsch: Alte Salzstraße
-Gleichnamige Wege in Frößnitz (Am Berge) und Neukyhna (Alte Salzstraße) sind nicht gemeint. Weitere Fälle mit Art E: Hohenthurm Berliner Straße (Hausnr. 41, 42), dort gibt es in OSM keine Adressen mit diesen Nummern.
+Gleichnamige Wege in Frößnitz (Am Berge) und Neukyhna (Alte Salzstraße) sind nicht gemeint. Weitere Fälle mit Art E: Hohenthurm Berliner Straße (Hausnr. 41, 42; in OSM keine Adressen mit diesen Nummern) und Hohenthurm Niemberger Weg, Zufahrt 4, 8, 10, 12 (Zufahrt nicht als Weg erfasst).
 
 ### Rondell Dorfplatz (Dammendorf, Blumenstraße)
-Geschlossener Ring von etwa 69 m neben Kirche und Feuerwehr (Wege 28731056, 975460640, 390526327), in OSM nicht benannt.
+Der Ring (Wege 28731056, 975460640, 390526327) ist die Fahrbahn der Blumenstraße und bleibt beim Haupteintrag. Gemeint ist die Mittelinsel: Way 1104039294 (`landuse=grass`), eine geschlossene Fläche. Sie muss als Fläche gezeichnet werden (nicht als Linie).
+
+### Grundsatz: Stichstraße statt durchgehende Straße
+Wenn Hausnummern an einem Stichweg liegen, wird nur der Stichweg zugeordnet. Die durchgehende Straße bleibt in der übergeordneten Verantwortung, auch wenn eine Hausnummer näher an ihr liegt (Beispiel Am Landrain 8 A bis 8 E). Gibt es keinen Stichweg in OSM (Niemberger Weg, Zufahrt 4, 8, 10, 12), wird Art E vergeben statt die durchgehende Straße zu färben.
 
 ### Zuordnung der Hausnummernfälle (31 Zusatzzeilen, automatisierbar)
 Regel: Adresse (Knoten oder Gebäudemittelpunkt, `addr:street` gleich Straßenname) dem nächsten Highway-Weg bis 45 m zuordnen; Wege mit anderem Namen bekommen 15 m Strafzuschlag. Ein Weg gilt als ganz, wenn alle seine Adressen dieser Straße zum Fall gehören, die Spanne mit 15 m Puffer mindestens 85 % der Länge deckt oder er höchstens 70 m lang ist; sonst Teilstück über die äußersten Adressen mit 15 m Puffer. `highway=bus_stop` wird ausgeschlossen. Konfidenz: hoch bei mindestens 2 Adressen und höchstens 30 m Abstand; mittel bis 45 m oder genau eine Adresse an unbenanntem Weg; niedrig bei reiner Nähe.
@@ -72,7 +75,7 @@ Regel: Adresse (Knoten oder Gebäudemittelpunkt, `addr:street` gleich Straßenna
 Hohenthurm Niemberger Weg (Zufahrt 4, 8, 10, 12; Hausnr. 8 ohne eigenen Weg), Dammendorf Anger Hausnr. 11, Zöberitz Zum Rittergut Hausnr. 13 (Weg heißt Mötzlicher Straße), Hohenthurm Alte Bahnhofstraße 42 c, Steinbruch, Klepzig Kirchstraße.
 
 ### Prüfstand
-Jeder Fall wurde als Kartenausschnitt gezeichnet (OSM-Straßennetz, Adresspunkte mit Hausnummern, zugeordnete Wege, Teilstücke) und einzeln gesichtet. Die Screenshots (12 Blätter) und die Einzelanalyse aller Fälle stehen in `docs/pruefung/` (README.md). Korrekturen daraus stehen in PR #2.
+Jeder Fall wurde als Kartenausschnitt gezeichnet (OSM-Straßennetz, Adresspunkte mit Hausnummern, zugeordnete Wege, Teilstücke) und einzeln gesichtet. Die Screenshots (12 Übersichtsblätter, 10 Detailblätter mit Gebäuden) und die Einzelanalyse aller Fälle stehen in `docs/pruefung/` (README.md). Korrekturen daraus stehen in PR #2.
 
 ## Hinweise zu OSM-Daten
 
