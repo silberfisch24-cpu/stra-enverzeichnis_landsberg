@@ -157,7 +157,9 @@ def main():
                    "baulast": x["baulast"], "reinigung": x["reinigung"], "winterdienst": x["winterdienst"],
                    "haupteintrag": x["haupteintrag"], "wege": zugeordnet.get(kz, []),
                    "strassenwege": [i for i, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]],
-                   "notiz": notizen.get(kz, "")})
+                   "notiz": notizen.get(kz, ""),
+                   # Wege, die laut Notiz die Hausnummern/den Zusatz (teilweise) tragen: nur diese markieren, nicht die ganze Straße
+                   "kandidaten": [int(i) for i in re.findall(r"Weg (\d{6,})", notizen.get(kz, "")) if int(i) in {a for a, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]}]})
     (ROOT / "docs/zusatz.json").write_text(json.dumps(zj, ensure_ascii=False), encoding="utf-8")
     with open(ROOT / "daten/zusatzfaelle.csv", "w", newline="", encoding="utf-8") as f:
         w_ = csv.DictWriter(f, fieldnames=list(zf[0])); w_.writeheader(); w_.writerows(zf)
