@@ -229,7 +229,6 @@ def main():
                    "grundlage": sorted({a["grundlage"] for a in rows if a["grundlage"]}),
                    "notiz": " | ".join(dict.fromkeys(a["notiz"] for a in rows if a["notiz"])),
                    "linien": linien[i]})
-    (ROOT / "docs/zusatz.json").write_text(json.dumps(zj, ensure_ascii=False), encoding="utf-8")
     with open(ROOT / "daten/zusatzfaelle.csv", "w", newline="", encoding="utf-8") as f:
         w_ = csv.DictWriter(f, fieldnames=list(zf[0])); w_.writeheader(); w_.writerows(zf)
     print("Abschnitte:", sum(1 for f_ in feats if "fall" in f_["properties"]), "Teilstücke,",
@@ -246,7 +245,27 @@ def main():
         if z_["status"] == "keine":
             offene.append({"ortsteil": z_["ortsteil"], "strasse": f'{z_["strasse"]} ({z_["zusatz"]})', "osm_status": "keine Zuordnung",
                            "notiz": z_["notiz"], "baulast": z_["baulast"]})
-    (ROOT / "docs/offene.json").write_text(json.dumps(offene, ensure_ascii=False), encoding="utf-8")
+    # Problemfälle für die Karte: nur Unsicheres und Nicht-Zuordenbares; alles andere erscheint einfach korrekt gefärbt
+    def mitte(o):
+        q = punkte.get(o)
+        return [round(sum(c[1] for c in q) / len(q), 5), round(sum(c[0] for c in q) / len(q), 5)] if q else None
+
+    probleme = []
+    for z_ in zj:
+        if z_["status"] in ("pruefen", "keine"):
+            probleme.append({"art": "unsicher" if z_["status"] == "pruefen" else "keine", "ortsteil": z_["ortsteil"],
+                             "strasse": z_["strasse"], "zusatz": z_["zusatz"], "baulast": z_["baulast"], "reinigung": z_["reinigung"],
+                             "winterdienst": z_["winterdienst"], "haupt": z_["haupt"], "grund": z_["notiz"],
+                             "linien": z_["linien"], "mitte": mitte(z_["ortsteil"])})
+    for (o, n), v in sorted(ohne_osm):
+        x = next(y for y in offene if y["ortsteil"] == o and y["strasse"] == v["strasse_original"])
+        probleme.append({"art": "keine", "ortsteil": o, "strasse": v["strasse_original"], "zusatz": "", "baulast": NAME[v["baulast"]],
+                         "reinigung": ZUST[v["reinigung_fahrbahn"]], "winterdienst": ZUST[v["winterdienst"]], "haupt": None,
+                         "grund": x["notiz"], "linien": [], "mitte": mitte(o)})
+    probleme.sort(key=lambda x: (x["ortsteil"], x["strasse"], x["zusatz"]))
+    for i, x in enumerate(probleme):
+        x["id"] = i
+    (ROOT / "docs/probleme.json").write_text(json.dumps(probleme, ensure_ascii=False), encoding="utf-8")
     md = ["# Offene Straßen (im Verzeichnis, aber ohne OSM-Weg)", "",
           "Wird vom Skript `03_karte_bauen.py` erzeugt. Status und Notizen pflegt man in `daten/offene_strassen.csv`.", "",
           "| Ortsteil | Straße | Baulast | Status | Notiz |", "|---|---|---|---|---|"]
