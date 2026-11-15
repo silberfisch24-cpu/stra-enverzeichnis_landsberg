@@ -122,3 +122,9 @@ Dazu die Notizen in `abschnitte.csv`: Bei jedem Fall steht, welche Hausnummer an
 **Nachtrag Hohenthurm Alte Bahnhofstraße:** Die Diagonale vom Von-Wuthenau-Platz zur Kreuzung Am Dorfteich (Wege 1176275569, 1422282324, 188144126; Hausnr. 12, 13) ist Stadt und nicht Land. Sie ist der Zeile (Hausnr. 1 - 11) zugeordnet (Art A, hoch), weil sie am Ostende von 188144125 anschließt.
 
 **Nachtrag Hohenthurm Alte Bahnhofstraße 42 - 42 D:** Der gesamte Bereich westlich der L 168 ist Stadt und nicht Land, mit Pflichten bei den Anwohnern. Zugeordnet sind deshalb alle Wege dort ganz: 27016990 (Süd- und Westseite am Gleis), 459207003 (bis zur L 168) und 104384350. Der Weg 604661716 ist nur ein Fußweg (`track`) und entfällt, ebenso der Grasweg 224882490 bei Hausnr. 14 - 17.
+
+
+## Runde 3: Gesamtdurchgang nach Systematik (15.11.2026)
+
+Alle 41 Fälle mit Wegen wurden neu gezeichnet und per Screenshot geprüft (`runde3/blatt_01.jpg` bis `blatt_19.jpg`; Blatt 4 ist die Detailansicht Otto-Quandt-Straße, Blatt 18 die drei geänderten Fälle). Legende: blau = zugeordnet, rot = Teilstück, orange = Kandidat, gestrichelt grau = Pfad, schwarz = Weg mit `ref`. Die Regeln stehen in `docs/ZUORDNUNGSREGELN.md`.
+Änderungen: L/K/B-Wege entfernt (Alte Bahnhofstraße 43 bis Bahnhof, Reideburger Straße, Alte Berliner Straße), Servicestiche ergänzt (1425709704, 39962397, 887532620), Reinsdorf Merseburger Straße 51/52 als Art E.
