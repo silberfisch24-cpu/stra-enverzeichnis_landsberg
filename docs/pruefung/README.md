@@ -11,7 +11,7 @@ Die Karten sind aus OSM-Rohdaten gezeichnet (OSM-API, Stand 15.11.2026), nicht a
 ### blatt_01.jpg
 1. Braschwitz Zöberitzer Weg (Hausnr. 17 - 18): Stichweg 33046421 zwischen 17 und 18, plausibel.
 2. Braschwitz Brunnenstraße (Hausnr. 4 - 6): Stichweg 33050506 an Hausnr. 4; Hausnr. 5 und 6 fehlen in OSM (mittel).
-3. Braschwitz Zöberitzer Weg (2 A bis 2 E): 2a bis 2d an 33046424, 2e an 40463143. Der Weg 40463143 ist 235 m lang mit nur einer Adresse am Anfang (in notiz vermerkt).
+3. Braschwitz Zöberitzer Weg (2 A bis 2 E): 2a bis 2d an 33046424, 2e an 40463143. Der Weg 40463143 ist 235 m lang mit nur einer Adresse am Anfang. Vom Projekt bestätigt: Der gesamte Teil des Zöberitzer Weges ist Anlieger und nicht Stadt, also ganzer Weg (hoch).
 4. Dammendorf Ernst-Thälmann-Straße (1 - 7): Weg 109708394 begleitet 1 bis 7 vollständig, plausibel.
 
 ### blatt_02.jpg
