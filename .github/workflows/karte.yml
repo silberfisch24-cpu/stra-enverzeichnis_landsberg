@@ -1,0 +1,24 @@
+name: Karte bauen
+on:
+  workflow_dispatch:
+  push:
+    paths: ["daten/*.pdf", "daten/namensanpassungen.csv", "skripte/**"]
+permissions:
+  contents: write
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pdfplumber pytest
+      - run: python skripte/01_extrahieren.py
+      - run: python skripte/02_osm_holen.py
+      - run: python skripte/03_karte_bauen.py
+      - run: python -m pytest -q
+      - name: Ergebnis committen
+        run: |
+          git config user.name "karte-bot"; git config user.email "karte-bot@users.noreply.github.com"
+          git add daten docs
+          git diff --cached --quiet || git commit -m "Karte neu gebaut" && git push

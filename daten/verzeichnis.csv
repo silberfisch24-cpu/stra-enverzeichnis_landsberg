@@ -1,0 +1,459 @@
+ortsteil,strasse_original,strasse,zusatz,baulast,baulast_text,strassenart,reinigung_fahrbahn,reinigung_gehweg,winterdienst
+Bageritz,Bageritzer Ring,Bageritzer Ring,,S,,,B,A,B
+Bageritz,Brunnenweg,Brunnenweg,,S,,,A,A,A
+Bageritz,Eilenburger Rain,Eilenburger Rain,,S,,,A,A,A
+Bageritz,Queiser Straße,Queiser Straße,,gemischt,innerorts ab Kreuzung: S; Umgehungsstraße: K,,B,A,B
+Braschwitz,Am alten Teich,Am alten Teich,,S,,,B,A,B
+Braschwitz,Brunnenstraße,Brunnenstraße,,S,,,B,A,B
+Braschwitz,Brunnenstraße (Hausnr. 4 - 6),Brunnenstraße,(Hausnr. 4 - 6),S,,,A,A,A
+Braschwitz,Brühl-Weg,Brühl-Weg,,S,,,A,A,A
+Braschwitz,Eschenhof,Eschenhof,,P,,P,A,A,A
+Braschwitz,Ewald-Brand-Straße,Ewald-Brand-Straße,,K,,,B,A,B
+Braschwitz,Hof Strubel,Hof Strubel,,S,,,A,A,A
+Braschwitz,Im Angerfeld,Im Angerfeld,,S,,,A,A,A
+Braschwitz,Im Kleinen Dorf,Im Kleinen Dorf,,S,,,B,A,B
+Braschwitz,Mägdeberge,Mägdeberge,,P,,P,B,A,B
+Braschwitz,Neubauernstraße,Neubauernstraße,,S,,,A,A,A
+Braschwitz,Schmeilweg,Schmeilweg,,S,,,A,A,A
+Braschwitz,Schultze-Gallera-Weg,Schultze-Gallera-Weg,,S,,,A,A,A
+Braschwitz,Schultze-Gallera-Weg (Zufahrtsstraße Wohngebiet),Schultze-Gallera-Weg,(Zufahrtsstraße Wohngebiet),S,,,B,A,B
+Braschwitz,Stangenweg,Stangenweg,,S,,,B,A,B
+Braschwitz,Ulmenhof,Ulmenhof,,P,,P,A,A,A
+Braschwitz,Zorn-Weg,Zorn-Weg,,S,,,A,A,A
+Braschwitz,Zöberitzer Weg,Zöberitzer Weg,,S,,,B,A,B
+Braschwitz,Zöberitzer Weg (Hausnr. 17 - 18),Zöberitzer Weg,(Hausnr. 17 - 18),P,,P,A,A,A
+Braschwitz,Zöberitzer Weg (Hausnr. 2 A bis 2 E),Zöberitzer Weg,(Hausnr. 2 A bis 2 E),P,,P,A,A,A
+Dammendorf,Anger,Anger,,S,,,B,A,B
+Dammendorf,Anger (Hausnr. 6 - 22),Anger,(Hausnr. 6 - 22),S,,,A,A,A
+Dammendorf,Blumenstraße,Blumenstraße,,S,,,A,A,A
+Dammendorf,Blumenstraße Rondell Dorfplatz,Blumenstraße Rondell Dorfplatz,,S,,,A,A,B
+Dammendorf,Ernst-Thälmann-Straße,Ernst-Thälmann-Straße,,S,,,B,A,B
+Dammendorf,Ernst-Thälmann-Straße (Hausnr. 1 - 7),Ernst-Thälmann-Straße,(Hausnr. 1 - 7),S,,,A,A,A
+Dammendorf,Feldblick,Feldblick,,S,,,B,A,B
+Dammendorf,Gödewitzer Straße,Gödewitzer Straße,,S,,,B,A,B
+Dammendorf,Gödewitzer Teich,Gödewitzer Teich,,S,,,A,A,A
+Dammendorf,Kirchgasse,Kirchgasse,,S,,,A,A,A
+Dammendorf,Zum Park,Zum Park,,S,,,B,A,B
+Gollma,Alte Delitzscher Straße,Alte Delitzscher Straße,,S,,,B,A,B
+Gollma,Am Strengbach,Am Strengbach,,S,,,A,A,A
+Gollma,August-Bebel-Straße,August-Bebel-Straße,,S,,,A,A,A
+Gollma,Breite Straße,Breite Straße,,S,,,A,A,A
+Gollma,Clara-Zetkin-Straße,Clara-Zetkin-Straße,,S,,,A,A,A
+Gollma,Feldstraße,Feldstraße,,S,,,A,A,A
+Gollma,Franz-Salomon-Straße,Franz-Salomon-Straße,,S,,,B,A,B
+Gollma,Gartenstaße,Gartenstaße,,S,,,A,A,A
+Gollma,Gut Gollma,Gut Gollma,,S,,,A,A,A
+Gollma,Hinter dem Berge,Hinter dem Berge,,S,,,A,A,A
+Gollma,Johann-Sebastian-Bach-Straße,Johann-Sebastian-Bach-Straße,,S,,,A,A,A
+Gollma,Karl-Marx-Straße,Karl-Marx-Straße,,S,,,A,A,A
+Gollma,Leipziger Straße,Leipziger Straße,,L,,,B,A,B
+Gollma,Lindenplatz,Lindenplatz,,S,,,B,A,B
+Gollma,Lindenweg,Lindenweg,,S,,,A,A,A
+Gollma,Pfaffendorfer Straße,Pfaffendorfer Straße,,S,,,A,A,A
+Gollma,Schäfergasse,Schäfergasse,,S,,,A,A,A
+Gollma,Schkeuditzer Straße,Schkeuditzer Straße,,L,,,B,A,B
+Gollma,Schkeuditzer Straße (Hausnr. 6 - 20),Schkeuditzer Straße,(Hausnr. 6 - 20),S,,,A,A,A
+Gollma,Schlossstraße,Schlossstraße,,S,,,A,A,A
+Gollma,Schulstraße,Schulstraße,,S,,,A,A,A
+Gollma,Teichgasse,Teichgasse,,S,,,A,A,A
+Gütz,Am Fuchsberg,Am Fuchsberg,,S,,,A,A,A
+Gütz,Am Gützer Berg,Am Gützer Berg,,S,,,A,A,A
+Gütz,Am Klärwerk,Am Klärwerk,,S,,,A,A,A
+Gütz,Am Landrain,Am Landrain,,S,,,B,A,B
+Gütz,Am Landrain (Hausnr. 8 A - 8 E),Am Landrain,(Hausnr. 8 A - 8 E),S,,,A,A,A
+Gütz,Am Martini,Am Martini,,S,,,A,A,A
+Gütz,Am Steinbruch,Am Steinbruch,,S,,,A,A,A
+Gütz,Amselweg,Amselweg,,S,,,A,A,A
+Gütz,An der Köthener Straße,An der Köthener Straße,,S,,,B,A,B
+Gütz,An der Mühle,An der Mühle,,S,,,A,A,A
+Gütz,Bitterfelder Straße,Bitterfelder Straße,,S,,,B,A,B
+Gütz,Brehnaer Straße,Brehnaer Straße,,S,,,B,A,B
+Gütz,Carlsfelder Straße,Carlsfelder Straße,,S,,,B,A,B
+Gütz,Drosselweg,Drosselweg,,S,,,A,A,A
+Gütz,Finkenweg,Finkenweg,,S,,,A,A,A
+Gütz,Florian-Geyer-Straße,Florian-Geyer-Straße,,S,,,B,A,B
+Gütz,Friedrich-von-Schiller-Straße,Friedrich-von-Schiller-Straße,,S,,,A,A,A
+Gütz,Goethestraße,Goethestraße,,S,,,A,A,A
+Gütz,Güther Höhe,Güther Höhe,,S,,,A,A,A
+Gütz,Hasenwinkel,Hasenwinkel,,S,,,B,A,B
+Gütz,Heinrich-Heine-Straße,Heinrich-Heine-Straße,,S,,,A,A,A
+Gütz,Köthener Straße,Köthener Straße,,S,,,B,A,B
+Gütz,Otto-Quandt-Straße,Otto-Quandt-Straße,,K,,,B,A,B
+Gütz,Otto-Quandt-Straße (Hausnr. 13 - 33),Otto-Quandt-Straße,(Hausnr. 13 - 33),S,,,A,A,A
+Gütz,Petersdorfer Straße,Petersdorfer Straße,,S,,,B,A,B
+Gütz,Schwerzer Straße,Schwerzer Straße,,S,,,B,A,B
+Gütz,Spickendorfer Weg,Spickendorfer Weg,,S,,,A,A,A
+Gütz,Vogelweide,Vogelweide,,S,,,B,A,B
+Gütz,Weidenplan,Weidenplan,,S,,,A,A,A
+Gütz,Wiesenweg,Wiesenweg,,S,,,A,A,A
+Gütz,Zörbiger Straße,Zörbiger Straße,,L,,,B,A,B
+Gütz,Zörbiger Straße (Zufahrt EKZ),Zörbiger Straße,(Zufahrt EKZ),S,,,A,A,A
+Hohenthurm,Alte Bahnhofstraße,Alte Bahnhofstraße,,L,,,B,A,B
+Hohenthurm,Alte Bahnhofstraße (Hausnr. 1 - 11),Alte Bahnhofstraße,(Hausnr. 1 - 11),S,,,A,A,A
+Hohenthurm,Alte Bahnhofstraße (Hausnr. 14 - 17),Alte Bahnhofstraße,(Hausnr. 14 - 17),S,,,A,A,A
+Hohenthurm,Alte Bahnhofstraße (Hausnr. 42 - 42 D),Alte Bahnhofstraße,(Hausnr. 42 - 42 D),S,,,A,A,A
+Hohenthurm,Alte Bahnhofstraße (Hausnr. 43 bis Bahnhof),Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),S,,,A,A,A
+Hohenthurm,Alte Schulstraße,Alte Schulstraße,,S,,,B,A,B
+Hohenthurm,Am alten Dorfteich,Am alten Dorfteich,,S,,,B,A,B
+Hohenthurm,Am Birkenweg,Am Birkenweg,,S,,,A,A,A
+Hohenthurm,Am Mühlberg,Am Mühlberg,,S,,,A,A,A
+Hohenthurm,Am Schwarzen Weg,Am Schwarzen Weg,,S,,,B,A,B
+Hohenthurm,An der Spitze,An der Spitze,,S,,,B,A,B
+Hohenthurm,Berliner Straße,Berliner Straße,,S,,,B,A,B
+Hohenthurm,Berliner Straße (ab Kreuzung Steinbruch bis Sackgasse),Berliner Straße,(ab Kreuzung Steinbruch bis Sackgasse),S,,,A,A,A
+Hohenthurm,"Berliner Straße (Hausnr. 41, 42)",Berliner Straße,"(Hausnr. 41, 42)",S,,,A,A,A
+Hohenthurm,Braschwitzer Weg,Braschwitzer Weg,,S,,,A,A,A
+Hohenthurm,Döcklitzer Weg,Döcklitzer Weg,,S,,,A,A,A
+Hohenthurm,Droyßiger Weg,Droyßiger Weg,,S,,,B,A,B
+Hohenthurm,Fabrikweg,Fabrikweg,,S,,,A,A,A
+Hohenthurm,Fliedergasse,Fliedergasse,,S,,,A,A,A
+Hohenthurm,Franz-Dietze-Straße,Franz-Dietze-Straße,,S,,,B,A,B
+Hohenthurm,Friedhofsweg,Friedhofsweg,,S,,,A,A,A
+Hohenthurm,Hopfgartenweg,Hopfgartenweg,,S,,,A,A,A
+Hohenthurm,Kabelweg,Kabelweg,,S,,,A,A,A
+Hohenthurm,Kiebitzweg,Kiebitzweg,,S,,,B,A,B
+Hohenthurm,Mölbitzer Weg,Mölbitzer Weg,,S,,Mölbitzer Weg 18-20 (P),B,A,B
+Hohenthurm,Mühlberg,Mühlberg,,S,,,A,A,A
+Hohenthurm,Neuer Gartenweg,Neuer Gartenweg,,S,,,B,A,B
+Hohenthurm,Neuer Teichweg,Neuer Teichweg,,S,,,A,A,A
+Hohenthurm,Niemberger Weg,Niemberger Weg,,S,,,B,A,B
+Hohenthurm,"Niemberger Weg (Hausnr. 31, 33, 35)",Niemberger Weg,"(Hausnr. 31, 33, 35)",S,,,A,A,A
+Hohenthurm,"Niemberger Weg (Zufahrt Hausnr. 4, 8, 10, 12)",Niemberger Weg,"(Zufahrt Hausnr. 4, 8, 10, 12)",S,,,A,A,A
+Hohenthurm,Parkweg,Parkweg,,S,,,A,A,A
+Hohenthurm,Rosenfelder Weg,Rosenfelder Weg,,S,,,A,A,A
+Hohenthurm,Siedlungsweg,Siedlungsweg,,S,,,A,A,A
+Hohenthurm,Steinbruch,Steinbruch,,S,,,B,A,B
+Hohenthurm,Steinbruch (ab Kreuzung Schwarzer Weg bis Mühlberg),Steinbruch,(ab Kreuzung Schwarzer Weg bis Mühlberg),P,,P,A,A,A
+Hohenthurm,Von-Wuthenau-Platz,Von-Wuthenau-Platz,,S,,,B,A,B
+Hohenthurm,Zum Dampfkesselbau,Zum Dampfkesselbau,,S,,,A,A,A
+Landsberg,Am Bahnhof,Am Bahnhof,,S,,,B,A,B
+Landsberg,Am Kapellenberg,Am Kapellenberg,,S,,A,A,A,A
+Landsberg,Am Park,Am Park,,S,,,A,A,A
+Landsberg,An der Eiche,An der Eiche,,S,,,A,A,A
+Landsberg,An der Kirche,An der Kirche,,S,,,A,A,A
+Landsberg,An der Merseburger Straße,An der Merseburger Straße,,S,,,A,A,A
+Landsberg,Auenweg,Auenweg,,S,,ab Zufahrt Auenweg 3 (P),A,A,A
+Landsberg,Bahnhofstraße,Bahnhofstraße,,S,,,B,A,B
+Landsberg,Bergstraße,Bergstraße,,S,,,B,A,B
+Landsberg,Doberstauer Weg,Doberstauer Weg,,S,,,A,A,A
+Landsberg,Friedrich-Ebert-Straße,Friedrich-Ebert-Straße,,S,,,B,A,B
+Landsberg,Friedrich-Engels-Straße,Friedrich-Engels-Straße,,S,,,B,A,B
+Landsberg,Franz-Liszt-Straße,Franz-Liszt-Straße,,S,,,A,A,A
+Landsberg,Georg-Friedrich-Händel-Straße,Georg-Friedrich-Händel-Straße,,S,,,A,A,A
+Landsberg,Georg-Philipp-Telemann-Straße,Georg-Philipp-Telemann-Straße,,S,,,A,A,A
+Landsberg,Hallesche Landstraße,Hallesche Landstraße,,K,,,B,A,B
+Landsberg,Heinrich-Schütz-Straße,Heinrich-Schütz-Straße,,S,,,A,A,A
+Landsberg,Hillerstraße,Hillerstraße,,S,,,B,A,B
+Landsberg,Karl-Liebknecht-Straße,Karl-Liebknecht-Straße,,S,,,A,A,A
+Landsberg,Kleine Gasse,Kleine Gasse,,S,,,A,A,A
+Landsberg,Kopernikusstraße,Kopernikusstraße,,S,,,A,A,A
+Landsberg,Köthener Straße,Köthener Straße,,L,,,B,A,B
+Landsberg,Kreuzgasse,Kreuzgasse,,S,,,A,A,A
+Landsberg,Kurt-Weill-Straße,Kurt-Weill-Straße,,S,,,A,A,A
+Landsberg,Ladestraße,Ladestraße,,S,,,A,A,A
+Landsberg,Leipziger Straße,Leipziger Straße,,L,,,B,A,B
+Landsberg,Leipziger Straße (Hausnr. 36 A - 36 D),Leipziger Straße,(Hausnr. 36 A - 36 D),P,,P,A,A,A
+Landsberg,Lutherplatz,Lutherplatz,,S,,,B,A,B
+Landsberg,Markt,Markt,,S,,,B,A,B
+Landsberg,Matthias-Erzberger-Straße,Matthias-Erzberger-Straße,,S,,,A,A,A
+Landsberg,Merseburger Straße,Merseburger Straße,,K,,,B,A,B
+Landsberg,Merseburger Straße (Hausnr. 17 - 17 C),Merseburger Straße,(Hausnr. 17 - 17 C),P,,P,A,A,A
+Landsberg,Mühlgasse,Mühlgasse,,S,,,A,A,A
+Landsberg,Otto-Busse-Straße,Otto-Busse-Straße,,S,,,A,A,A
+Landsberg,Reinsdorfer Straße,Reinsdorfer Straße,,S,,,A,A,A
+Landsberg,Richard-Strauße-Straße,Richard-Strauße-Straße,,S,,,A,A,A
+Landsberg,Richard-Wagner-Straße,Richard-Wagner-Straße,,S,,,A,A,A
+Landsberg,Rose-Luxemburg-Straße,Rose-Luxemburg-Straße,,S,,,A,A,A
+Landsberg,Robert-Schumann-Ring,Robert-Schumann-Ring,,S,,,B,A,B
+Landsberg,Robert-Schumann-Ring (Hausnr 59 - 81),Robert-Schumann-Ring,(Hausnr 59 - 81),S,,,A,A,A
+Landsberg,Rudolf-Breitscheid-Straße,Rudolf-Breitscheid-Straße,,S,,,B,A,B
+Landsberg,Schneiderplatz,Schneiderplatz,,S,,,A,A,A
+Landsberg,Steinweg,Steinweg,,P,,P,A,A,A
+Landsberg,Straße der Metallarbeiter,Straße der Metallarbeiter,,S,,,A,A,A
+Landsberg,Thomas-Münzer-Straße,Thomas-Münzer-Straße,,S,,,B,A,B
+Landsberg,Tischlergasse,Tischlergasse,,S,,,B,A,B
+Landsberg,Topfmarkt,Topfmarkt,,S,,,A,A,A
+Landsberg,Tornaer Weg,Tornaer Weg,,S,,,B,A,B
+Landsberg,Töpfergasse,Töpfergasse,,S,,,A,A,A
+Landsberg,Walter-Rathenau-Straße,Walter-Rathenau-Straße,,S,,,B,A,B
+Niemberg,Alte Gärtnerei,Alte Gärtnerei,,gemischt,A,,A,A,A
+Niemberg,Alte Zollstraße,Alte Zollstraße,,K,,,B,A,B
+Niemberg,Am Bahnübergang,Am Bahnübergang,,K,,,B,A,B
+Niemberg,Am Güterbahnhof,Am Güterbahnhof,,S,,,B,A,B
+Niemberg,Am Sandberg,Am Sandberg,,S,,,A,A,A
+Niemberg,An den Teichen,An den Teichen,,S,,,A,A,A
+Niemberg,An den Teichen (Hausnr. 8),An den Teichen,(Hausnr. 8),S,,,B,A,B
+Niemberg,An der Bahn,An der Bahn,,P,,P,A,A,A
+Niemberg,Brachstedter Straße,Brachstedter Straße,,K,,,B,A,B
+Niemberg,Eismannsdorfer Straße,Eismannsdorfer Straße,,K,,,B,A,B
+Niemberg,Erlenweg,Erlenweg,,S,,,B,A,B
+Niemberg,Hermann-Ferres-Straße,Hermann-Ferres-Straße,,K,,,B,A,B
+Niemberg,Landrain,Landrain,,S,,,A,A,A
+Niemberg,Mühlenberg,Mühlenberg,,S,,,B,A,B
+Niemberg,Neue Gartenstraße,Neue Gartenstraße,,S,,,A,A,A
+Niemberg,Neue Siedlung,Neue Siedlung,,S,,,A,A,A
+Niemberg,Plößnitzer Straße,Plößnitzer Straße,,K,,,B,A,B
+Niemberg,Robert-Schossig-Straße,Robert-Schossig-Straße,,S,,,B,A,B
+Niemberg,Rotahornweg,Rotahornweg,,S,,,A,A,A
+Niemberg,Spickendorfer Straße,Spickendorfer Straße,,S,,,B,A,B
+Niemberg,Südstraße,Südstraße,,K,,,A,A,A
+Niemberg,Wendenring,Wendenring,,S,,,B,A,B
+Niemberg,Zum Finkensteg,Zum Finkensteg,,S,,,A,A,A
+Niemberg,Zum Gemsenberg,Zum Gemsenberg,,S,,,A,A,A
+Eismannsdorf,Brombeerweg,Brombeerweg,,S,,,A,A,A
+Eismannsdorf,Schrenzer Straße,Schrenzer Straße,,S,,,A,A,A
+Eismannsdorf,Schulbreite,Schulbreite,,S,,,A,A,A
+Eismannsdorf,Am Ziegelrain,Am Ziegelrain,,S,,,A,A,A
+Eismannsdorf,Zum Dorfplatz,Zum Dorfplatz,,S,,,B,A,B
+Eismannsdorf,Zur alten Schmiede,Zur alten Schmiede,,S,,,A,A,A
+Eismannsdorf,Zur Riede,Zur Riede,,S,,,A,A,A
+Klepzig,Am Anger,Am Anger,,L,,,B,A,B
+Klepzig,Am Wohngebiet,Am Wohngebiet,,S,,,B,A,B
+Klepzig,Kirchstraße,Kirchstraße,,S,,,B,A,B
+Klepzig,Kirchstraße (ab Kirche),Kirchstraße,(ab Kirche),S,,,A,A,A
+Klepzig,Teichstraße,Teichstraße,,S,,,B,A,B
+Klepzig,Sonnenallee,Sonnenallee,,S,,,A,A,A
+Klepzig,Winkel,Winkel,,S,,,A,A,A
+Klepzig,Zur alten Schule,Zur alten Schule,,S,,,A,A,A
+Klepzig,Zwebendorfer Straße,Zwebendorfer Straße,,L,,,B,A,B
+Kneipe,Zur Zollstation,Zur Zollstation,,L,,,B,A,B
+Kockwitz,Buschweg,Buschweg,,S,,,A,A,A
+Kockwitz,Dorfplatz,Dorfplatz,,S,,,B,A,B
+Kockwitz,Höhe,Höhe,,S,,,A,A,A
+Kockwitz,Hufeisenring,Hufeisenring,,S,,,B,A,B
+Kockwitz,Kirschweg,Kirschweg,,S,,,A,A,A
+Kockwitz,Zum Mühlberg,Zum Mühlberg,,L,,,B,A,B
+Lohnsdorf,Am Speicher,Am Speicher,,S,,,A,A,A
+Lohnsdorf,Eigenheimstraße,Eigenheimstraße,,S,,,A,A,A
+Lohnsdorf,Kapellenblick,Kapellenblick,,S,,,A,A,A
+Lohnsdorf,Landsberger Straße,Landsberger Straße,,K,,,B,A,B
+Lohnsdorf,Parkstraße,Parkstraße,,K,,,B,A,B
+Lohnsdorf,Schulplatz,Schulplatz,,S,,,A,A,A
+Lohnsdorf,Siedersdorfer Platz,Siedersdorfer Platz,,S,,,A,A,A
+Lohnsdorf,Siedersdorfer Weg,Siedersdorfer Weg,,S,,,A,A,A
+Lohnsdorf,Teichweg,Teichweg,,S,,,A,A,A
+Maschwitz,Am Mittelanger,Am Mittelanger,,P,,P,A,A,A
+Maschwitz,Am unteren Teich,Am unteren Teich,,S,,,B,A,B
+Maschwitz,An der Schenke ab Kreuzung Siedlung bis An der Schenke Hausnr. 13,An der Schenke,ab Kreuzung Siedlung bis An der Schenke Hausnr. 13,S,,,A,A,B
+Maschwitz,An der Schenke ab Hausnr. 13,An der Schenke,ab Hausnr. 13,S,,,A,A,A
+Maschwitz,Dorfstraße,Dorfstraße,,S,,,A,A,A
+Maschwitz,Siedlung,Siedlung,,S,,,B,A,B
+Oppin,Alte Hauptstraße,Alte Hauptstraße,,K,,,B,A,B
+Oppin,Am Domhof ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a,Am Domhof,ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a,S,,,A,A,B
+Oppin,Brunnengasse,Brunnengasse,,S,,,B,A,B
+Oppin,Buchfinkenweg,Buchfinkenweg,,S,,,A,A,A
+Oppin,Burggraben,Burggraben,,S,,,A,A,A
+Oppin,Dessauer Straße,Dessauer Straße,,L,,,B,A,B
+Oppin,Friedensstraße,Friedensstraße,,S,,,A,A,B
+Oppin,Gutenberger Straße,Gutenberger Straße,,K,,,B,A,B
+Oppin,Hallesches Dreieck,Hallesches Dreieck,,S,,,A,A,A
+Oppin,Harsdorfer Grund,Harsdorfer Grund,,S,,,A,A,A
+Oppin,Harsdorfer Platz,Harsdorfer Platz,,S,,,A,A,A
+Oppin,Harsdorfer Straße,Harsdorfer Straße,,S,,,A,A,A
+Oppin,Inwendener Straße,Inwendener Straße,,S,,,A,A,A
+Oppin,Junkerstraße,Junkerstraße,,S,,,B,A,B
+Oppin,Kastanienstraße,Kastanienstraße,,S,,,A,A,A
+Oppin,Otto-Lilienthal-Straße,Otto-Lilienthal-Straße,,S,,,B,A,B
+Oppin,Lindenallee,Lindenallee,,S,,,B,A,B
+Oppin,Maschwitzer Straße Einmündung Alte Haupt- straße bis Krezuzung Singdrosselweg,Maschwitzer Straße Einmündung Alte Haupt- straße,bis Krezuzung Singdrosselweg,S,,,A,A,B
+Oppin,Maschwitzer Straße Hausnr. 7 bis 8 a,Maschwitzer Straße,Hausnr. 7 bis 8 a,gemischt,,,A,A,A
+Oppin,Narzissenweg,Narzissenweg,,S,,,A,A,A
+Oppin,Nelkenweg,Nelkenweg,,S,,,A,A,B
+Oppin,Niemberger Straße,Niemberger Straße,,K,,,B,A,B
+Oppin,Plinzenberg,Plinzenberg,,S,,,A,A,A
+Oppin,Plößnitzer Weg,Plößnitzer Weg,,S,,,A,A,A
+Oppin,Pranitzer Straße,Pranitzer Straße,,S,,,A,A,B
+Oppin,Pranitzer Weg,Pranitzer Weg,,S,,,A,A,A
+Oppin,Rosenweg,Rosenweg,,S,,,A,A,A
+Oppin,Schwarzamselweg,Schwarzamselweg,,S,,,A,A,A
+Oppin,Singdrosselweg,Singdrosselweg,,S,,,A,A,A
+Oppin,Terrassenweg,Terrassenweg,,S,,,A,A,A
+Oppin,Tulpenweg,Tulpenweg,,S,,,A,A,A
+Oppin,Veilchenweg,Veilchenweg,,S,,,A,A,A
+Oppin,Wiesenstraße,Wiesenstraße,,S,,,A,A,B
+Oppin,Windmühlenweg zwischen Lindenstraße und Maschwitzer Straße,Windmühlenweg zwischen Lindenstraße und Maschwitzer Straße,,S,,,A,A,B
+Oppin,Wurper Weg,Wurper Weg,,S,,,A,A,A
+Oppin,Zeppelin-Ring,Zeppelin-Ring,,S,,,A,A,A
+Peißen,Alte Gartenstraße,Alte Gartenstraße,,S,,,A,A,A
+Peißen,Am Gewölbe,Am Gewölbe,,S,,,B,A,B
+Peißen,"Am Gewölbe (Hausnr. 1, 2, 6)",Am Gewölbe,"(Hausnr. 1, 2, 6)",S,,,A,A,A
+Peißen,Am Zentrum,Am Zentrum,,S,,,B,A,B
+Peißen,An der Windmühle,An der Windmühle,,S,,,B,A,B
+Peißen,Alte Berliner Straße,Alte Berliner Straße,,P,,P,B,A,B
+Peißen,Alte Berliner Straße (Hausnr. 1 - 4),Alte Berliner Straße,(Hausnr. 1 - 4),S,,,A,A,A
+Peißen,Braschwitzer Straße,Braschwitzer Straße,,S,,,B,A,B
+Peißen,Gewerbehof,Gewerbehof,,P,,P,B,A,B
+Peißen,Lindenring,Lindenring,,S,,,B,A,B
+Peißen,Orionstraße,Orionstraße,,gemischt,Stadt Halle,,B,A,B
+Peißen,Reidepromenade,Reidepromenade,,S,,,A,A,A
+Peißen,Rudolf-Walter-Straße,Rudolf-Walter-Straße,,S,,,B,A,B
+Peißen,Saarbrücker Straße,Saarbrücker Straße,,S,,,B,A,B
+Peißen,Sankt-Wenzel-Platz,Sankt-Wenzel-Platz,,S,,,A,A,A
+Peißen,Stichelsdorfer Weg,Stichelsdorfer Weg,,L,,,A,A,A
+Peißen,Zöberitzer Straße,Zöberitzer Straße,,S,,,B,A,B
+Peißen,Zum Birkenweg,Zum Birkenweg,,S,,,A,A,A
+Peißen,Zwebendorfer Weg,Zwebendorfer Weg,,S,,,A,A,A
+Petersdorf,Am Ellerbusch,Am Ellerbusch,,S,,,A,A,A
+Petersdorf,Am Heimatmuseum,Am Heimatmuseum,,S,,,B,A,B
+Petersdorf,Am Warnenfeld,Am Warnenfeld,,S,,,A,A,A
+Petersdorf,Beerenweg,Beerenweg,,S,,,A,A,A
+Petersdorf,Bernhard-Brühl-Straße,Bernhard-Brühl-Straße,,S,,,A,A,A
+Petersdorf,Blumenweg,Blumenweg,,S,,,A,A,A
+Petersdorf,Geschwister-Scholl-Straße,Geschwister-Scholl-Straße,,K,,,B,A,B
+Petersdorf,Grasweg,Grasweg,,S,,,A,A,A
+Petersdorf,Im Petersdorfer Winkel,Im Petersdorfer Winkel,,S,,,A,A,A
+Petersdorf,Koppelweg,Koppelweg,,S,,,A,A,A
+Petersdorf,Kurzer Weg,Kurzer Weg,,P,,,A,A,A
+Petersdorf,Lutherweg,Lutherweg,,S,,,A,A,A
+Petersdorf,Pilitzer Straße,Pilitzer Straße,,S,,,A,A,A
+Petersdorf,Prachritzer Straße,Prachritzer Straße,,S,,,B,A,B
+Petersdorf,Querweg,Querweg,,S,,,A,A,A
+Petersdorf,Schlosshof,Schlosshof,,S,,,B,A,B
+Petersdorf,Weidenweg,Weidenweg,,S,,,B,A,B
+Petersdorf,Wendenplatz,Wendenplatz,,S,,,A,A,A
+Petersdorf,Zum Petersdorfer Anger,Zum Petersdorfer Anger,,S,,,B,A,B
+Plößnitz,Am Mühlenfeld,Am Mühlenfeld,,S,,,A,A,A
+Plößnitz,Buchenhain,Buchenhain,,S,,,A,A,A
+Plößnitz,Ethel-Rosenberg-Straße,Ethel-Rosenberg-Straße,,S,,,B,A,B
+Plößnitz,Haselnussweg,Haselnussweg,,S,,,A,A,A
+Plößnitz,Im Mühlengrund,Im Mühlengrund,,S,,,A,A,A
+Plößnitz,Kreisstraße,Kreisstraße,,K,,,B,A,B
+Plößnitz,Maschwitzer Weg,Maschwitzer Weg,,S,,,B,A,B
+Plößnitz,Rosenhain,Rosenhain,,S,,,A,A,A
+Plößnitz,Rotdornweg,Rotdornweg,,S,,,A,A,A
+Plößnitz,Spitzahornweg,Spitzahornweg,,S,,,A,A,A
+Plößnitz,Zum Wiesengrund,Zum Wiesengrund,,S,,,B,A,B
+Plößnitz,Zur Gärte,Zur Gärte,,S,,,A,A,A
+Plößnitz,Zur Linde,Zur Linde,,S,,,A,A,A
+Plößnitz,Zur Windmühle,Zur Windmühle,,S,,,B,A,B
+Queis,Ahornweg,Ahornweg,,S,,,A,A,A
+Queis,Akazienweg,Akazienweg,,S,,,B,A,B
+Queis,Am Wohngebiet,Am Wohngebiet,,S,,,B,A,B
+Queis,Buchenweg,Buchenweg,,S,,,A,A,A
+Queis,Delitzscher Chaussee,Delitzscher Chaussee,,L,,,B,A,B
+Queis,"Delitzscher Chaussee (Hausnr. 13, 15)",Delitzscher Chaussee,"(Hausnr. 13, 15)",S,,,A,A,A
+Queis,Ernst-Abbe-Straße,Ernst-Abbe-Straße,,S,,,B,A,B
+Queis,Fliederweg,Fliederweg,,S,,,A,A,A
+Queis,Geltestraße,Geltestraße,,S,,,B,A,B
+Queis,Gottenzer Weg,Gottenzer Weg,,S,,,B,A,B
+Queis,Gottlieb-Daimler-Straße,Gottlieb-Daimler-Straße,,S,,,B,A,B
+Queis,Grenzweg,Grenzweg,,S,,,B,A,B
+Queis,Grünstraße,Grünstraße,,L,,,B,A,B
+Queis,Halcomstraße,Halcomstraße,,S,,,B,A,B
+Queis,H.-Dietrich-Genscher-Straße,H.-Dietrich-Genscher-Straße,,S,,,B,A,B
+Queis,Holunderweg,Holunderweg,,S,,,A,A,A
+Queis,Igepa-Ring,Igepa-Ring,,S,,,A,A,A
+Queis,Kastanienweg,Kastanienweg,,S,,,B,A,B
+Queis,Kindergartenweg,Kindergartenweg,,S,,,B,A,B
+Queis,Kirschhöhe,Kirschhöhe,,S,,,B,A,B
+Queis,Kleine Enge,Kleine Enge,,S,,,A,A,A
+Queis,Lindenstraße,Lindenstraße,,S,,,B,A,B
+Queis,Max-Planck-Ring,Max-Planck-Ring,,S,,,B,A,B
+Queis,Neue Straße,Neue Straße,,S,,,B,A,B
+Queis,Orionstraße,Orionstraße,,gemischt,Stadt Halle,,B,A,B
+Queis,Platz des Friedens,Platz des Friedens,,S,,,A,A,A
+Queis,Queiser Ring,Queiser Ring,,S,,,B,A,B
+Queis,Ringstraße,Ringstraße,,S,,,B,A,B
+Queis,Uralitstraße,Uralitstraße,,S,,,B,A,B
+Queis,W.-G.-Freud-Straße,W.-G.-Freud-Straße,,S,,,B,A,B
+Rabatz,Fleischerstraße,Fleischerstraße,,S,,,A,A,A
+Rabatz,Im Winkel,Im Winkel,,S,,,A,A,A
+Rabatz,Schwarzdrosselweg,Schwarzdrosselweg,,S,,,A,A,A
+Rabatz,Straße des Friedens,Straße des Friedens,,S,,,B,A,B
+Rabatz,Zum Landrain,Zum Landrain,,S,,,A,A,A
+Reinsdorf,Birkenweg,Birkenweg,,S,,,A,A,A
+Reinsdorf,Eichenweg,Eichenweg,,S,,,A,A,A
+Reinsdorf,Friedensplatz,Friedensplatz,,S,,,A,A,A
+Reinsdorf,Friedensplatz (Hausnr. 1),Friedensplatz,(Hausnr. 1),S,,,B,A,B
+Reinsdorf,Geschwister-Scholl-Siedlung,Geschwister-Scholl-Siedlung,,S,,,A,A,A
+Reinsdorf,Johann-Sebastian-Bach-Straße,Johann-Sebastian-Bach-Straße,,S,,,A,A,A
+Reinsdorf,Kiefernweg,Kiefernweg,,S,,,A,A,A
+Reinsdorf,Lärchenweg,Lärchenweg,,S,,,A,A,A
+Reinsdorf,Lindenweg,Lindenweg,,S,,,A,A,A
+Reinsdorf,Martha-Brautzsch-Straße,Martha-Brautzsch-Straße,,S,,,A,A,A
+Reinsdorf,Merseburger Straße,Merseburger Straße,,K,,,B,A,B
+Reinsdorf,"Merseburger Straße (Hausnr. 51, 52)",Merseburger Straße,"(Hausnr. 51, 52)",S,,,A,A,A
+Reinsdorf,Mühlweg,Mühlweg,,S,,,B,A,B
+Reinsdorf,Robinienweg,Robinienweg,,S,,,A,A,A
+Reußen,Am Dorfteich,Am Dorfteich,,S,,,A,A,A
+Reußen,Am Sportplatz,Am Sportplatz,,S,,,A,A,A
+Reußen,Bauernsiedlung,Bauernsiedlung,,S,,,A,A,A
+Reußen,Grüne Aue,Grüne Aue,,S,,,A,A,A
+Reußen,Hauptstraße,Hauptstraße,,K,,,B,A,B
+Reußen,"Hauptstraße (Hausnr. 1, 4 - 8 A)",Hauptstraße,"(Hausnr. 1, 4 - 8 A)",S,,,A,A,A
+Reußen,Hauptstraße (Hausnr. 30 - 32),Hauptstraße,(Hausnr. 30 - 32),S,,,A,A,A
+Reußen,Neue Bahnhofstraße,Neue Bahnhofstraße,,K,,,B,A,B
+Reußen,Neue Bahnhofstraße (Hausnr. 26 A - 34),Neue Bahnhofstraße,(Hausnr. 26 A - 34),S,,,A,A,A
+Schwerz,Am Berge,Am Berge,,K,,,B,A,B
+Schwerz,An den Linden,An den Linden,,K,,,B,A,B
+Schwerz,Friedrich-Hoffmann-Straße,Friedrich-Hoffmann-Straße,,S,,,A,A,A
+Schwerz,Frohe Zukunft,Frohe Zukunft,,S,,,A,A,A
+Schwerz,Göttlitzer Weg,Göttlitzer Weg,,P,,P,B,A,B
+Schwerz,Hoffmannplatz,Hoffmannplatz,,S,,,B,A,B
+Schwerz,"Hoffmannplatz (Hausnr. 8, 9)",Hoffmannplatz,"(Hausnr. 8, 9)",S,,,A,A,A
+Schwerz,Karl-Mehne-Straße,Karl-Mehne-Straße,,S,,,A,A,A
+Schwerz,Am Teich,Am Teich,,S,,,A,A,A
+Schwerz,Zur Schafbrücke,Zur Schafbrücke,,S,,,A,A,A
+Sietzsch,Alte Salzstraße,Alte Salzstraße,,K,,,B,A,B
+Sietzsch,Delitzscher Straße,Delitzscher Straße,,K,,,B,A,B
+Sietzsch,Emsdorfer Platz,Emsdorfer Platz,,S,,,A,A,A
+Sietzsch,Emsdorfer Straße,Emsdorfer Straße,,K,,,B,A,B
+Sietzsch,Grüner Weg,Grüner Weg,,S,,,A,A,A
+Sietzsch,Hallesche Straße,Hallesche Straße,,K,,,B,A,B
+Sietzsch,Leipziger Straße/ Ortsteil Sietzsch,Leipziger Straße/ Ortsteil Sietzsch,,S,,,B,A,B
+Sietzsch,Kirchweg,Kirchweg,,S,,,A,A,A
+Sietzsch,Mittelstraße,Mittelstraße,,S,,,B,A,B
+Sietzsch,Ostring,Ostring,,S,,,A,A,A
+Sietzsch,Poststraße,Poststraße,,K,,,B,A,B
+Sietzsch,Sietzscher Ring,Sietzscher Ring,,S,,,B,A,B
+Sietzsch,Westring,Westring,,S,,,A,A,A
+Sietzsch,Querstraße,Querstraße,,S,,,B,A,B
+Spickendorf,Am Bauernteich,Am Bauernteich,,S,,,B,A,B
+Spickendorf,Bergweg,Bergweg,,S,,,A,A,A
+Spickendorf,Dobertschiner Weg,Dobertschiner Weg,,S,,,B,A,B
+Spickendorf,Gützer Straße,Gützer Straße,,S,,,B,A,B
+Spickendorf,Im Hufeisen,Im Hufeisen,,S,,,A,A,A
+Spickendorf,Landgut am Strengbach,Landgut am Strengbach,,S,,,A,A,A
+Spickendorf,Lange Straße,Lange Straße,,S,,,B,A,B
+Spickendorf,Pflaumenweg,Pflaumenweg,,S,,,B,A,B
+Spickendorf,Wilhelm-Külz-Straße,Wilhelm-Külz-Straße,,S,,,B,A,B
+Spickendorf,Zschiesdorfer Weg,Zschiesdorfer Weg,,P,,P,B,A,B
+Stichelsdorf,Stichelsdorfer Straße,Stichelsdorfer Straße,,L,,,B,A,B
+Stichelsdorf,Stichelsdorfer Straße (Hausnr. 6 - 21),Stichelsdorfer Straße,(Hausnr. 6 - 21),S,,,A,A,A
+Wiedersdorf,Am Lindenanger,Am Lindenanger,,S,,,A,A,A
+Wiedersdorf,Bietauer Straße,Bietauer Straße,,S,,,B,A,B
+Wiedersdorf,Buschblick,Buschblick,,S,,,A,A,A
+Wiedersdorf,Kleingartenstraße,Kleingartenstraße,,S,,,B,A,B
+Zöberitz,Alte Schule,Alte Schule,,S,,,B,A,B
+Zöberitz,Am alten Bahnhof,Am alten Bahnhof,,S,,,A,A,A
+Zöberitz,Am Teichweg,Am Teichweg,,S,,,A,A,B
+Zöberitz,An der Schmiede,An der Schmiede,,S,,,A,A,A
+Zöberitz,Autobahnsiedlung,Autobahnsiedlung,,gemischt,"Teilweise S, BRD, DB Netz AG",,A,A,A
+Zöberitz,Birkhahnweg,Birkhahnweg,,S,,,B,A,B
+Zöberitz,Hirtenweg,Hirtenweg,,S,,,A,A,A
+Zöberitz,Kurze Straße,Kurze Straße,,S,,,A,A,A
+Zöberitz,Mötzlicher Straße,Mötzlicher Straße,,S,,,B,A,B
+Zöberitz,Pappelweg,Pappelweg,,S,,,A,A,A
+Zöberitz,Peißner Weg,Peißner Weg,,S,,,A,A,A
+Zöberitz,Siedlerweg,Siedlerweg,,S,,,A,A,A
+Zöberitz,Zum Rittergut,Zum Rittergut,,S,,,B,A,B
+Zöberitz,Zum Rittergut (Hausnr. 1 A - 21),Zum Rittergut,(Hausnr. 1 A - 21),S,,,A,A,A
+Zöberitz,Zur Straßenmeisterei,Zur Straßenmeisterei,,gemischt,Teilweise S und P,,A,A,A
+Zwebendorf,Am Kirchweg,Am Kirchweg,,S,,,A,A,A
+Zwebendorf,Am Mühlteich,Am Mühlteich,,S,,,A,A,A
+Zwebendorf,Am Teich,Am Teich,,S,,,A,A,A
+Zwebendorf,Droyßiger Straße,Droyßiger Straße,,S,,,B,A,B
+Zwebendorf,Feustelweg,Feustelweg,,S,,,A,A,A
+Zwebendorf,Gartenweg,Gartenweg,,P,,P,A,A,A
+Zwebendorf,Hof Jolie,Hof Jolie,,S,,,A,A,A
+Zwebendorf,Hohenthurmer Straße,Hohenthurmer Straße,,L,,,B,A,B
+Zwebendorf,Klepziger Straße,Klepziger Straße,,S,,,B,A,B
+Zwebendorf,Platz der Jugend,Platz der Jugend,,S,,,A,A,A
+Zwebendorf,Reideburger Straße,Reideburger Straße,,L,,,B,A,B
+Zwebendorf,Reideburger Straße (zwischen Kreuzung L168 und Hausnr. 5 a),Reideburger Straße,(zwischen Kreuzung L168 und Hausnr. 5 a),S,,,B,A,B
+Zwebendorf,Reideburger Straße (Am Mühlteich bis FFW),Reideburger Straße,(Am Mühlteich bis FFW),S,,,A,A,A
+Zwebendorf,Reußner Weg,Reußner Weg,,S,,,A,A,A
+Zwebendorf,Schauteweg,Schauteweg,,S,,,A,A,A
+Zwebendorf,Schusterweg,Schusterweg,,S,,,A,A,A
+Zwebendorf,Sonnenblumenweg,Sonnenblumenweg,,S,,,A,A,A
+Zwebendorf,Vereinsweg,Vereinsweg,,P,,P,A,A,A
