@@ -40,7 +40,17 @@ def lesen():
         with open(p, encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 offen_manuell[(r["ortsteil"], norm(r["strasse"]))] = (r["osm_status"], r["notiz"])
-    return verz, anp, offen_manuell
+    # Abschnittszuordnung (Ergebnis des OSM-Auftrags): einzelne Wege bekommen die Zeile mit Zusatz
+    abschnitt = {}
+    p = ROOT / "daten/zusatz_zuordnung.csv"
+    if p.exists():
+        zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
+        with open(p, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                z = zeilen.get((r["ortsteil"], r["strasse"], r["zusatz"]))
+                if z and r.get("osm_way_id", "").strip().isdigit():
+                    abschnitt[int(r["osm_way_id"])] = z
+    return verz, anp, offen_manuell, abschnitt
 
 
 def abstand(a, b):
@@ -48,7 +58,7 @@ def abstand(a, b):
 
 
 def main():
-    verz, anp, offen_manuell = lesen()
+    verz, anp, offen_manuell, abschnitt = lesen()
     eintrag, zusaetze = {}, defaultdict(list)
     for r in verz:
         k = (r["ortsteil"], norm(r["strasse"]))
@@ -69,6 +79,7 @@ def main():
     wege = json.loads((ROOT / "daten/osm_strassen.json").read_text("utf-8"))["elements"]
 
     feats, genutzt, offen_osm = [], {}, []
+    wege_je_strasse = defaultdict(list)
     for w in wege:
         geo = [(p["lon"], p["lat"]) for p in w.get("geometry", [])]
         if len(geo) < 2:
@@ -89,10 +100,15 @@ def main():
         r = eintrag.get(k)
         if r:
             genutzt[k] = status
+            wege_je_strasse[k].append((w["id"], geo))
+        hinweis = "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else ""
+        if r and w["id"] in abschnitt:  # Abschnitt laut Zusatzzeile
+            r = abschnitt[w["id"]]
+            hinweis = f'Abschnitt {r["zusatz"].strip("()")}'
         b = r["baulast"] if r else None
         feats.append({"type": "Feature",
-                      "properties": {"name": name, "ortsteil": ort, "baulast": NAME[b],
-                                     "hinweis": "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else "",
+                      "properties": {"osm_id": w["id"], "name": name, "ortsteil": ort, "baulast": NAME[b],
+                                     "hinweis": hinweis,
                                      "reinigung": r["reinigung_fahrbahn"] if r else "", "winterdienst": r["winterdienst"] if r else "",
                                      "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
                                      "osm_status": status if r else "nicht im Verzeichnis",
@@ -105,6 +121,23 @@ def main():
     (ROOT / "docs/strassen.geojson").write_text(
         json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")
 
+    # Zusatz-Fälle: Zeilen mit Hausnr./ab/bis/Rondell – nicht automatisch auf Wegstücke aufteilbar
+    zf = []
+    for r in verz:
+        k = (r["ortsteil"], norm(r["strasse"]))
+        if not r["zusatz"] or k not in genutzt:
+            continue
+        h = eintrag[k]
+        ids = [i for i, _ in wege_je_strasse[k]]
+        laenge = sum(sum(abstand(a, b) for a, b in zip(g, g[1:])) for _, g in wege_je_strasse[k]) * 111.2
+        zf.append({"ortsteil": r["ortsteil"], "strasse": r["strasse"], "zusatz": r["zusatz"],
+                   "baulast": NAME[r["baulast"]], "reinigung": ZUST[r["reinigung_fahrbahn"]], "winterdienst": ZUST[r["winterdienst"]],
+                   "haupteintrag": f'{NAME[h["baulast"]]}, Reinigung {ZUST[h["reinigung_fahrbahn"]]}, Winterdienst {ZUST[h["winterdienst"]]}' if not h["zusatz"] else "(nur Zusatzzeilen)",
+                   "abweichend": "ja" if (not h["zusatz"] and (h["baulast"], h["reinigung_fahrbahn"], h["winterdienst"]) != (r["baulast"], r["reinigung_fahrbahn"], r["winterdienst"])) else "nein",
+                   "osm_wege": len(ids), "laenge_km": round(laenge, 2), "osm_way_ids": " ".join(map(str, ids))})
+    with open(ROOT / "daten/zusatzfaelle.csv", "w", newline="", encoding="utf-8") as f:
+        w_ = csv.DictWriter(f, fieldnames=list(zf[0])); w_.writeheader(); w_.writerows(zf)
+    print("Zusatzfälle:", len(zf), "davon abweichend vom Haupteintrag:", sum(x["abweichend"] == "ja" for x in zf))
     ohne_osm = [(k, v) for k, v in eintrag.items() if k not in genutzt]
     offene = []
     for (o, n), v in sorted(ohne_osm):
