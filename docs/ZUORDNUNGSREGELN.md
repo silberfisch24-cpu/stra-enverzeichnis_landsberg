@@ -14,6 +14,8 @@ Stand 15.11.2026. Diese Regeln gelten für `daten/abschnitte.csv` und für alle 
 8. **Der Straßenname ist nachrangig.** Abweichende Schreibweisen (Anger / Am Anger) zählen als derselbe Name (Art A). Art C gilt nur, wenn der Weg wirklich zu einer anderen Straße gehört.
 9. **Bestätigung durch das Projekt zählt mehr als die Auswertung.** Was das Projekt entscheidet (zum Beispiel „Anlieger, nicht Stadt“, „Diagonale ist Stadt“), wird übernommen, die Konfidenz ist dann hoch, und die notiz nennt die Bestätigung.
 
+10. **Gleichnamige Abzweige von L/K-Straßen.** Trägt die Hauptstraße eine Referenz (OSM `ref` L, K oder B) und der Abzweig denselben Straßennamen, darf der Abzweig nicht über den Namen der L/K-Straße zugeschlagen werden, und die L/K-Wege selbst gehören nie zu einer Zusatzzeile. Der Abzweig wird nur über Lage und Geometrie (Regel 2) zugeordnet. Für die Karte heißt das: Baulast aus der Zusatzzeile hat Vorrang vor der Namenszuordnung, und Wege mit `ref` bleiben bei der Haupteintrag-Baulast. Betroffen sind unter anderem Alte Bahnhofstraße und Reideburger Straße (L 168), Leipziger Straße und Zörbiger Straße (L 143), Delitzscher Chaussee (L 165), Stichelsdorfer Straße (L 167), Schkeuditzer Straße (K 2140), Otto-Quandt-Straße (K 2137), Merseburger Straße (K 2139).
+
 ## Prüfschritt vor jeder Zuordnung
 
 1. Welche Wege zweigen von der durchgehenden Straße ab? Das ist das Teilnetz.

@@ -83,3 +83,8 @@ Jeder Fall wurde als Kartenausschnitt gezeichnet (OSM-Straßennetz, Adresspunkte
 
 - Die OSM-API (`/api/0.6/map.json?bbox=`) ist von der Cloud-Umgebung nur über den eingebauten Browser erreichbar, Overpass liefert dort 406. Neue OSM-Daten holt Claude.ai als Helfer (Auftrag in `docs/AUFTRAG_*.md`).
 - Datenstand von `osm_unbenannt.json` und `osm_adressen.json`: erst nach dem nächsten Lauf des Workflows „Karte bauen“ im Repo vorhanden.
+
+
+## Nachtrag: gleichnamige Abzweige von L/K-Straßen
+
+Wenn die Hauptstraße eine L/K ist und der Abzweig (in der Regel Stadt) denselben Namen trägt, darf die Karte nicht allein über den Straßennamen färben. Ablauf: erst Wege aus `daten/abschnitte.csv` (per `osm_way_id`) mit der Baulast der Zusatzzeile färben, danach den Rest über den Namen. Wege mit `ref` L/K/B dürfen nie durch eine Zusatzzeile umgefärbt werden. Details und betroffene Straßen: `docs/ZUORDNUNGSREGELN.md`, Regel 10. Test: Kein Weg mit `ref` in `abschnitte.csv`.
