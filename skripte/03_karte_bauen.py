@@ -6,9 +6,12 @@ bestimmten Ortsteilen vor, entscheidet unter diesen die Nähe (sonst der nächst
 Gleiche Straße in mehreren Ortsteilen bleibt dadurch getrennt. Einträge mit Zusatz (Hausnr./ab/bis) lassen sich nicht auf Wegstücke aufteilen:
 es gilt der Eintrag ohne Zusatz; gibt es nur Zusatz-Einträge, der erste.
 """
-import csv, json, math, re
+import csv, json, math, re, sys
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from geo import laenge as weg_laenge, projektion, zerlege  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
@@ -41,25 +44,39 @@ def lesen():
         with open(p, encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 offen_manuell[(r["ortsteil"], norm(r["strasse"]))] = (r["osm_status"], r["notiz"])
-    # Abschnittszuordnung (Ergebnis des OSM-Auftrags): einzelne Wege bekommen die Zeile mit Zusatz
-    abschnitt = {}
-    p = ROOT / "daten/zusatz_zuordnung.csv"
+    # Abschnitte (Ergebnis des OSM-Auftrags v2): Weg, optional Teilstück von/bis, Art, Konfidenz
+    absch = []
+    p = ROOT / "daten/abschnitte.csv"
     if p.exists():
-        zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
         with open(p, encoding="utf-8") as f:
-            for r in csv.DictReader(f):
-                z = zeilen.get((r["ortsteil"], r["strasse"], r["zusatz"]))
-                if z and r.get("osm_way_id", "").strip().isdigit():
-                    abschnitt[int(r["osm_way_id"])] = z
-    return verz, anp, offen_manuell, abschnitt
+            absch = list(csv.DictReader(f))
+    return verz, anp, offen_manuell, absch
 
 
 def abstand(a, b):
     return math.hypot((a[0] - b[0]) * math.cos(math.radians(a[1])), a[1] - b[1])
 
 
+def merkmal(wid, name, ort, teil, r, hinweis, status, pl):
+    """Ein Kartenmerkmal; pl = Abschnitt (Nutzlast aus abschnitte.csv) überschreibt die Verzeichniszeile."""
+    extra = {}
+    if pl:
+        z, a = pl["zeile"], pl["a"]
+        r, hinweis, status = z, f'Abschnitt {z["zusatz"].strip("()")}', "Abschnitt"
+        extra = {"fall": pl["fall"], "a_art": a["art"], "a_konf": a["konfidenz"], "a_grund": a["grundlage"],
+                 "a_notiz": a["notiz"], "pruefen": a["konfidenz"] != "hoch" or a["art"] in ("D", "E")}
+    b = r["baulast"] if r else None
+    return {"type": "Feature",
+            "properties": {"osm_id": wid, "name": name, "ortsteil": ort, "baulast": NAME[b], "hinweis": hinweis,
+                           "reinigung": r["reinigung_fahrbahn"] if r else "", "winterdienst": r["winterdienst"] if r else "",
+                           "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
+                           "osm_status": status if r else "nicht im Verzeichnis",
+                           "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5, **extra},
+            "geometry": {"type": "LineString", "coordinates": [list(q) for q in teil]}}
+
+
 def main():
-    verz, anp, offen_manuell, abschnitt = lesen()
+    verz, anp, offen_manuell, absch = lesen()
     eintrag, zusaetze = {}, defaultdict(list)
     for r in verz:
         k = (r["ortsteil"], norm(r["strasse"]))
@@ -78,6 +95,36 @@ def main():
     if fehlend:
         print("Ortsteil ohne OSM-Punkt:", fehlend)
     wege = json.loads((ROOT / "daten/osm_strassen.json").read_text("utf-8"))["elements"]
+    unben = {}
+    pu = ROOT / "daten/osm_unbenannt.json"
+    if pu.exists():
+        for e in json.loads(pu.read_text("utf-8"))["elements"]:
+            g = [(q["lon"], q["lat"]) for q in e.get("geometry", [])]
+            if len(g) >= 2:
+                unben[e["id"]] = g
+    geom = {w["id"]: [(q["lon"], q["lat"]) for q in w.get("geometry", [])] for w in wege}
+    geom.update(unben)
+    zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
+    faelle = {k: i for i, k in enumerate(sorted(zeilen))}
+    schnitte = defaultdict(list)  # Weg-ID -> [(s0, s1, Nutzlast)] (Bogenlängen in m)
+    for a in absch:
+        key = (a["ortsteil"], a["strasse"], a["zusatz"])
+        wid = a["osm_way_id"].strip()
+        if key not in zeilen or not wid.isdigit():
+            continue
+        if int(wid) not in geom:
+            print("Weg nicht in den OSM-Daten:", wid, a["strasse"], a["zusatz"])
+            continue
+        g = geom[int(wid)]
+        if a["von_lat"].strip() and a["bis_lat"].strip():
+            s0 = projektion(g, (float(a["von_lon"]), float(a["von_lat"])))[0]
+            s1 = projektion(g, (float(a["bis_lon"]), float(a["bis_lat"])))[0]
+        else:
+            s0, s1 = 0.0, weg_laenge(g)
+        schnitte[int(wid)].append((min(s0, s1), max(s0, s1), {"zeile": zeilen[key], "a": a, "fall": faelle[key]}))
+
+    def stuecke(wid, geo):
+        return zerlege(geo, schnitte[wid]) if wid in schnitte else [(geo, None)]
 
     feats, genutzt, offen_osm = [], {}, []
     wege_je_strasse = defaultdict(list)
@@ -103,22 +150,20 @@ def main():
             genutzt[k] = status
             wege_je_strasse[k].append((w["id"], geo))
         hinweis = "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else ""
-        if r and w["id"] in abschnitt:  # Abschnitt laut Zusatzzeile
-            r = abschnitt[w["id"]]
-            hinweis = f'Abschnitt {r["zusatz"].strip("()")}'
-        if not r and w["tags"].get("highway") in KEINE_STRASSE:
+        if not r and w["tags"].get("highway") in KEINE_STRASSE and w["id"] not in schnitte:
             continue
-        b = r["baulast"] if r else None
-        feats.append({"type": "Feature",
-                      "properties": {"osm_id": w["id"], "name": name, "ortsteil": ort, "baulast": NAME[b],
-                                     "hinweis": hinweis,
-                                     "reinigung": r["reinigung_fahrbahn"] if r else "", "winterdienst": r["winterdienst"] if r else "",
-                                     "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
-                                     "osm_status": status if r else "nicht im Verzeichnis",
-                                     "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5},
-                      "geometry": {"type": "LineString", "coordinates": geo}})
+        for teil, pl in stuecke(w["id"], geo):
+            feats.append(merkmal(w["id"], name, ort, teil, r, hinweis, status, pl))
         if not r:
             offen_osm.append((ort, name, w["tags"].get("highway", "")))
+    benannt = {w["id"] for w in wege}
+    for wid in schnitte:  # unbenannte Wege: nur die Abschnitte zeichnen, Rest hat keine Verzeichnisangabe
+        if wid in benannt:
+            continue
+        for teil, pl in stuecke(wid, geom[wid]):
+            if pl:
+                z = pl["zeile"]
+                feats.append(merkmal(wid, f'{z["strasse"]} (unbenannter Weg)', z["ortsteil"], teil, None, "", "", pl))
     feats.sort(key=lambda f: f["properties"]["baulast"] == NAME[None], reverse=True)  # unzugeordnet unten
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
@@ -138,42 +183,45 @@ def main():
                    "haupteintrag": f'{NAME[h["baulast"]]}, Reinigung {ZUST[h["reinigung_fahrbahn"]]}, Winterdienst {ZUST[h["winterdienst"]]}' if not h["zusatz"] else "(nur Zusatzzeilen)",
                    "abweichend": "ja" if (not h["zusatz"] and (h["baulast"], h["reinigung_fahrbahn"], h["winterdienst"]) != (r["baulast"], r["reinigung_fahrbahn"], r["winterdienst"])) else "nein",
                    "osm_wege": len(ids), "laenge_km": round(laenge, 2), "osm_way_ids": " ".join(map(str, ids))})
-    # Überlagerung "geteilte Straßen": je Teilbereich zugeordnete Wege (laut Auftrag) oder offen mit Begründung
-    notizen, zugeordnet = {}, defaultdict(list)
-    pz = ROOT / "daten/zusatz_zuordnung.csv"
-    if pz.exists():
-        with open(pz, encoding="utf-8") as f:
-            for r_ in csv.DictReader(f):
-                kz = (r_["ortsteil"], r_["strasse"], r_["zusatz"])
-                if r_["osm_way_id"].strip().isdigit():
-                    zugeordnet[kz].append(int(r_["osm_way_id"]))
-                    notizen.setdefault(kz, r_["notiz"])
-                else:
-                    notizen[kz] = r_["notiz"]
+    # Überlagerung "geteilte Straßen": je Zusatzzeile die gezeichneten Linien, Art und Sicherheit aus abschnitte.csv
+    linien = defaultdict(list)
+    for f_ in feats:
+        if "fall" in f_["properties"]:
+            linien[f_["properties"]["fall"]].append([[c[1], c[0]] for c in f_["geometry"]["coordinates"]])
+    rang = {"hoch": 0, "mittel": 1, "niedrig": 2}
     zj = []
-    for x, r_ in zip(zf, [r for r in verz if r["zusatz"] and (r["ortsteil"], norm(r["strasse"])) in genutzt]):
-        kz = (x["ortsteil"], x["strasse"], x["zusatz"])
-        zj.append({"id": len(zj), "ortsteil": x["ortsteil"], "strasse": x["strasse"], "zusatz": x["zusatz"].strip("()"),
-                   "baulast": x["baulast"], "reinigung": x["reinigung"], "winterdienst": x["winterdienst"],
-                   "haupt": (None if x["haupteintrag"].startswith("(nur") else
-                            {"baulast": NAME[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["baulast"]],
-                             "reinigung": ZUST[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["reinigung_fahrbahn"]],
-                             "winterdienst": ZUST[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["winterdienst"]]}),
-                   "wege": zugeordnet.get(kz, []),
-                   "strassenwege": [i for i, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]],
-                   "notiz": notizen.get(kz, ""),
-                   # Wege, die laut Notiz die Hausnummern/den Zusatz (teilweise) tragen: nur diese markieren, nicht die ganze Straße
-                   "kandidaten": [int(i) for i in re.findall(r"Weg (\d{6,})", notizen.get(kz, "")) if int(i) in {a for a, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]}]})
+    for key, i in sorted(faelle.items(), key=lambda kv: kv[1]):
+        z = zeilen[key]
+        rows = [a for a in absch if (a["ortsteil"], a["strasse"], a["zusatz"]) == key]
+        h = eintrag.get((z["ortsteil"], norm(z["strasse"])))
+        konf = max((a["konfidenz"] for a in rows), key=lambda c: rang.get(c, 3), default="niedrig")
+        arten = sorted({a["art"] for a in rows})
+        status = "keine" if not linien[i] else ("pruefen" if konf != "hoch" or set(arten) & {"D", "E"} else "sicher")
+        zj.append({"id": i, "ortsteil": z["ortsteil"], "strasse": z["strasse"], "zusatz": z["zusatz"].strip("()"),
+                   "baulast": NAME[z["baulast"]], "reinigung": ZUST[z["reinigung_fahrbahn"]], "winterdienst": ZUST[z["winterdienst"]],
+                   "haupt": (None if not h or h["zusatz"] else
+                             {"baulast": NAME[h["baulast"]], "reinigung": ZUST[h["reinigung_fahrbahn"]], "winterdienst": ZUST[h["winterdienst"]]}),
+                   "art": arten, "konfidenz": konf, "status": status,
+                   "grundlage": sorted({a["grundlage"] for a in rows if a["grundlage"]}),
+                   "notiz": " | ".join(dict.fromkeys(a["notiz"] for a in rows if a["notiz"])),
+                   "linien": linien[i]})
     (ROOT / "docs/zusatz.json").write_text(json.dumps(zj, ensure_ascii=False), encoding="utf-8")
     with open(ROOT / "daten/zusatzfaelle.csv", "w", newline="", encoding="utf-8") as f:
         w_ = csv.DictWriter(f, fieldnames=list(zf[0])); w_.writeheader(); w_.writerows(zf)
+    print("Abschnitte:", sum(1 for f_ in feats if "fall" in f_["properties"]), "Teilstücke,",
+          sum(1 for f_ in feats if f_["properties"].get("pruefen")), "davon zu prüfen; Zusatzfälle:", {s_: sum(z_["status"] == s_ for z_ in zj) for s_ in ("sicher", "pruefen", "keine")})
     print("Zusatzfälle:", len(zf), "davon abweichend vom Haupteintrag:", sum(x["abweichend"] == "ja" for x in zf))
     ohne_osm = [(k, v) for k, v in eintrag.items() if k not in genutzt]
     offene = []
     for (o, n), v in sorted(ohne_osm):
         st, notiz = offen_manuell.get((o, n), ("nicht vorhanden", ""))
-        offene.append({"ortsteil": o, "strasse": v["strasse_original"], "osm_status": st, "notiz": notiz,
+        recherche = next((a["notiz"] for a in absch if a["ortsteil"] == o and norm(a["strasse"]) == n and not a["zusatz"] and a["notiz"]), "")
+        offene.append({"ortsteil": o, "strasse": v["strasse_original"], "osm_status": st, "notiz": recherche or notiz,
                        "baulast": NAME[v["baulast"]]})
+    for z_ in zj:  # Zusatzzeilen, für die sich keine Linie bestimmen ließ (Art E)
+        if z_["status"] == "keine":
+            offene.append({"ortsteil": z_["ortsteil"], "strasse": f'{z_["strasse"]} ({z_["zusatz"]})', "osm_status": "keine Zuordnung",
+                           "notiz": z_["notiz"], "baulast": z_["baulast"]})
     (ROOT / "docs/offene.json").write_text(json.dumps(offene, ensure_ascii=False), encoding="utf-8")
     md = ["# Offene Straßen (im Verzeichnis, aber ohne OSM-Weg)", "",
           "Wird vom Skript `03_karte_bauen.py` erzeugt. Status und Notizen pflegt man in `daten/offene_strassen.csv`.", "",

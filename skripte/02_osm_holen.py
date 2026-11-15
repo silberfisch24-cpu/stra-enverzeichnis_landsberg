@@ -10,7 +10,7 @@ GEBIET = 'area["boundary"="administrative"]["admin_level"="8"]["name"="Landsberg
 ABFRAGEN = {
     "osm_strassen.json": f'[out:json][timeout:180];{GEBIET}way(area.g)["highway"]["name"];out geom tags;',
     # unbenannte Wege (Zufahrten, Stichwege): Abschnitte mit Hausnummern hängen oft an solchen Wegen
-    "osm_unbenannt.json": f'[out:json][timeout:180];{GEBIET}way(area.g)["highway"][!"name"]["highway"!~"^(footway|cycleway|steps|corridor|bridleway|proposed|construction|path|pedestrian|platform|elevator)$"];out geom tags;',
+    "osm_unbenannt.json": f'[out:json][timeout:180];{GEBIET}way(area.g)["highway"][!"name"]["highway"!~"^(footway|cycleway|steps|corridor|bridleway|proposed|construction|platform|elevator)$"];out geom tags;',
     # Adresspunkte (Hausnummern) mit Mittelpunkt
     "osm_adressen_roh.json": f'[out:json][timeout:180];{GEBIET}nwr(area.g)["addr:housenumber"];out center tags;',
     "osm_orte.json": f'[out:json][timeout:60];{GEBIET}(node(area.g)["place"];);out tags center;',
