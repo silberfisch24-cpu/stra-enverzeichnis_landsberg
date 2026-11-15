@@ -55,32 +55,37 @@ ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickProp
  <select id="z"><option value="off">Deaktiviert</option><option value="all">Alle</option></select><div id="zi" style="max-width:300px"></div>`;
  d.querySelector('#z').onchange=e=>{zwahl=e.target.value;zeige(true);};
  d.querySelector('#a').onchange=e=>{ansicht=e.target.value;aktual();};
- d.querySelector('#o').onchange=e=>{ort=e.target.value;aktual();if(ort&&g){const b=L.featureGroup(g.getLayers().filter(l=>l.feature.properties.ortsteil===ort)).getBounds();if(b.isValid())m.fitBounds(b.pad(.1));}};
+ d.querySelector('#o').onchange=e=>{ort=e.target.value;aktual();zliste();if(ort&&g){const b=L.featureGroup(g.getLayers().filter(l=>l.feature.properties.ortsteil===ort)).getBounds();if(b.isValid())m.fitBounds(b.pad(.1));}};
  d.querySelector('#gr').onchange=e=>{zeigeGrau=e.target.checked;aktual();};return d;};
 ctl.addTo(m);
-fetch('zusatz.json').then(r=>r.json()).then(z=>{zdaten=z;const sel=ctl.getContainer().querySelector('#z');
+fetch('zusatz.json').then(r=>r.json()).then(z=>{zdaten=z;zliste();});
+// Auswahlliste der Teilbereiche; folgt dem Ortsteil-Filter
+function zliste(){const sel=ctl.getContainer().querySelector('#z');const z=zdaten.filter(x=>!ort||x.ortsteil===ort);
+ while(sel.options.length>2)sel.remove(2);sel.querySelector('optgroup')?.remove();
  sel.options[1].text=`Alle (${z.length})`;
  const og=document.createElement('optgroup');og.label='Teilbereiche (● zugeordnet, ○ Zuordnung offen)';
  z.slice().sort((a,b)=>(a.ortsteil+a.strasse+a.zusatz).localeCompare(b.ortsteil+b.strasse+b.zusatz,'de')).forEach(x=>{
-  const o=document.createElement('option');o.value=x.id;o.text=`${x.wege.length?'●':'○'} ${x.ortsteil}: ${x.strasse} (${x.zusatz})`;og.appendChild(o);});
- sel.appendChild(og);});
+  const o=document.createElement('option');o.value=x.id;o.text=`${x.wege.length?'●':'○'} ${ort?'':x.ortsteil+': '}${x.strasse} (${x.zusatz})`;og.appendChild(o);});
+ sel.appendChild(og);
+ if(zwahl!=='off'&&zwahl!=='all'&&!z.some(x=>String(x.id)===zwahl))zwahl='off';
+ sel.value=zwahl;zeige(false);}
 function linien(ids){return ids.map(i=>nachId[i]).filter(Boolean);}
 function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelector('#zi');info.innerHTML='';
- const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten:zdaten.filter(x=>String(x.id)===zwahl);
+ const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten.filter(x=>!ort||x.ortsteil===ort):zdaten.filter(x=>String(x.id)===zwahl);
  let alle=[];
  wahl.forEach(x=>{const offen=!x.wege.length;
   linien(offen?x.strassenwege:x.wege).forEach(l=>{alle.push(l);
-   L.polyline(l.getLatLngs(),{pane:'halo',color:offen?'#555':'#000',weight:offen?11:10,opacity:offen?0.55:0.6,dashArray:offen?'1 9':null,lineCap:offen?'round':'butt'}).addTo(halo);});});
+   L.polyline(l.getLatLngs(),{pane:'halo',color:'#111',weight:offen?7:8,opacity:offen?0.5:0.65,dashArray:offen?'5 5':null,lineCap:'butt',lineJoin:'round'}).addTo(halo);});});
  if(zwahl!=='off'&&zwahl!=='all'&&wahl[0]){const x=wahl[0];
   info.innerHTML=`<br><b>${x.strasse} (${x.zusatz})</b><br>Baulast: ${x.baulast}, Reinigung: ${x.reinigung}, Winterdienst: ${x.winterdienst}<br>Rest der Straße: ${x.haupteintrag}`+
-   (x.wege.length?`<br><i>${x.wege.length} Weg(e) zugeordnet</i>`:`<br><i>Zuordnung offen – ganze Straße gepunktet markiert. ${x.notiz}</i>`);
+   (x.wege.length?`<br><i>${x.wege.length} Weg(e) zugeordnet</i>`:`<br><i>Zuordnung offen – ganze Straße gestrichelt markiert. ${x.notiz}</i>`);
   if(zoom&&alle.length)m.fitBounds(L.featureGroup(alle).getBounds().pad(.4));}
  legende();}
 const leg=L.control({position:'bottomright'});leg.onAdd=()=>L.DomUtil.create('div','box');leg.addTo(m);
 function aktual(){if(g)g.setStyle(stil);legende();}
 function legende(){
  leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`+
- (zwahl!=='off'?`<div style="margin-top:4px"><i style="background:#000;height:7px"></i>Teilbereich (Zuständigkeit weicht ab)</div><div><i style="height:7px;background:repeating-linear-gradient(90deg,#555 0 2px,transparent 2px 6px)"></i>Zuordnung offen (ganze Straße)</div>`:'');}
+ (zwahl!=='off'?`<div style="margin-top:4px"><i style="background:#111;height:6px;opacity:.7"></i>Teilbereich (Zuständigkeit weicht ab)</div><div><i style="height:6px;background:repeating-linear-gradient(90deg,#111 0 5px,transparent 5px 10px);opacity:.6"></i>Zuordnung offen (ganze Straße)</div>`:'');}
 aktual();
 fetch('offene.json').then(r=>r.json()).then(o=>{if(!o.length)return;const c=L.control({position:'bottomleft'});c.onAdd=()=>{const d=L.DomUtil.create('div','box');
  d.innerHTML='<b>Im Verzeichnis, nicht in OSM</b><br>'+o.map(x=>`${x.strasse} (${x.ortsteil}, ${x.baulast}) – ${x.osm_status}`).join('<br>');return d;};c.addTo(m);});
