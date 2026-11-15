@@ -118,3 +118,5 @@ Dazu die Notizen in `abschnitte.csv`: Bei jedem Fall steht, welche Hausnummer an
 **Neue Zählung** (104 Zeilen): Art A 40 · B 30 · C 6 · D 21 · E 7; Konfidenz hoch 39 · mittel 49 · niedrig 16.
 
 **Hinweis für die Karte:** Way 1104039294 (Rondell Dorfplatz) ist eine geschlossene Fläche (`landuse=grass`), kein Weg. Sie muss als Fläche (oder ihre Umrisslinie) gezeichnet werden.
+
+**Nachtrag Hohenthurm Alte Bahnhofstraße:** Die Diagonale vom Von-Wuthenau-Platz zur Kreuzung Am Dorfteich (Wege 1176275569, 1422282324, 188144126; Hausnr. 12, 13) ist Stadt und nicht Land. Sie ist der Zeile (Hausnr. 1 - 11) zugeordnet (Art A, hoch), weil sie am Ostende von 188144125 anschließt.
