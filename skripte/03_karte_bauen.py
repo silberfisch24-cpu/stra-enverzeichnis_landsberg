@@ -65,6 +65,7 @@ def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False):
     if pl:
         z, a = pl["zeile"], pl["a"]
         r, hinweis, status = z, f'Abschnitt {z["zusatz"].strip("()")}', "Abschnitt"
+        ort = z["ortsteil"]  # der Ortsteil der Verzeichniszeile gilt, nicht der nächstgelegene Ortsteil-Punkt
         extra = {"fall": pl["fall"], "a_art": a["art"], "a_konf": a["konfidenz"], "a_grund": a["grundlage"],
                  "a_notiz": a["notiz"], "pruefen": a["konfidenz"] in UNSICHER or a["art"] == "E"}
     b = r["baulast"] if r else None
