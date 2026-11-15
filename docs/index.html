@@ -13,17 +13,17 @@ html,body,#k{height:100%;margin:0}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const BAU={'Stadt':'#1f77d4','Kreis':'#f08a00','Privat':'#d62728','Land':'#2ca02c','gemischt (Text beachten)':'#8e44ad'};
-const GRAU='#9e9e9e', ANL='#e6b800';
+const GRAU='#9e9e9e', ANL='#d81b9a';
 const Z={A:'Anlieger',B:'Baulastträger'};
 const ANSICHTEN={
  baulast:{t:'Baulast (wer unterhält die Straße)',leg:[['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','gemischt']],
   farbe:p=>BAU[p.baulast]},
- reinigung:{t:'Straßenreinigung Fahrbahn: wer kehrt',leg:[[ANL,'Anlieger'],['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','Baulastträger, gemischt']],
+ reinigung:{t:'Straßenreinigung Fahrbahn: wer kehrt',leg:[[ANL,'Anlieger (gestrichelt)'],['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','Baulastträger, gemischt']],
   farbe:p=>p.reinigung==='A'?ANL:p.reinigung==='B'?BAU[p.baulast]:null},
- winter:{t:'Winterdienst Fahrbahn: wer räumt',leg:[[ANL,'Anlieger'],['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','Baulastträger, gemischt']],
+ winter:{t:'Winterdienst Fahrbahn: wer räumt',leg:[[ANL,'Anlieger (gestrichelt)'],['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','Baulastträger, gemischt']],
   farbe:p=>p.winterdienst==='A'?ANL:p.winterdienst==='B'?BAU[p.baulast]:null},
- pflicht:{t:'Anlieger-Pflichten (Reinigung + Winterdienst)',leg:[[ANL,'beides Anlieger'],['#34495e','beides Baulastträger'],['#e056a0','unterschiedlich']],
-  farbe:p=>!p.reinigung?null:(p.reinigung==='A'&&p.winterdienst==='A')?ANL:(p.reinigung==='B'&&p.winterdienst==='B')?'#34495e':'#e056a0'}
+ pflicht:{t:'Anlieger-Pflichten (Reinigung + Winterdienst)',leg:[[ANL,'beides Anlieger (gestrichelt)'],['#34495e','beides Baulastträger'],['#00a8c6','unterschiedlich']],
+  farbe:p=>!p.reinigung?null:(p.reinigung==='A'&&p.winterdienst==='A')?ANL:(p.reinigung==='B'&&p.winterdienst==='B')?'#34495e':'#00a8c6'}
 };
 let ansicht='baulast', zeigeGrau=true, ort='';
 const m=L.map('k').setView([51.45,12.2],12);
@@ -31,7 +31,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribu
 const ebenen={};let g;
 function stil(f){const p=f.properties,c=ANSICHTEN[ansicht].farbe(p);
  const aus=(ort&&p.ortsteil!==ort)||(!c&&!zeigeGrau);
- return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus};}
+ return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null};}
 function popup(p){const z=(a,w)=>w?`${a}: ${Z[w]}`:'';
  return `<b>${p.name}</b><br>${p.ortsteil}`+(p.baulast!=='nicht im Verzeichnis'?
   `<br>Baulast: ${p.baulast}<br>${z('Reinigung Fahrbahn',p.reinigung)}<br>${z('Winterdienst Fahrbahn',p.winterdienst)}<br>${z('Gehweg',p.gehweg)}`+
@@ -56,7 +56,7 @@ ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickProp
 ctl.addTo(m);
 const leg=L.control({position:'bottomright'});leg.onAdd=()=>L.DomUtil.create('div','box');leg.addTo(m);
 function aktual(){if(g)g.setStyle(stil);
- leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`;}
+ leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`;}
 aktual();
 fetch('offene.json').then(r=>r.json()).then(o=>{if(!o.length)return;const c=L.control({position:'bottomleft'});c.onAdd=()=>{const d=L.DomUtil.create('div','box');
  d.innerHTML='<b>Im Verzeichnis, nicht in OSM</b><br>'+o.map(x=>`${x.strasse} (${x.ortsteil}, ${x.baulast}) – ${x.osm_status}`).join('<br>');return d;};c.addTo(m);});
