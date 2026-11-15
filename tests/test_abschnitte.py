@@ -85,3 +85,20 @@ def test_rangfolge_durchgangsstrassen():
         if m and p["baulast"] in rang and rang[p["baulast"]] < {"L": 4, "K": 3}[m.group(1)] and "Abschnitt" not in p.get("hinweis", ""):
             schlecht.append((p["name"], p["ref"], p["baulast"]))
     assert not schlecht, schlecht
+
+
+def test_gemischte_baulast():
+    """Jede Zeile in gemischt_abschnitte.csv verweist auf einen vorhandenen Weg; Queiser Straße hat S und K."""
+    p = ROOT / "daten/gemischt_abschnitte.csv"
+    if not p.exists():
+        pytest.skip("gemischt_abschnitte.csv fehlt")
+    rows = _lesen("gemischt_abschnitte.csv")
+    codes = {r["baulast"] for r in rows if r["strasse"] == "Queiser Straße"}
+    assert {"S", "K"} <= codes
+    ids = set()
+    for f in ("osm_strassen.json", "osm_unbenannt.json", "osm_sonstige.json"):
+        q = ROOT / "daten" / f
+        if q.exists():
+            ids |= {e["id"] for e in json.loads(q.read_text("utf-8"))["elements"]}
+    fehlt = [r["osm_way_id"] for r in rows if int(r["osm_way_id"]) not in ids]
+    assert not fehlt, f"Weg-IDs nicht in den OSM-Dateien (osm_sonstige.json holt der Workflow nach): {fehlt}"

@@ -176,7 +176,7 @@ Landsberg,Topfmarkt,Topfmarkt,,S,,,A,A,A
 Landsberg,Tornaer Weg,Tornaer Weg,,S,,,B,A,B
 Landsberg,Töpfergasse,Töpfergasse,,S,,,A,A,A
 Landsberg,Walter-Rathenau-Straße,Walter-Rathenau-Straße,,S,,,B,A,B
-Niemberg,Alte Gärtnerei,Alte Gärtnerei,,gemischt,A,,A,A,A
+Niemberg,Alte Gärtnerei,Alte Gärtnerei,,unbekannt,A,,A,A,A
 Niemberg,Alte Zollstraße,Alte Zollstraße,,K,,,B,A,B
 Niemberg,Am Bahnübergang,Am Bahnübergang,,K,,,B,A,B
 Niemberg,Am Güterbahnhof,Am Güterbahnhof,,S,,,B,A,B
@@ -256,7 +256,7 @@ Oppin,Kastanienstraße,Kastanienstraße,,S,,,A,A,A
 Oppin,Otto-Lilienthal-Straße,Otto-Lilienthal-Straße,,S,,,B,A,B
 Oppin,Lindenallee,Lindenallee,,S,,,B,A,B
 Oppin,Maschwitzer Straße Einmündung Alte Haupt- straße bis Krezuzung Singdrosselweg,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,S,,,A,A,B
-Oppin,Maschwitzer Straße Hausnr. 7 bis 8 a,Maschwitzer Straße,Hausnr. 7 bis 8 a,gemischt,,,A,A,A
+Oppin,Maschwitzer Straße Hausnr. 7 bis 8 a,Maschwitzer Straße,Hausnr. 7 bis 8 a,unbekannt,,,A,A,A
 Oppin,Narzissenweg,Narzissenweg,,S,,,A,A,A
 Oppin,Nelkenweg,Nelkenweg,,S,,,A,A,B
 Oppin,Niemberger Straße,Niemberger Straße,,K,,,B,A,B
@@ -284,7 +284,7 @@ Peißen,Alte Berliner Straße (Hausnr. 1 - 4),Alte Berliner Straße,(Hausnr. 1 -
 Peißen,Braschwitzer Straße,Braschwitzer Straße,,S,,,B,A,B
 Peißen,Gewerbehof,Gewerbehof,,P,,P,B,A,B
 Peißen,Lindenring,Lindenring,,S,,,B,A,B
-Peißen,Orionstraße,Orionstraße,,gemischt,Stadt Halle,,B,A,B
+Peißen,Orionstraße,Orionstraße,,H,,,B,A,B
 Peißen,Reidepromenade,Reidepromenade,,S,,,A,A,A
 Peißen,Rudolf-Walter-Straße,Rudolf-Walter-Straße,,S,,,B,A,B
 Peißen,Saarbrücker Straße,Saarbrücker Straße,,S,,,B,A,B
@@ -350,7 +350,7 @@ Queis,Kleine Enge,Kleine Enge,,S,,,A,A,A
 Queis,Lindenstraße,Lindenstraße,,S,,,B,A,B
 Queis,Max-Planck-Ring,Max-Planck-Ring,,S,,,B,A,B
 Queis,Neue Straße,Neue Straße,,S,,,B,A,B
-Queis,Orionstraße,Orionstraße,,gemischt,Stadt Halle,,B,A,B
+Queis,Orionstraße,Orionstraße,,H,,,B,A,B
 Queis,Platz des Friedens,Platz des Friedens,,S,,,A,A,A
 Queis,Queiser Ring,Queiser Ring,,S,,,B,A,B
 Queis,Ringstraße,Ringstraße,,S,,,B,A,B

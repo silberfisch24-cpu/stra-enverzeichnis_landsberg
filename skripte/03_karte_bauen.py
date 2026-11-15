@@ -14,17 +14,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from geo import laenge as weg_laenge, projektion, zerlege  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
+FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", "H": "#795548", "unbekannt": "#c5cae9", None: "#9e9e9e"}
 # OSM-Ortsnamen, die im Verzeichnis anders heißen (Ortsteil mit mehreren Punkten möglich)
 ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "Untermaschwitz": "Maschwitz"}
 ZUST = {"A": "Anlieger", "B": "Baulastträger"}
 # Ab welcher Einstufung aus abschnitte.csv eine Zuordnung auf der Karte als "unsicher" gilt (hoch < mittel < niedrig)
 UNSICHER = {"niedrig"}
 # Rangfolge der Baulast bei Durchgangsstraßen: Land (L) vor Kreis (K) vor Stadt (S) vor Privat (P); gemischt bleibt unberührt
-RANG = {"P": 1, "S": 2, "K": 3, "L": 4}
-ZEICHENREIHE = {"nicht im Verzeichnis": 0, "Privat": 1, "gemischt (Text beachten)": 2, "Stadt": 2, "Kreis": 3, "Land": 4}
+RANG = {"unbekannt": 0, "P": 1, "S": 2, "K": 3, "L": 4}
+ZEICHENREIHE = {"nicht im Verzeichnis": 0, "Baulast nicht angegeben": 0, "Privat": 1, "Stadt Halle": 1, "gemischt (Text beachten)": 2, "Stadt": 2, "Kreis": 3, "Land": 4}
 KEINE_STRASSE = {"platform", "rest_area", "services", "steps"}  # Haltestellen, Rastplätze …: nur zeichnen, wenn im Verzeichnis
-NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
+CODE = {"S": "S", "K": "K", "P": "P", "L": "L", "Halle": "H", "gemischt": "gemischt", "unbekannt": "unbekannt"}  # gemischt_abschnitte.csv -> Baulastcode
+NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", "H": "Stadt Halle", "unbekannt": "Baulast nicht angegeben", None: "nicht im Verzeichnis"}
 
 
 def norm(s):
@@ -90,6 +91,14 @@ def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False, ref="")
                          else {"type": "LineString", "coordinates": [list(q) for q in teil]})}
 
 
+def rang_anwenden(r, ref):
+    """Durchgangsstraße mit L-/K-Nummer: der höhere Rang gilt, auch wenn der Name im Verzeichnis eine Stadtstraße meint."""
+    mr = re.match(r"^([LK])\s?\d", ref or "")
+    if r and mr and RANG[mr.group(1)] > RANG.get(r["baulast"], 9):
+        return {**r, "baulast": mr.group(1)}
+    return r
+
+
 def main():
     verz, anp, offen_manuell, absch = lesen()
     eintrag, zusaetze = {}, defaultdict(list)
@@ -111,12 +120,14 @@ def main():
         print("Ortsteil ohne OSM-Punkt:", fehlend)
     wege = json.loads((ROOT / "daten/osm_strassen.json").read_text("utf-8"))["elements"]
     unben = {}
+    tags_von = {w["id"]: w.get("tags", {}) for w in wege}
     pu = ROOT / "daten/osm_unbenannt.json"
     if pu.exists():
         for e in json.loads(pu.read_text("utf-8"))["elements"]:
             g = [(q["lon"], q["lat"]) for q in e.get("geometry", [])]
             if len(g) >= 2:
                 unben[e["id"]] = g
+                tags_von[e["id"]] = e.get("tags", {})
     geom = {w["id"]: [(q["lon"], q["lat"]) for q in w.get("geometry", [])] for w in wege}
     geom.update(unben)
     flaechen = set()  # geschlossene Wege ohne highway (z. B. landuse=grass): als Fläche zeichnen
@@ -126,8 +137,16 @@ def main():
             g = [(q["lon"], q["lat"]) for q in e.get("geometry", [])]
             if len(g) >= 2:
                 geom[e["id"]] = g
+                tags_von[e["id"]] = e.get("tags", {})
                 if "highway" not in e.get("tags", {}) and len(g) >= 4 and g[0] == g[-1]:
                     flaechen.add(e["id"])
+    gem = {}  # Weg-ID -> Zeile aus gemischt_abschnitte.csv (Baulast je Weg, Vorrang vor dem Haupteintrag)
+    pg = ROOT / "daten/gemischt_abschnitte.csv"
+    if pg.exists():
+        with open(pg, encoding="utf-8") as f:
+            for g_ in csv.DictReader(f):
+                if g_["osm_way_id"].strip().isdigit():
+                    gem[int(g_["osm_way_id"])] = g_
     zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
     faelle = {k: i for i, k in enumerate(sorted(zeilen))}
     schnitte = defaultdict(list)  # Weg-ID -> [(s0, s1, Nutzlast)] (Bogenlängen in m)
@@ -176,11 +195,10 @@ def main():
         hinweis = "; ".join(filter(None, [r["baulast_text"]] + zusaetze[k])) if r else ""
         if not r and w["tags"].get("highway") in KEINE_STRASSE and w["id"] not in schnitte:
             continue
+        if w["id"] in gem and w["id"] not in schnitte:
+            continue  # Baulast kommt aus gemischt_abschnitte.csv (siehe unten)
         ref = w["tags"].get("ref", "")
-        mr = re.match(r"^([LK])\s?\d", ref)
-        if r and mr and RANG[mr.group(1)] > RANG.get(r["baulast"], 9):
-            # Durchgangsstraße mit L-/K-Nummer: der höhere Rang gilt, auch wenn der Name im Verzeichnis eine Stadtstraße meint
-            r = {**r, "baulast": mr.group(1)}
+        r = rang_anwenden(r, ref)
         for teil, pl in stuecke(w["id"], geo):
             feats.append(merkmal(w["id"], name, ort, teil, r, hinweis, status, pl, ref=ref))
         if not r:
@@ -194,6 +212,22 @@ def main():
                 z = pl["zeile"]
                 nm = f'{z["strasse"]} ({"Fläche" if wid in flaechen else "unbenannter Weg"})'
                 feats.append(merkmal(wid, nm, z["ortsteil"], teil, None, "", "", pl, flaeche=wid in flaechen))
+    for wid, g_ in gem.items():  # Wege mit einzeln bestimmter Baulast (gemischt, Stadt Halle, unbekannt …)
+        if wid in schnitte:
+            continue
+        if wid not in geom:
+            print("Weg nicht in den OSM-Daten:", wid, g_["strasse"])
+            continue
+        r0 = eintrag.get((g_["ortsteil"], norm(g_["strasse"])))
+        if not r0:
+            continue
+        ref = tags_von.get(wid, {}).get("ref", "")
+        r = rang_anwenden({**r0, "baulast": CODE[g_["baulast"]]}, ref)
+        nm = tags_von.get(wid, {}).get("name") or f'{g_["strasse"]} (unbenannter Weg)'
+        hin = f'Verzeichnis: {r0["baulast_text"]}' if r0["baulast_text"] else ""
+        ft = merkmal(wid, nm, g_["ortsteil"], geom[wid], r, hin, "Einzelzuordnung", None, ref=ref)
+        ft["properties"]["pruefen"] = g_["konfidenz"] in UNSICHER
+        feats.append(ft)
     feats.sort(key=lambda f: ZEICHENREIHE[f["properties"]["baulast"]])  # höherer Rang wird zuletzt gezeichnet, also oben
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
@@ -270,6 +304,24 @@ def main():
         probleme.append({"art": "keine", "ortsteil": o, "strasse": v["strasse_original"], "zusatz": "", "baulast": NAME[v["baulast"]],
                          "reinigung": ZUST[v["reinigung_fahrbahn"]], "winterdienst": ZUST[v["winterdienst"]], "haupt": None,
                          "grund": x["notiz"], "linien": [], "mitte": mitte(o)})
+    gruppen = defaultdict(list)
+    for wid, g_ in gem.items():
+        if g_["konfidenz"] in UNSICHER:
+            gruppen[(g_["ortsteil"], g_["strasse"])].append((wid, g_))
+    for (o, st), rs in sorted(gruppen.items()):
+        ids_ = {wid for wid, _ in rs}
+        codes = {CODE[g_["baulast"]] for _, g_ in rs}
+        # die Verzeichniszeile, um die es geht (bei mehreren Zeilen der Straße die mit besonderer Baulast)
+        v0 = next((r for r in verz if r["ortsteil"] == o and norm(r["strasse"]) == norm(st) and r["baulast"] in ("unbekannt", "gemischt", "H")),
+                  eintrag.get((o, norm(st)), {}))
+        lin = [[[c[1], c[0]] for c in f_["geometry"]["coordinates"]] for f_ in feats
+               if f_["properties"]["osm_id"] in ids_ and f_["geometry"]["type"] == "LineString"]
+        luecke = codes == {"unbekannt"}
+        probleme.append({"art": "luecke" if luecke else "unsicher", "ortsteil": o, "strasse": st, "zusatz": (v0.get("zusatz") or "").strip("()"),
+                         "baulast": NAME["unbekannt"] if luecke else " / ".join(NAME[c] for c in sorted(codes)),
+                         "reinigung": ZUST[v0["reinigung_fahrbahn"]] if v0 else "", "winterdienst": ZUST[v0["winterdienst"]] if v0 else "",
+                         "haupt": None, "grund": " | ".join(dict.fromkeys(g_["notiz"] for _, g_ in rs if g_["notiz"])),
+                         "linien": lin, "mitte": mitte(o)})
     probleme.sort(key=lambda x: (x["ortsteil"], x["strasse"], x["zusatz"]))
     for i, x in enumerate(probleme):
         x["id"] = i

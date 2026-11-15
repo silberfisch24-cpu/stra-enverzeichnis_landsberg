@@ -22,9 +22,9 @@ html,body,#k{height:100%;margin:0}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // Farben: Träger der Baulast bzw. der tatsächlich Zuständige; "Anlieger" magenta und gestrichelt
-const BAU={'Stadt':'#1f77d4','Kreis':'#f08a00','Privat':'#d62728','Land':'#2ca02c','gemischt (Text beachten)':'#8e44ad'};
+const BAU={'Stadt':'#1f77d4','Kreis':'#f08a00','Privat':'#d62728','Land':'#2ca02c','gemischt (Text beachten)':'#8e44ad','Stadt Halle':'#795548','Baulast nicht angegeben':'#c5cae9'};
 const GRAU='#9e9e9e',ANL='#d81b9a',GELB='#ffe34d';
-const TRAEGER=[['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','gemischt']];
+const TRAEGER=[['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','gemischt'],['#795548','Stadt Halle'],['#c5cae9','Baulast nicht angegeben']];
 const ANSICHTEN={
  baulast:{t:'Baulast (wer unterhält die Straße)',leg:TRAEGER,farbe:p=>BAU[p.baulast]},
  reinigung:{t:'Straßenreinigung Fahrbahn: wer kehrt',leg:[[ANL,'Anlieger (gestrichelt)'],...TRAEGER],
@@ -65,7 +65,7 @@ ctl.onAdd=()=>{box=L.DomUtil.create('div','box');box.id='ctl';L.DomEvent.disable
  <select id="o"><option value="">alle Ortsteile</option></select>
  <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>
  <hr style="margin:6px 0"><b>Problemfälle <span id="pn"></span></b>
- <label><input type="checkbox" id="pa"> alle unsicheren markieren</label>
+ <label><input type="checkbox" id="pa"> alle Problemfälle markieren</label>
  <div id="pl"></div><div id="pi"></div>`;
  box.querySelector('#a').onchange=e=>{ansicht=e.target.value;g&&g.setStyle(stil);legende();};
  box.querySelector('#o').onchange=e=>{ort=e.target.value;g&&g.setStyle(stil);liste();
@@ -83,18 +83,18 @@ function liste(){const z=probleme.filter(x=>!ort||x.ortsteil===ort);
  box.querySelector('#pn').textContent=`(${z.length})`;
  let h='',last='';
  z.forEach(x=>{if(!ort&&x.ortsteil!==last){last=x.ortsteil;h+=`<div class="og">${last}</div>`;}
-  h+=`<div class="pf${x.id===wahl?' sel':''}" data-id="${x.id}"><span class="n">${x.strasse}${x.zusatz?`<small>${x.zusatz}</small>`:''}</span><span class="tag${x.art==='keine'?' k':''}">${x.art==='keine'?'nicht verortbar':'unsicher'}</span></div>`;});
+  h+=`<div class="pf${x.id===wahl?' sel':''}" data-id="${x.id}"><span class="n">${x.strasse}${x.zusatz?`<small>${x.zusatz}</small>`:''}</span><span class="tag${x.art==='keine'?' k':''}">${{keine:'nicht verortbar',luecke:'Baulast fehlt'}[x.art]||'unsicher'}</span></div>`;});
  box.querySelector('#pl').innerHTML=h||'<div class="og">keine</div>';
  zeige(false);}
 function zeige(zoom){band.clearLayers();const info=box.querySelector('#pi');info.innerHTML='';
  const z=probleme.filter(x=>!ort||x.ortsteil===ort),sel=z.find(x=>x.id===wahl),lin=[];
- z.filter(x=>x.art==='unsicher'&&(alle||x===sel)).forEach(x=>x.linien.forEach(l=>{lin.push(l);
+ z.filter(x=>x.art!=='keine'&&(alle||x===sel)).forEach(x=>x.linien.forEach(l=>{lin.push(l);
   L.polyline(l,{pane:'band',color:GELB,weight:14,opacity:.65,lineCap:'round',lineJoin:'round'}).addTo(band);}));
  if(sel){
   const w=(c)=>wer(c,sel.baulast);
   info.innerHTML=`<div class="t">${sel.strasse}${sel.zusatz?' – '+sel.zusatz:''}</div><div class="s">${sel.ortsteil}</div>
-   <p>Laut Satzung: Baulast ${sel.baulast}, Reinigung ${w(sel.reinigung)}, Winterdienst ${w(sel.winterdienst)}</p>
-   <p>${sel.art==='unsicher'?'Die Lage auf der Karte ist unsicher (gelb hinterlegt).':'Lässt sich auf der Karte nicht verorten.'}</p>
+   <p>Laut Satzung: ${sel.art==='luecke'?sel.baulast:'Baulast '+sel.baulast}, Reinigung ${w(sel.reinigung)}, Winterdienst ${w(sel.winterdienst)}</p>
+   <p>${{unsicher:'Die Zuordnung auf der Karte ist unsicher (gelb hinterlegt).',luecke:'Im Straßenverzeichnis ist keine gültige Baulast angegeben (gelb hinterlegt).',keine:'Lässt sich auf der Karte nicht verorten.'}[sel.art]}</p>
    ${sel.grund?`<p><small>${sel.grund}</small></p>`:''}`;
   if(sel.art==='keine'&&sel.mitte){L.circleMarker(sel.mitte,{radius:16,color:'#b38f00',weight:3,dashArray:'4 4',fill:false}).addTo(band);
    if(zoom)m.setView(sel.mitte,15);}

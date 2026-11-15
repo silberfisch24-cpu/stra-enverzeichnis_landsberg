@@ -52,17 +52,20 @@ for datei, q in ABFRAGEN.items():
 # Wege aus daten/abschnitte.csv, die weder benannte Straße noch unbenannter Weg sind (z. B. Mittelinseln als Fläche)
 import csv  # noqa: E402
 
-pa = DATEN / "abschnitte.csv"
 sonst = {"elements": []}
-if pa.exists():
-    bekannt = set()
-    for f in ("osm_strassen.json", "osm_unbenannt.json"):
-        bekannt |= {e["id"] for e in json.loads((DATEN / f).read_text("utf-8"))["elements"]}
-    with open(pa, encoding="utf-8") as f:
-        ids = sorted({int(r["osm_way_id"]) for r in csv.DictReader(f) if r["osm_way_id"].strip().isdigit()} - bekannt)
-    if ids:
-        sonst = holen(f'[out:json][timeout:60];way(id:{",".join(map(str, ids))});out geom tags;')
-        for e in sonst.get("elements", []):
-            e["tags"] = {k: v for k, v in e.get("tags", {}).items() if k in ("highway", "landuse", "leisure", "area", "name", "ref")}
+bekannt = set()
+for f in ("osm_strassen.json", "osm_unbenannt.json"):
+    bekannt |= {e["id"] for e in json.loads((DATEN / f).read_text("utf-8"))["elements"]}
+ids = set()
+for datei_ in ("abschnitte.csv", "gemischt_abschnitte.csv"):
+    pa = DATEN / datei_
+    if pa.exists():
+        with open(pa, encoding="utf-8") as f:
+            ids |= {int(r["osm_way_id"]) for r in csv.DictReader(f) if r["osm_way_id"].strip().isdigit()}
+ids = sorted(ids - bekannt)
+if ids:
+    sonst = holen(f'[out:json][timeout:60];way(id:{",".join(map(str, ids))});out geom tags;')
+    for e in sonst.get("elements", []):
+        e["tags"] = {k: v for k, v in e.get("tags", {}).items() if k in ("highway", "landuse", "leisure", "area", "name", "ref")}
 (DATEN / "osm_sonstige.json").write_text(json.dumps(sonst, ensure_ascii=False), encoding="utf-8")
 print("osm_sonstige.json", len(sonst.get("elements", [])), "Elemente")

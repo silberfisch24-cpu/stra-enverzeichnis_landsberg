@@ -3,8 +3,8 @@
 Spalten: ortsteil, strasse_original, strasse (ohne Zusatz), zusatz, baulast, baulast_text,
 strassenart, reinigung_fahrbahn, reinigung_gehweg, winterdienst
 Der Ortsteil steht im PDF nur in der ersten Zeile eines Blocks und wird fortgeschrieben.
-baulast = L/K/S/P; bei gemischter Baulast ("innerorts ab Kreuzung: S; Umgehungsstraße: K")
-steht 'gemischt' und der Originaltext in baulast_text.
+baulast = L/K/S/P; H = Stadt Halle (fremder Baulastträger); unbekannt = leer oder ungültig (z. B. "A" = Anlieger);
+bei gemischter Baulast ("innerorts ab Kreuzung: S; Umgehungsstraße: K") steht 'gemischt' und der Originaltext in baulast_text.
 """
 import csv, re
 from pathlib import Path
@@ -45,10 +45,17 @@ with pdfplumber.open(PDF) as pdf:
                 name = r[1]
                 strasse, zusatz = zerlegen(name)
                 b = r[2]
-                baulast = b if b in ("L", "K", "S", "P") else "gemischt"
+                if b in ("L", "K", "S", "P"):
+                    baulast = b
+                elif re.fullmatch(r"\s*Stadt\s+Halle\s*", b):
+                    baulast = "H"
+                elif b.strip() in ("", "A", "B"):  # keine gültige Baulast (A/B sind Zuständigkeiten, keine Baulast)
+                    baulast = "unbekannt"
+                else:
+                    baulast = "gemischt"
                 rows.append({
                     "ortsteil": ortsteil, "strasse_original": name, "strasse": strasse, "zusatz": zusatz,
-                    "baulast": baulast, "baulast_text": b if baulast == "gemischt" else "",
+                    "baulast": baulast, "baulast_text": b if baulast in ("gemischt", "unbekannt") else "",
                     "strassenart": r[3], "reinigung_fahrbahn": r[4], "reinigung_gehweg": r[5], "winterdienst": r[6],
                 })
 
