@@ -1,8 +1,9 @@
 """Verzeichnis + OSM -> docs/strassen.geojson (Simplestyle-Farben) + daten/nicht_zugeordnet.csv
 
 Ablauf: jeder benannte OSM-Weg wird dem nächstgelegenen Ortsteil-Punkt zugeordnet (Mittelpunkt des Wegs);
-dann wird (Ortsteil, normalisierter Name) mit dem Verzeichnis verknüpft. Gleiche Straße in mehreren Ortsteilen
-bleibt dadurch getrennt. Einträge mit Zusatz (Hausnr./ab/bis) lassen sich nicht auf Wegstücke aufteilen:
+dann wird (Ortsteil, normalisierter Name) mit dem Verzeichnis verknüpft. Kommt der Name im Verzeichnis nur in
+bestimmten Ortsteilen vor, entscheidet unter diesen die Nähe (sonst der nächste Ortsteil überhaupt).
+Gleiche Straße in mehreren Ortsteilen bleibt dadurch getrennt. Einträge mit Zusatz (Hausnr./ab/bis) lassen sich nicht auf Wegstücke aufteilen:
 es gilt der Eintrag ohne Zusatz; gibt es nur Zusatz-Einträge, der erste.
 """
 import csv, json, math, re
@@ -11,6 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
+# OSM-Ortsnamen, die im Verzeichnis anders heißen (Ortsteil mit mehreren Punkten möglich)
+ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "Untermaschwitz": "Maschwitz"}
 NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
 
 
@@ -29,7 +32,7 @@ def lesen():
     if p.exists():
         with open(p, encoding="utf-8") as f:
             for r in csv.DictReader(f):
-                anp[(r["ortsteil"], norm(r["strasse_osm"]))] = r["strasse_verzeichnis"]
+                anp[norm(r["strasse_osm"])] = r["strasse_verzeichnis"]
     return verz, anp
 
 
@@ -46,11 +49,11 @@ def main():
             eintrag[k] = r
     orte_osm = json.loads((ROOT / "daten/osm_orte.json").read_text("utf-8"))["elements"]
     ortsteile = {r["ortsteil"] for r in verz}
-    punkte = {}
+    punkte = defaultdict(list)
     for e in orte_osm:
-        n = e.get("tags", {}).get("name")
+        n = ORT_ALIAS.get(e.get("tags", {}).get("name"), e.get("tags", {}).get("name"))
         if n in ortsteile and "lon" in e:
-            punkte[n] = (e["lon"], e["lat"])
+            punkte[n].append((e["lon"], e["lat"]))
     fehlend = sorted(ortsteile - set(punkte))
     if fehlend:
         print("Ortsteil ohne OSM-Punkt:", fehlend)
@@ -63,10 +66,13 @@ def main():
             continue
         name = w["tags"]["name"]
         mitte = geo[len(geo) // 2]
-        ort = min(punkte, key=lambda o: abstand(mitte, punkte[o])) if punkte else ""
-        k = (ort, norm(name))
-        if k in anp:
-            k = (ort, norm(anp[k]))
+        # Namensvarianten: OSM-Schreibweise und Schreibweise laut Namensliste
+        namen = [norm(name)] + ([norm(anp[norm(name)])] if norm(name) in anp else [])
+        # Ortsteile, in denen das Verzeichnis einen dieser Namen kennt; unter ihnen entscheidet die Nähe
+        kand = [o for o in punkte if any((o, n) in eintrag for n in namen)]
+        dist = lambda o: min(abstand(mitte, q) for q in punkte[o])
+        ort = min(kand or punkte, key=dist) if punkte else ""
+        k = next(((ort, n) for n in namen if (ort, n) in eintrag), (ort, namen[0]))
         r = eintrag.get(k)
         if r:
             genutzt.add(k)

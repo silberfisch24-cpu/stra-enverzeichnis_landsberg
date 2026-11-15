@@ -21,10 +21,12 @@ def sauber(s):
 
 def zerlegen(name):
     """'Anger (Hausnr. 6 - 22)' -> ('Anger', '(Hausnr. 6 - 22)'); 'X ab Y bis Z' -> ('X', 'ab Y bis Z')"""
+    name = re.sub(r"\s*/\s*Ortsteil\s.*$", "", name)  # "Leipziger Straße/ Ortsteil Sietzsch"
+    name = re.sub(r"(\w)- (\w)", r"\1\2", name)  # Silbentrennung im PDF
     m = re.match(r"^(.*?)\s*(\(.*\))$", name)
     if m:
         return m.group(1), m.group(2)
-    m = re.match(r"^(.*?)\s+((?:ab|bis|Hausnr\.)\s.*)$", name)
+    m = re.match(r"^(.*?)\s+((?:ab|bis|Hausnr\.|zwischen|Einmündung)\s.*)$", name)
     if m:
         return m.group(1), m.group(2)
     return name, ""

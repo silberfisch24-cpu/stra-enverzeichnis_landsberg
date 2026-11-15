@@ -255,7 +255,7 @@ Oppin,Junkerstraße,Junkerstraße,,S,,,B,A,B
 Oppin,Kastanienstraße,Kastanienstraße,,S,,,A,A,A
 Oppin,Otto-Lilienthal-Straße,Otto-Lilienthal-Straße,,S,,,B,A,B
 Oppin,Lindenallee,Lindenallee,,S,,,B,A,B
-Oppin,Maschwitzer Straße Einmündung Alte Haupt- straße bis Krezuzung Singdrosselweg,Maschwitzer Straße Einmündung Alte Haupt- straße,bis Krezuzung Singdrosselweg,S,,,A,A,B
+Oppin,Maschwitzer Straße Einmündung Alte Haupt- straße bis Krezuzung Singdrosselweg,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,S,,,A,A,B
 Oppin,Maschwitzer Straße Hausnr. 7 bis 8 a,Maschwitzer Straße,Hausnr. 7 bis 8 a,gemischt,,,A,A,A
 Oppin,Narzissenweg,Narzissenweg,,S,,,A,A,A
 Oppin,Nelkenweg,Nelkenweg,,S,,,A,A,B
@@ -271,7 +271,7 @@ Oppin,Terrassenweg,Terrassenweg,,S,,,A,A,A
 Oppin,Tulpenweg,Tulpenweg,,S,,,A,A,A
 Oppin,Veilchenweg,Veilchenweg,,S,,,A,A,A
 Oppin,Wiesenstraße,Wiesenstraße,,S,,,A,A,B
-Oppin,Windmühlenweg zwischen Lindenstraße und Maschwitzer Straße,Windmühlenweg zwischen Lindenstraße und Maschwitzer Straße,,S,,,A,A,B
+Oppin,Windmühlenweg zwischen Lindenstraße und Maschwitzer Straße,Windmühlenweg,zwischen Lindenstraße und Maschwitzer Straße,S,,,A,A,B
 Oppin,Wurper Weg,Wurper Weg,,S,,,A,A,A
 Oppin,Zeppelin-Ring,Zeppelin-Ring,,S,,,A,A,A
 Peißen,Alte Gartenstraße,Alte Gartenstraße,,S,,,A,A,A
@@ -400,7 +400,7 @@ Sietzsch,Emsdorfer Platz,Emsdorfer Platz,,S,,,A,A,A
 Sietzsch,Emsdorfer Straße,Emsdorfer Straße,,K,,,B,A,B
 Sietzsch,Grüner Weg,Grüner Weg,,S,,,A,A,A
 Sietzsch,Hallesche Straße,Hallesche Straße,,K,,,B,A,B
-Sietzsch,Leipziger Straße/ Ortsteil Sietzsch,Leipziger Straße/ Ortsteil Sietzsch,,S,,,B,A,B
+Sietzsch,Leipziger Straße/ Ortsteil Sietzsch,Leipziger Straße,,S,,,B,A,B
 Sietzsch,Kirchweg,Kirchweg,,S,,,A,A,A
 Sietzsch,Mittelstraße,Mittelstraße,,S,,,B,A,B
 Sietzsch,Ostring,Ostring,,S,,,A,A,A
