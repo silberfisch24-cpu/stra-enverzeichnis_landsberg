@@ -9,6 +9,10 @@ SERVER = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.syst
 GEBIET = 'area["boundary"="administrative"]["admin_level"="8"]["name"="Landsberg"]["de:amtlicher_gemeindeschluessel"~"^15088"]->.g;'
 ABFRAGEN = {
     "osm_strassen.json": f'[out:json][timeout:180];{GEBIET}way(area.g)["highway"]["name"];out geom tags;',
+    # unbenannte Wege (Zufahrten, Stichwege): Abschnitte mit Hausnummern hängen oft an solchen Wegen
+    "osm_unbenannt.json": f'[out:json][timeout:180];{GEBIET}way(area.g)["highway"][!"name"]["highway"!~"^(footway|cycleway|steps|corridor|bridleway|proposed|construction|path|pedestrian|platform|elevator)$"];out geom tags;',
+    # Adresspunkte (Hausnummern) mit Mittelpunkt
+    "osm_adressen_roh.json": f'[out:json][timeout:180];{GEBIET}nwr(area.g)["addr:housenumber"];out center tags;',
     "osm_orte.json": f'[out:json][timeout:60];{GEBIET}(node(area.g)["place"];);out tags center;',
 }
 
@@ -29,5 +33,17 @@ def holen(q):
 
 for datei, q in ABFRAGEN.items():
     d = holen(q)
+    if datei == "osm_adressen_roh.json":  # nur nutzbare Felder behalten (Größe)
+        a = []
+        for e in d.get("elements", []):
+            c = e if "lat" in e else e.get("center", {})
+            t = e.get("tags", {})
+            if "lat" in c:
+                a.append({"lat": c["lat"], "lon": c["lon"], "hn": t.get("addr:housenumber", ""),
+                          "strasse": t.get("addr:street", ""), "ort": t.get("addr:place", "") or t.get("addr:suburb", "")})
+        d, datei = {"elements": a}, "osm_adressen.json"
+    elif datei == "osm_unbenannt.json":  # Tags auf das Nötige kürzen
+        for e in d.get("elements", []):
+            e["tags"] = {k: v for k, v in e.get("tags", {}).items() if k in ("highway", "service", "access", "ref", "surface")}
     (DATEN / datei).write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
     print(datei, len(d.get("elements", [])), "Elemente")
