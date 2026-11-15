@@ -15,6 +15,7 @@ FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemisc
 # OSM-Ortsnamen, die im Verzeichnis anders heißen (Ortsteil mit mehreren Punkten möglich)
 ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "Untermaschwitz": "Maschwitz"}
 ZUST = {"A": "Anlieger", "B": "Baulastträger"}
+KEINE_STRASSE = {"platform", "rest_area", "services", "steps"}  # Haltestellen, Rastplätze …: nur zeichnen, wenn im Verzeichnis
 NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
 
 
@@ -105,6 +106,8 @@ def main():
         if r and w["id"] in abschnitt:  # Abschnitt laut Zusatzzeile
             r = abschnitt[w["id"]]
             hinweis = f'Abschnitt {r["zusatz"].strip("()")}'
+        if not r and w["tags"].get("highway") in KEINE_STRASSE:
+            continue
         b = r["baulast"] if r else None
         feats.append({"type": "Feature",
                       "properties": {"osm_id": w["id"], "name": name, "ortsteil": ort, "baulast": NAME[b],
@@ -115,7 +118,7 @@ def main():
                                      "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5},
                       "geometry": {"type": "LineString", "coordinates": geo}})
         if not r:
-            offen_osm.append((ort, name))
+            offen_osm.append((ort, name, w["tags"].get("highway", "")))
     feats.sort(key=lambda f: f["properties"]["baulast"] == NAME[None], reverse=True)  # unzugeordnet unten
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
@@ -152,13 +155,13 @@ def main():
     (ROOT / "docs/offene-strassen.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     ohne_osm = [(k[0], v["strasse_original"]) for k, v in ohne_osm]
     with open(ROOT / "daten/nicht_zugeordnet.csv", "w", newline="", encoding="utf-8") as f:
-        w_ = csv.writer(f); w_.writerow(["art", "ortsteil", "strasse"])
-        w_.writerows(("Verzeichnis ohne OSM-Weg", o, s_) for o, s_ in sorted(ohne_osm))
-        w_.writerows(("OSM-Weg ohne Verzeichnis", o, s_) for o, s_ in sorted(set(offen_osm)))
+        w_ = csv.writer(f); w_.writerow(["art", "ortsteil", "strasse", "osm_typ"])
+        w_.writerows(("Verzeichnis ohne OSM-Weg", o, s_, "") for o, s_ in sorted(ohne_osm))
+        w_.writerows(("OSM-Weg ohne Verzeichnis", o, s_, t_) for o, s_, t_ in sorted(set(offen_osm)))
     from collections import Counter
     print("Status:", dict(Counter(genutzt.values())))
     print(f"{len(eintrag)} Straßen im Verzeichnis, davon {len(genutzt)} in OSM gefunden; "
-          f"{len(ohne_osm)} ohne OSM-Weg, {len(set(offen_osm))} OSM-Namen ohne Verzeichniseintrag")
+          f"{len(ohne_osm)} ohne OSM-Weg, {len({(a, b_) for a, b_, _ in offen_osm})} OSM-Namen ohne Verzeichniseintrag")
 
 
 if __name__ == "__main__":

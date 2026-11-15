@@ -1,52 +1,39 @@
-art,ortsteil,strasse
-Verzeichnis ohne OSM-Weg,Niemberg,Am Bahnübergang
-Verzeichnis ohne OSM-Weg,Niemberg,An der Bahn
-Verzeichnis ohne OSM-Weg,Plößnitz,Rosenhain
-Verzeichnis ohne OSM-Weg,Schwerz,Am Berge
-Verzeichnis ohne OSM-Weg,Sietzsch,Alte Salzstraße
-OSM-Weg ohne Verzeichnis,Braschwitz,"Braschwitz, Saarbrücker Straße"
-OSM-Weg ohne Verzeichnis,Braschwitz,Kreisstraße 2135
-OSM-Weg ohne Verzeichnis,Gollma,Gollmaer Weg
-OSM-Weg ohne Verzeichnis,Gollma,Schwätzer Weg
-OSM-Weg ohne Verzeichnis,Gütz,Einfahrt
-OSM-Weg ohne Verzeichnis,Gütz,Köthener Landstraße
-OSM-Weg ohne Verzeichnis,Gütz,"Landsberg, An der Mühle"
-OSM-Weg ohne Verzeichnis,Hohenthurm,"Hohenthurm, Alte Bahnhofstraße (3)"
-OSM-Weg ohne Verzeichnis,Hohenthurm,"Hohenthurm, S-Bahnhof"
-OSM-Weg ohne Verzeichnis,Hohenthurm,Schlagweg
-OSM-Weg ohne Verzeichnis,Landsberg,Galileistraße
-OSM-Weg ohne Verzeichnis,Landsberg,Hertzstraße
-OSM-Weg ohne Verzeichnis,Landsberg,Keplerstraße
-OSM-Weg ohne Verzeichnis,Landsberg,Köthener Landstraße
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Bahnhof"
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Grundschule"
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Schule (1)"
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Schule (2)"
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Schule (3)"
-OSM-Weg ohne Verzeichnis,Landsberg,"Landsberg, Schule (6)"
-OSM-Weg ohne Verzeichnis,Landsberg,Rosenstraße
-OSM-Weg ohne Verzeichnis,Landsberg,Zufahrt Malzfabrik
-OSM-Weg ohne Verzeichnis,Maschwitz,24-TOTAL Autohof Halle-Tornau
-OSM-Weg ohne Verzeichnis,Maschwitz,Am Autohof
-OSM-Weg ohne Verzeichnis,Maschwitz,Oppiner Weg
-OSM-Weg ohne Verzeichnis,Niemberg,"Niemberg, Schule"
-OSM-Weg ohne Verzeichnis,Niemberg,Südstraße (ex Hohenthurmer Straße)
-OSM-Weg ohne Verzeichnis,Oppin,Oppiner Weg
-OSM-Weg ohne Verzeichnis,Oppin,Petersberg
-OSM-Weg ohne Verzeichnis,Peißen,Hansaplatz
-OSM-Weg ohne Verzeichnis,Peißen,Wegastraße
-OSM-Weg ohne Verzeichnis,Petersdorf,An den Kastanien
-OSM-Weg ohne Verzeichnis,Petersdorf,"Wölls-Petersdorf, Neubau"
-OSM-Weg ohne Verzeichnis,Plößnitz,Flugplatz
-OSM-Weg ohne Verzeichnis,Queis,Am Rittergut
-OSM-Weg ohne Verzeichnis,Rabatz,Am Reidepark
-OSM-Weg ohne Verzeichnis,Rabatz,Waschstraße
-OSM-Weg ohne Verzeichnis,Reußen,Am Reußener Weg
-OSM-Weg ohne Verzeichnis,Sietzsch,Kapellenberg
-OSM-Weg ohne Verzeichnis,Spickendorf,Lemnitzer Weg
-OSM-Weg ohne Verzeichnis,Zwebendorf,Borstelstieg
-OSM-Weg ohne Verzeichnis,Zwebendorf,Polarisstraße
-OSM-Weg ohne Verzeichnis,Zwebendorf,Wegastraße
-OSM-Weg ohne Verzeichnis,Zöberitz,Mühlenweg
-OSM-Weg ohne Verzeichnis,Zöberitz,Rosenfelder Straße
-OSM-Weg ohne Verzeichnis,Zöberitz,"Zöberitz, Bahnhof"
+art,ortsteil,strasse,osm_typ
+Verzeichnis ohne OSM-Weg,Niemberg,Am Bahnübergang,
+Verzeichnis ohne OSM-Weg,Niemberg,An der Bahn,
+Verzeichnis ohne OSM-Weg,Plößnitz,Rosenhain,
+Verzeichnis ohne OSM-Weg,Schwerz,Am Berge,
+Verzeichnis ohne OSM-Weg,Sietzsch,Alte Salzstraße,
+OSM-Weg ohne Verzeichnis,Braschwitz,Kreisstraße 2135,tertiary
+OSM-Weg ohne Verzeichnis,Gollma,Gollmaer Weg,path
+OSM-Weg ohne Verzeichnis,Gollma,Schwätzer Weg,path
+OSM-Weg ohne Verzeichnis,Gütz,Einfahrt,service
+OSM-Weg ohne Verzeichnis,Hohenthurm,Schlagweg,secondary
+OSM-Weg ohne Verzeichnis,Landsberg,Galileistraße,residential
+OSM-Weg ohne Verzeichnis,Landsberg,Hertzstraße,residential
+OSM-Weg ohne Verzeichnis,Landsberg,Hertzstraße,unclassified
+OSM-Weg ohne Verzeichnis,Landsberg,Keplerstraße,residential
+OSM-Weg ohne Verzeichnis,Landsberg,Rosenstraße,service
+OSM-Weg ohne Verzeichnis,Landsberg,Zufahrt Malzfabrik,service
+OSM-Weg ohne Verzeichnis,Maschwitz,Am Autohof,residential
+OSM-Weg ohne Verzeichnis,Maschwitz,Oppiner Weg,residential
+OSM-Weg ohne Verzeichnis,Maschwitz,Oppiner Weg,service
+OSM-Weg ohne Verzeichnis,Maschwitz,Oppiner Weg,unclassified
+OSM-Weg ohne Verzeichnis,Oppin,Oppiner Weg,unclassified
+OSM-Weg ohne Verzeichnis,Peißen,Hansaplatz,service
+OSM-Weg ohne Verzeichnis,Peißen,Wegastraße,unclassified
+OSM-Weg ohne Verzeichnis,Petersdorf,An den Kastanien,residential
+OSM-Weg ohne Verzeichnis,Plößnitz,Flugplatz,residential
+OSM-Weg ohne Verzeichnis,Plößnitz,Flugplatz,service
+OSM-Weg ohne Verzeichnis,Queis,Am Rittergut,residential
+OSM-Weg ohne Verzeichnis,Rabatz,Am Reidepark,residential
+OSM-Weg ohne Verzeichnis,Rabatz,Waschstraße,service
+OSM-Weg ohne Verzeichnis,Reußen,Am Reußener Weg,track
+OSM-Weg ohne Verzeichnis,Spickendorf,Lemnitzer Weg,residential
+OSM-Weg ohne Verzeichnis,Zwebendorf,Borstelstieg,path
+OSM-Weg ohne Verzeichnis,Zwebendorf,Polarisstraße,unclassified
+OSM-Weg ohne Verzeichnis,Zwebendorf,Wegastraße,unclassified
+OSM-Weg ohne Verzeichnis,Zöberitz,Mühlenweg,path
+OSM-Weg ohne Verzeichnis,Zöberitz,Mühlenweg,residential
+OSM-Weg ohne Verzeichnis,Zöberitz,Rosenfelder Straße,tertiary
+OSM-Weg ohne Verzeichnis,Zöberitz,Rosenfelder Straße,trunk_link
