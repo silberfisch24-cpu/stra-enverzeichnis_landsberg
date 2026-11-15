@@ -50,16 +50,24 @@ def test_abschnitte_vollstaendig_und_wege_vorhanden():
     if not pu.exists():
         pytest.skip("osm_unbenannt.json fehlt (Workflow noch nicht gelaufen)")
     ids |= {e["id"] for e in json.loads(pu.read_text("utf-8"))["elements"]}
+    ps = ROOT / "daten/osm_sonstige.json"
+    if ps.exists():
+        ids |= {e["id"] for e in json.loads(ps.read_text("utf-8"))["elements"]}
     fehlt = [r["osm_way_id"] for r in absch if r["osm_way_id"].strip() and int(r["osm_way_id"]) not in ids]
     assert not fehlt, f"Weg-IDs nicht in den OSM-Dateien: {fehlt}"
 
 
-def test_hausnummern_filter():
-    f = geo.hausnummern_filter("(Hausnr. 1, 4 - 8 A)")
-    assert [f(x) for x in ("1", "2", "4", "8a", "8b", "9")] == [True, False, True, True, False, False]
-    f = geo.hausnummern_filter("(Hausnr. 2 A bis 2 E)")
-    assert f("2c") and not f("2") and not f("2f")
-    assert geo.hausnummern_filter("Zufahrt Hausnr. 4, 8")("8")
-    # Strecken und offene Angaben sind keine Nummernlisten
-    assert geo.hausnummern_filter("ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a") is None
-    assert geo.hausnummern_filter("(Hausnr. 43 bis Bahnhof)") is None
+
+def test_keine_wege_mit_landes_oder_kreisreferenz():
+    """Regel 10: Wege mit ref (L, K, B) bleiben beim Haupteintrag und stehen nie in abschnitte.csv."""
+    if not (ROOT / "daten/abschnitte.csv").exists() or not (ROOT / "daten/osm_unbenannt.json").exists():
+        pytest.skip("Daten fehlen")
+    refs = {}
+    for f in ("osm_strassen.json", "osm_unbenannt.json", "osm_sonstige.json"):
+        p = ROOT / "daten" / f
+        if p.exists():
+            for e in json.loads(p.read_text("utf-8"))["elements"]:
+                refs[e["id"]] = e.get("tags", {}).get("ref", "")
+    schlecht = [(r["strasse"], r["osm_way_id"], refs[int(r["osm_way_id"])]) for r in _lesen("abschnitte.csv")
+                if r["osm_way_id"].strip() and refs.get(int(r["osm_way_id"]), "")]
+    assert not schlecht, f"Wege mit ref in abschnitte.csv: {schlecht}"

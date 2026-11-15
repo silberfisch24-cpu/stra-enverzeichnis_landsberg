@@ -46,7 +46,7 @@ m.createPane('halo');m.getPane('halo').style.zIndex=395;m.getPane('halo').style.
 const ebenen={},nachId={};let g,zdaten=[],halo=L.layerGroup().addTo(m),zwahl='off',merkmale=[],pruefen=false,pruefLayer=L.layerGroup().addTo(m);
 function stil(f){const p=f.properties,c=ANSICHTEN[ansicht].farbe(p);
  const aus=(ort&&p.ortsteil!==ort)||(!c&&!zeigeGrau);
- return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null};}
+ return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null,fillColor:c||GRAU,fillOpacity:aus?0:0.4};}
 function popup(p){const z=(a,w)=>w?`${a}: ${Z[w]}`:'';
  return `<b>${p.name}</b><br>${p.ortsteil}`+(p.baulast!=='nicht im Verzeichnis'?
   `<br>Baulast: ${p.baulast}<br>${z('Reinigung Fahrbahn',p.reinigung)}<br>${z('Winterdienst Fahrbahn',p.winterdienst)}<br>${z('Gehweg',p.gehweg)}`+
@@ -91,7 +91,7 @@ function zliste(){const c=ctl.getContainer(),z=zdaten.filter(x=>!ort||x.ortsteil
 // Überlagerung "Zuordnung prüfen": vermutete Zuordnungen (mittel/niedrig, Strecken) auf der Verzeichnisfarbe
 function zeigePruefen(){pruefLayer.clearLayers();if(!pruefen)return;
  merkmale.forEach(f=>{const p=f.properties;if(ort&&p.ortsteil!==ort)return;
-  L.polyline(f.geometry.coordinates.map(c=>[c[1],c[0]]),{pane:'pruef',color:'#ffe34d',weight:14,opacity:.6,lineCap:'round',lineJoin:'round'}).addTo(pruefLayer);});}
+  L.polyline((f.geometry.type==='Polygon'?f.geometry.coordinates[0]:f.geometry.coordinates).map(c=>[c[1],c[0]]),{pane:'pruef',color:'#ffe34d',weight:14,opacity:.6,lineCap:'round',lineJoin:'round'}).addTo(pruefLayer);});}
 function linien(ids){return ids.map(i=>nachId[i]).filter(Boolean);}
 function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelector('#zi');info.innerHTML='';
  const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten.filter(x=>!ort||x.ortsteil===ort):zdaten.filter(x=>String(x.id)===zwahl);

@@ -11,7 +11,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from geo import hausnummern_filter, laenge as weg_laenge, projektion, zerlege  # noqa: E402
+from geo import laenge as weg_laenge, projektion, zerlege  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
@@ -59,7 +59,7 @@ def abstand(a, b):
     return math.hypot((a[0] - b[0]) * math.cos(math.radians(a[1])), a[1] - b[1])
 
 
-def merkmal(wid, name, ort, teil, r, hinweis, status, pl):
+def merkmal(wid, name, ort, teil, r, hinweis, status, pl, flaeche=False):
     """Ein Kartenmerkmal; pl = Abschnitt (Nutzlast aus abschnitte.csv) überschreibt die Verzeichniszeile."""
     extra = {}
     if pl:
@@ -74,7 +74,8 @@ def merkmal(wid, name, ort, teil, r, hinweis, status, pl):
                            "gehweg": r["reinigung_gehweg"] if r else "", "art": r["strassenart"] if r else "",
                            "osm_status": status if r else "nicht im Verzeichnis",
                            "stroke": FARBE[b], "stroke-width": 4 if r else 2, "stroke-opacity": 0.9 if r else 0.5, **extra},
-            "geometry": {"type": "LineString", "coordinates": [list(q) for q in teil]}}
+            "geometry": ({"type": "Polygon", "coordinates": [[list(q) for q in teil]]} if flaeche
+                         else {"type": "LineString", "coordinates": [list(q) for q in teil]})}
 
 
 def main():
@@ -106,41 +107,18 @@ def main():
                 unben[e["id"]] = g
     geom = {w["id"]: [(q["lon"], q["lat"]) for q in w.get("geometry", [])] for w in wege}
     geom.update(unben)
+    flaechen = set()  # geschlossene Wege ohne highway (z. B. landuse=grass): als Fläche zeichnen
+    ps = ROOT / "daten/osm_sonstige.json"
+    if ps.exists():
+        for e in json.loads(ps.read_text("utf-8"))["elements"]:
+            g = [(q["lon"], q["lat"]) for q in e.get("geometry", [])]
+            if len(g) >= 2:
+                geom[e["id"]] = g
+                if "highway" not in e.get("tags", {}) and len(g) >= 4 and g[0] == g[-1]:
+                    flaechen.add(e["id"])
     zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
     faelle = {k: i for i, k in enumerate(sorted(zeilen))}
     schnitte = defaultdict(list)  # Weg-ID -> [(s0, s1, Nutzlast)] (Bogenlängen in m)
-    adr_je_strasse = defaultdict(list)
-    pa = ROOT / "daten/osm_adressen.json"
-    if pa.exists():
-        for ad in json.loads(pa.read_text("utf-8"))["elements"]:
-            adr_je_strasse[norm(ad["strasse"])].append(ad)
-    wege_des_falls = defaultdict(set)
-    for a in absch:
-        if a["osm_way_id"].strip().isdigit() and int(a["osm_way_id"]) in geom:
-            wege_des_falls[(a["ortsteil"], a["strasse"], a["zusatz"])].add(int(a["osm_way_id"]))
-    gekuerzt = []
-
-    def kuerzen(a, key, wid, g):
-        """Langer Weg, der laut Adressen nur zum Teil zum Zusatz gehört: Spanne der zugehörigen Adressen ±15 m.
-        Zugehörig = Adresse mit passender Hausnummer, deren nächster Weg unter den Wegen dieses Falls dieser Weg ist (≤ 45 m)."""
-        pr = hausnummern_filter(a["zusatz"])
-        L = weg_laenge(g)
-        if not pr or a["grundlage"] != "Adressen" or a["art"] in ("D", "E") or L <= 70:
-            return None
-        ss = []
-        for ad in adr_je_strasse.get(norm(a["strasse"]), []):
-            if not pr(ad["hn"]):
-                continue
-            p = (ad["lon"], ad["lat"])
-            nah = min(wege_des_falls[key], key=lambda i: projektion(geom[i], p)[1])
-            sd = projektion(g, p)
-            if nah == wid and sd[1] <= 45:
-                ss.append(sd[0])
-        if not ss:
-            return None
-        lo, hi = max(0.0, min(ss) - 15), min(L, max(ss) + 15)
-        return (lo, hi) if hi - lo < 0.85 * L else None
-
     for a in absch:
         key = (a["ortsteil"], a["strasse"], a["zusatz"])
         wid = a["osm_way_id"].strip()
@@ -154,14 +132,8 @@ def main():
             s0 = projektion(g, (float(a["von_lon"]), float(a["von_lat"])))[0]
             s1 = projektion(g, (float(a["bis_lon"]), float(a["bis_lat"])))[0]
         else:
-            s0, s1 = 0.0, weg_laenge(g)
-            k_ = kuerzen(a, key, int(wid), g)
-            if k_:
-                (s0, s1), a = k_, {**a, "notiz": (a["notiz"] + " | " if a["notiz"] else "") + "automatisch auf die Lage der Adressen gekürzt"}
-                gekuerzt.append((a["ortsteil"], a["strasse"], a["zusatz"], int(wid), round(weg_laenge(g)), round(s1 - s0)))
+            s0, s1 = 0.0, weg_laenge(g)  # ganzer Weg (Regel: Stichwege werden immer ganz zugeordnet)
         schnitte[int(wid)].append((min(s0, s1), max(s0, s1), {"zeile": zeilen[key], "a": a, "fall": faelle[key]}))
-    for g_ in gekuerzt:
-        print("gekürzt:", g_)
 
     def stuecke(wid, geo):
         return zerlege(geo, schnitte[wid]) if wid in schnitte else [(geo, None)]
@@ -197,13 +169,14 @@ def main():
         if not r:
             offen_osm.append((ort, name, w["tags"].get("highway", "")))
     benannt = {w["id"] for w in wege}
-    for wid in schnitte:  # unbenannte Wege: nur die Abschnitte zeichnen, Rest hat keine Verzeichnisangabe
+    for wid in schnitte:  # unbenannte Wege und Flächen: nur die Abschnitte zeichnen, Rest hat keine Verzeichnisangabe
         if wid in benannt:
             continue
         for teil, pl in stuecke(wid, geom[wid]):
             if pl:
                 z = pl["zeile"]
-                feats.append(merkmal(wid, f'{z["strasse"]} (unbenannter Weg)', z["ortsteil"], teil, None, "", "", pl))
+                nm = f'{z["strasse"]} ({"Fläche" if wid in flaechen else "unbenannter Weg"})'
+                feats.append(merkmal(wid, nm, z["ortsteil"], teil, None, "", "", pl, flaeche=wid in flaechen))
     feats.sort(key=lambda f: f["properties"]["baulast"] == NAME[None], reverse=True)  # unzugeordnet unten
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs/strassen.geojson").write_text(
@@ -227,7 +200,9 @@ def main():
     linien = defaultdict(list)
     for f_ in feats:
         if "fall" in f_["properties"]:
-            linien[f_["properties"]["fall"]].append([[c[1], c[0]] for c in f_["geometry"]["coordinates"]])
+            cc = f_["geometry"]["coordinates"]
+            cc = cc[0] if f_["geometry"]["type"] == "Polygon" else cc
+            linien[f_["properties"]["fall"]].append([[c[1], c[0]] for c in cc])
     rang = {"hoch": 0, "mittel": 1, "niedrig": 2}
     zj = []
     for key, i in sorted(faelle.items(), key=lambda kv: kv[1]):
