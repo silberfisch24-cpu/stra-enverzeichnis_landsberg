@@ -155,7 +155,11 @@ def main():
         kz = (x["ortsteil"], x["strasse"], x["zusatz"])
         zj.append({"id": len(zj), "ortsteil": x["ortsteil"], "strasse": x["strasse"], "zusatz": x["zusatz"].strip("()"),
                    "baulast": x["baulast"], "reinigung": x["reinigung"], "winterdienst": x["winterdienst"],
-                   "haupteintrag": x["haupteintrag"], "wege": zugeordnet.get(kz, []),
+                   "haupt": (None if x["haupteintrag"].startswith("(nur") else
+                            {"baulast": NAME[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["baulast"]],
+                             "reinigung": ZUST[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["reinigung_fahrbahn"]],
+                             "winterdienst": ZUST[eintrag[(r_["ortsteil"], norm(r_["strasse"]))]["winterdienst"]]}),
+                   "wege": zugeordnet.get(kz, []),
                    "strassenwege": [i for i, _ in wege_je_strasse[(r_["ortsteil"], norm(r_["strasse"]))]],
                    "notiz": notizen.get(kz, ""),
                    # Wege, die laut Notiz die Hausnummern/den Zusatz (teilweise) tragen: nur diese markieren, nicht die ganze Straße

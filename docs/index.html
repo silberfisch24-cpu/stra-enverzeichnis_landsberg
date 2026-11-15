@@ -7,7 +7,14 @@ html,body,#k{height:100%;margin:0}
 .box{background:#fff;padding:8px 10px;border-radius:6px;font:13px/1.5 system-ui;box-shadow:0 1px 4px #0005}
 .box i{display:inline-block;width:22px;height:4px;margin-right:6px;vertical-align:middle}
 .box label{display:block;cursor:pointer}.box select{width:100%;margin:4px 0;font:13px system-ui}
-#zi{white-space:normal;margin-top:4px}
+#zl{max-height:170px;overflow:auto;border:1px solid #ddd;border-radius:4px;padding:2px 4px;margin:4px 0}
+#zl label{margin:0;padding:1px 0}#zl .og{font-weight:600;font-size:12px;color:#555;margin-top:4px}
+.box .zz small{color:#666}.box .rg label{display:inline-block;margin-right:12px}
+#zi{margin-top:6px;width:310px}#zi .t{font-weight:600}#zi .s{color:#666;font-size:12px;margin-bottom:4px}
+#zi table{border-collapse:collapse;width:100%;font-size:12.5px;margin:4px 0}
+#zi th{font-weight:600;text-align:left;color:#555;border-bottom:1px solid #ccc;padding:1px 6px 1px 0}#zi td{padding:1px 6px 1px 0}
+#zi .st{padding:4px 6px;border-left:3px solid #111;background:#f3f3f3;font-size:12.5px}
+#zi .st.off{border-left-style:dashed}#zi details{margin-top:4px;font-size:12px;color:#666}
 #s{position:absolute;z-index:1000;top:10px;left:50px;padding:6px;font:14px system-ui;width:200px}
 </style></head>
 <body><input id="s" placeholder="Straße suchen …" list="l"><datalist id="l"></datalist><div id="k"></div>
@@ -53,23 +60,25 @@ ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickProp
  <select id="o"><option value="">alle Ortsteile</option></select>
  <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>
  <hr style="margin:6px 0"><b>Geteilte Straßen</b>
- <select id="z"><option value="off">Deaktiviert</option><option value="all">Alle</option></select><div id="zi" style="max-width:300px"></div>`;
- d.querySelector('#z').onchange=e=>{zwahl=e.target.value;zeige(true);};
+ <div class="rg"><label><input type="radio" name="zr" value="off" checked> Deaktiviert</label><label><input type="radio" name="zr" value="all"> Alle (<span id="zn">0</span>)</label></div>
+ <div id="zl"></div><div id="zi"></div>`;
+ d.addEventListener('change',e=>{if(e.target.name==='zr'){zwahl=e.target.value;zeige(true);}});
  d.querySelector('#a').onchange=e=>{ansicht=e.target.value;aktual();};
  d.querySelector('#o').onchange=e=>{ort=e.target.value;aktual();zliste();if(ort&&g){const b=L.featureGroup(g.getLayers().filter(l=>l.feature.properties.ortsteil===ort)).getBounds();if(b.isValid())m.fitBounds(b.pad(.1));}};
  d.querySelector('#gr').onchange=e=>{zeigeGrau=e.target.checked;aktual();};return d;};
 ctl.addTo(m);
 fetch('zusatz.json').then(r=>r.json()).then(z=>{zdaten=z;zliste();});
-// Auswahlliste der Teilbereiche; folgt dem Ortsteil-Filter
-function zliste(){const sel=ctl.getContainer().querySelector('#z');const z=zdaten.filter(x=>!ort||x.ortsteil===ort);
- while(sel.options.length>2)sel.remove(2);sel.querySelector('optgroup')?.remove();
- sel.options[1].text=`Alle (${z.length})`;
- const og=document.createElement('optgroup');og.label='Teilbereiche (● zugeordnet, ○ Zuordnung offen)';
- z.slice().sort((a,b)=>(a.ortsteil+a.strasse+a.zusatz).localeCompare(b.ortsteil+b.strasse+b.zusatz,'de')).forEach(x=>{
-  const o=document.createElement('option');o.value=x.id;o.text=`${x.wege.length?'●':'○'} ${ort?'':x.ortsteil+': '}${x.strasse} (${x.zusatz})`;og.appendChild(o);});
- sel.appendChild(og);
+// Liste der Teilbereiche (folgt dem Ortsteil-Filter): ● eingezeichnet, ○ noch nicht genau verortet
+function zliste(){const c=ctl.getContainer(),z=zdaten.filter(x=>!ort||x.ortsteil===ort);
+ c.querySelector('#zn').textContent=z.length;
  if(zwahl!=='off'&&zwahl!=='all'&&!z.some(x=>String(x.id)===zwahl))zwahl='off';
- sel.value=zwahl;zeige(false);}
+ const sort=z.slice().sort((a,b)=>(a.ortsteil+a.strasse+a.zusatz).localeCompare(b.ortsteil+b.strasse+b.zusatz,'de'));
+ let h='',last='';
+ sort.forEach(x=>{if(!ort&&x.ortsteil!==last){last=x.ortsteil;h+=`<div class="og">${last}</div>`;}
+  h+=`<label class="zz"><input type="radio" name="zr" value="${x.id}"> ${x.wege.length?'●':'○'} ${x.strasse} <small>${x.zusatz}</small></label>`;});
+ c.querySelector('#zl').innerHTML=h||'<small>keine</small>';
+ const r=c.querySelector(`input[name=zr][value="${zwahl}"]`);if(r)r.checked=true;
+ zeige(false);}
 function linien(ids){return ids.map(i=>nachId[i]).filter(Boolean);}
 function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelector('#zi');info.innerHTML='';
  const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten.filter(x=>!ort||x.ortsteil===ort):zdaten.filter(x=>String(x.id)===zwahl);
@@ -77,9 +86,15 @@ function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelec
  wahl.forEach(x=>{const offen=!x.wege.length;
   linien(offen?(x.kandidaten.length?x.kandidaten:x.strassenwege):x.wege).forEach(l=>{alle.push(l);
    L.polyline(l.getLatLngs(),{pane:'halo',color:'#111',weight:offen?7:8,opacity:offen?0.5:0.65,dashArray:offen?'5 5':null,lineCap:'butt',lineJoin:'round'}).addTo(halo);});});
- if(zwahl!=='off'&&zwahl!=='all'&&wahl[0]){const x=wahl[0];
-  info.innerHTML=`<br><b>${x.strasse} (${x.zusatz})</b><br>Baulast: ${x.baulast}, Reinigung: ${x.reinigung}, Winterdienst: ${x.winterdienst}<br>Rest der Straße: ${x.haupteintrag}`+
-   (x.wege.length?`<br><em>${x.wege.length} Weg(e) zugeordnet</em>`:`<br><em>Zuordnung offen – ${x.kandidaten.length?'der Weg mit den Hausnummern ist gestrichelt markiert (der Zusatz betrifft nur einen Teil davon)':'ganze Straße gestrichelt markiert'}. ${x.notiz}</em>`);
+ if(zwahl!=='off'&&zwahl!=='all'&&wahl[0]){const x=wahl[0],h=x.haupt;
+  const w=(c,b)=>c==='Anlieger'?'Anlieger':b;   // "Baulastträger" = der Träger der Baulast der jeweiligen Zeile
+  const zeile=(n,a,b)=>`<tr><td>${n}</td><td>${a}</td><td>${h?b:'–'}</td></tr>`;
+  const status=x.wege.length?`<div class="st">● Auf der Karte dunkel hinterlegt (${x.wege.length} Wegstück${x.wege.length>1?'e':''}).</div>`
+   :`<div class="st off">○ Noch nicht genau eingezeichnet. ${x.kandidaten.length?'Markiert ist der Weg, an dem die Hausnummern liegen. Der Abschnitt gilt nur für einen Teil davon.':'Markiert ist die ganze Straße; wo genau der Abschnitt liegt, lässt sich aus den Kartendaten nicht eindeutig bestimmen.'}</div>`;
+  info.innerHTML=`<div class="t">${x.strasse} – ${x.zusatz}</div><div class="s">${x.ortsteil}</div>
+   <table><tr><th></th><th>Dieser Abschnitt</th><th>Übrige Straße</th></tr>
+   ${zeile('Baulast',x.baulast,h&&h.baulast)}${zeile('Reinigung',w(x.reinigung,x.baulast),h&&w(h.reinigung,h.baulast))}${zeile('Winterdienst',w(x.winterdienst,x.baulast),h&&w(h.winterdienst,h.baulast))}</table>
+   ${status}${!x.wege.length&&x.notiz?`<details><summary>Prüfhinweis</summary>${x.notiz}</details>`:''}`;
   if(zoom&&alle.length)m.fitBounds(L.featureGroup(alle).getBounds().pad(.4));}
  legende();}
 const leg=L.control({position:'bottomright'});leg.onAdd=()=>L.DomUtil.create('div','box');leg.addTo(m);
