@@ -1,0 +1,30 @@
+ortsteil,strasse,osm_way_id,baulast,konfidenz,grundlage,notiz
+Bageritz,Queiser Straße,1213846720,S,hoch,Name,"Verzeichnis: innerorts ab Kreuzung S; Umgehungsstraße K. Ortsdurchfahrt ab Kreuzung mit der K 2142 nach Westen"
+Bageritz,Queiser Straße,1422089391,S,hoch,Name,Ortsdurchfahrt ab Kreuzung K 2142
+Bageritz,Queiser Straße,33102130,S,hoch,Name,Ortsdurchfahrt durch das Dorf
+Bageritz,Queiser Straße,1213846719,S,mittel,Name,"Westlicher Teil bis zum Dorfende; Ortsgrenze in OSM nicht erkennbar, ggf. kürzen"
+Bageritz,Queiser Straße,24781141,K,mittel,sonstiges,"Umgehungsstraße = K 2142 am Dorf vorbei (Kreuzung); trägt in OSM keinen Namen, Zuordnung über ref"
+Bageritz,Queiser Straße,33102143,K,mittel,sonstiges,K 2142 nördlich der Kreuzung
+Bageritz,Queiser Straße,1422089395,K,mittel,sonstiges,K 2142 südlich der Kreuzung
+Peißen,Orionstraße,27517054,Halle,hoch,Name,"Verzeichnis nennt Stadt Halle als Baulastträger (nicht Landsberg); alle Wege mit Namen Orionstraße"
+Peißen,Orionstraße,121517802,Halle,hoch,Name,
+Peißen,Orionstraße,121517803,Halle,hoch,Name,
+Peißen,Orionstraße,217464982,Halle,hoch,Name,
+Peißen,Orionstraße,1055637985,Halle,hoch,Name,
+Peißen,Orionstraße,1055637986,Halle,hoch,Name,
+Peißen,Orionstraße,531464794,Halle,hoch,Name,
+Peißen,Orionstraße,666645884,Halle,hoch,Name,
+Peißen,Orionstraße,158001541,Halle,hoch,Name,
+Peißen,Orionstraße,161790146,Halle,hoch,Name,tertiary_link
+Peißen,Orionstraße,398491122,Halle,hoch,Name,
+Peißen,Orionstraße,1243666538,Halle,hoch,Name,
+Peißen,Orionstraße,541276682,Halle,hoch,Name,
+Peißen,Orionstraße,673988157,Halle,hoch,Name,
+Zöberitz,Zur Straßenmeisterei,162731489,S,niedrig,Name,"Verzeichnis: Teilweise S und P ohne Ortsangabe. Vermutung: öffentliche Zufahrt S, Gelände der Straßenmeisterei P; bitte bestätigen"
+Zöberitz,Zur Straßenmeisterei,1222295398,S,niedrig,Name,Vermutung wie oben
+Zöberitz,Zur Straßenmeisterei,54522579,S,niedrig,Name,Vermutung wie oben
+Zöberitz,Zur Straßenmeisterei,54522588,P,niedrig,Name,Vermutung: Weg auf dem Gelände der Straßenmeisterei
+Zöberitz,Autobahnsiedlung,54523022,gemischt,niedrig,Name,"Verzeichnis: Teilweise S, BRD, DB Netz AG ohne Ortsangabe; ein einziger OSM-Weg (ca. 280 m), nicht teilbar ohne Ortskenntnis"
+Niemberg,Alte Gärtnerei,164841627,unbekannt,niedrig,Name,"Verzeichnis: Baulast A (ungültig, A = Anlieger); Reinigung und Winterdienst A"
+Niemberg,Alte Gärtnerei,1437156874,unbekannt,niedrig,Name,wie oben
+Oppin,Maschwitzer Straße,36273959,unbekannt,niedrig,Name,"Zusatzzeile Hausnr. 7 bis 8 a: Baulast im Verzeichnis leer; Reinigung und Winterdienst A (Weg siehe abschnitte.csv)"
