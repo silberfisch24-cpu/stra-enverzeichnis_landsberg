@@ -1,1 +1,73 @@
 ortsteil,strasse,zusatz,osm_way_id,teilstueck,konfidenz,notiz
+Braschwitz,Brunnenstraße,(Hausnr. 4 - 6),,,,Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 292033808: 1 von 4 Adressen (4)); Mehrheit des Weges gehört nicht zum Zusatz
+Braschwitz,Zöberitzer Weg,(Hausnr. 17 - 18),,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 292822801: 2 von 24 Adressen (17,18)); Mehrheit des Weges gehört nicht zum Zusatz"
+Braschwitz,Zöberitzer Weg,(Hausnr. 2 A bis 2 E),33046424,ganz,hoch,"Hausnummern 2a,2b,2c,2d liegen an diesem Weg (alle 4 Adressen des Weges)"
+Braschwitz,Zöberitzer Weg,(Hausnr. 2 A bis 2 E),40463143,ganz,mittel,Hausnummern 2e liegen an diesem Weg (alle 1 Adressen des Weges)
+Dammendorf,Anger,(Hausnr. 6 - 22),,,,Keine passenden Hausnummern in OSM an den Wegen dieser Straße; nicht entscheidbar
+Dammendorf,Ernst-Thälmann-Straße,(Hausnr. 1 - 7),109708394,ganz,hoch,"Hausnummern 1,2,3,4,5,6,7 liegen an diesem Weg (alle 7 Adressen des Weges)"
+Gollma,Schkeuditzer Straße,(Hausnr. 6 - 20),1213533097,ganz,hoch,"Hausnummern 6,7a,7b,7c,7d,7e,8,9,12 liegen an diesem Weg (alle 9 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 33103043: 1 von 10 Adressen (7)"
+Gollma,Schkeuditzer Straße,(Hausnr. 6 - 20),1421745020,ganz,hoch,"Hausnummern 7h,7i,7j,13,14,15,16,17,18,19,19a,20 liegen an diesem Weg (alle 14 Adressen des Weges)"
+Gütz,Am Landrain,(Hausnr. 8 A - 8 E),,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 40353466: 5 von 17 Adressen (8a,8b,8c,8d,8e)); Mehrheit des Weges gehört nicht zum Zusatz"
+Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),30277394,ganz,hoch,"Hausnummern 16,17 liegen an diesem Weg (alle 2 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 39976868: 3 von 9 Adressen (25,28,29)"
+Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),30277396,ganz,hoch,"Hausnummern 18,19,20,22,23,24,26,27,30,31,32,33 liegen an diesem Weg (alle 12 Adressen des Weges)"
+Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),260498100,ganz,hoch,"Hausnummern 13,14,15 liegen an diesem Weg (alle 3 Adressen des Weges)"
+Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),1421567937,ganz,mittel,Hausnummern 21 liegen an diesem Weg (alle 1 Adressen des Weges)
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 1 - 11),188144125,ganz,mittel,"Hausnummern 1,2,3,4,5,6,7,8,10,10a,11 liegen an diesem Weg (11 von 15 Adressen des Weges)"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 14 - 17),,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 164902406: 4 von 59 Adressen (14,15,16,17)); Mehrheit des Weges gehört nicht zum Zusatz"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 42 - 42 D),27016990,ganz,mittel,"Hausnummern 42a,42b,42c liegen an diesem Weg (3 von 4 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 459207003: 1 von 3 Adressen (42)"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),459207002,ganz,hoch,"Hausnummern 45,46,47,48,48b liegen an diesem Weg (alle 5 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 164902406: 27 von 59 Adressen (60-84); Weg 188144125: 3 von 15 Adressen (87,88,89); Weg 459207003: 1 von 3 Adressen (49)"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),459207004,ganz,hoch,"Hausnummern 43,43a,44 liegen an diesem Weg (alle 3 Adressen des Weges)"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),1363981750,ganz,mittel,"Hausnummern 50,51 liegen an diesem Weg (2 von 4 Adressen des Weges)"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),1391198285,ganz,mittel,"Hausnummern 52,53,54,55,56,57 liegen an diesem Weg (6 von 9 Adressen des Weges)"
+Hohenthurm,Berliner Straße,"(Hausnr. 41, 42)",,,,Keine passenden Hausnummern in OSM an den Wegen dieser Straße; nicht entscheidbar
+Hohenthurm,Niemberger Weg,"(Hausnr. 31, 33, 35)",,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 1422282328: 3 von 8 Adressen (31,33,35)); Mehrheit des Weges gehört nicht zum Zusatz"
+Hohenthurm,Niemberger Weg,"(Zufahrt Hausnr. 4, 8, 10, 12)",,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 164760501: 4 von 16 Adressen (4,8,10,12)); Mehrheit des Weges gehört nicht zum Zusatz"
+Landsberg,Leipziger Straße,(Hausnr. 36 A - 36 D),367942036,ganz,hoch,"Hausnummern 36a,36b,36c,36d liegen an diesem Weg (alle 4 Adressen des Weges)"
+Landsberg,Merseburger Straße,(Hausnr. 17 - 17 C),258736089,ganz,mittel,"Hausnummern 17,17a,17b,17c liegen an diesem Weg (4 von 6 Adressen des Weges)"
+Landsberg,Robert-Schumann-Ring,(Hausnr 59 - 81),39975292,ganz,mittel,"Hausnummern 67,71,73,75,77,79,81 liegen an diesem Weg (7 von 14 Adressen des Weges)"
+Landsberg,Robert-Schumann-Ring,(Hausnr 59 - 81),461698341,ganz,hoch,"Hausnummern 59,63,65 liegen an diesem Weg (alle 3 Adressen des Weges)"
+Niemberg,An den Teichen,(Hausnr. 8),,,,Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 172519450: 1 von 3 Adressen (8)); Mehrheit des Weges gehört nicht zum Zusatz
+Oppin,Maschwitzer Straße,Hausnr. 7 bis 8 a,36273959,ganz,hoch,"Hausnummern 7,8,8a liegen an diesem Weg (alle 3 Adressen des Weges)"
+Peißen,Am Gewölbe,"(Hausnr. 1, 2, 6)",140859577,ganz,mittel,"Hausnummern 1,2,6 liegen an diesem Weg (3 von 4 Adressen des Weges)"
+Peißen,Alte Berliner Straße,(Hausnr. 1 - 4),176382295,ganz,hoch,"Hausnummern 1,2,2a,2b,4 liegen an diesem Weg (alle 6 Adressen des Weges)"
+Queis,Delitzscher Chaussee,"(Hausnr. 13, 15)",,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 24414112: 3 von 9 Adressen (13,15)); Mehrheit des Weges gehört nicht zum Zusatz"
+Reinsdorf,Friedensplatz,(Hausnr. 1),24478828,ganz,mittel,Hausnummern 1 liegen an diesem Weg (alle 1 Adressen des Weges)
+Reinsdorf,Merseburger Straße,"(Hausnr. 51, 52)",,,,"Nicht zugeordnet: Hausnummern liegen nur an einem Teilstück (Weg 24478795: 2 von 25 Adressen (51,52)); Mehrheit des Weges gehört nicht zum Zusatz"
+Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",82181444,ganz,hoch,"Hausnummern 1,4,5,6 liegen an diesem Weg (alle 4 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 31761719: 3 von 14 Adressen (7b,8,8a)"
+Reußen,Hauptstraße,(Hausnr. 30 - 32),82181439,ganz,mittel,"Hausnummern 30 liegen an diesem Weg (1 von 2 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 31761719: 1 von 14 Adressen (32)"
+Reußen,Hauptstraße,(Hausnr. 30 - 32),1421991016,ganz,mittel,Hausnummern 31 liegen an diesem Weg (alle 1 Adressen des Weges)
+Reußen,Neue Bahnhofstraße,(Hausnr. 26 A - 34),82181462,ganz,mittel,"Hausnummern 26a,27,28b,29,29b,29c,29e,29f,29g,30,30a,31,32,33,34 liegen an diesem Weg (15 von 16 Adressen des Weges)"
+Schwerz,Hoffmannplatz,"(Hausnr. 8, 9)",164841650,ganz,mittel,"Hausnummern 8,9 liegen an diesem Weg (3 von 5 Adressen des Weges)"
+Stichelsdorf,Stichelsdorfer Straße,(Hausnr. 6 - 21),26169750,ganz,hoch,"Hausnummern 9,10,11,12,13,14,15,16,17,18 liegen an diesem Weg (alle 10 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 26817831: 1 von 7 Adressen (6)"
+Stichelsdorf,Stichelsdorfer Straße,(Hausnr. 6 - 21),26817811,ganz,hoch,"Hausnummern 19,20 liegen an diesem Weg (alle 2 Adressen des Weges)"
+Stichelsdorf,Stichelsdorfer Straße,(Hausnr. 6 - 21),1390958852,ganz,mittel,"Hausnummern 7,8,21 liegen an diesem Weg (3 von 4 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),53865919,ganz,mittel,"Hausnummern 2 liegen an diesem Weg (alle 1 Adressen des Weges). Nicht zugeordnet (nur Teilstück, Minderheit): Weg 153644436: 1 von 3 Adressen (14)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),55610634,ganz,hoch,"Hausnummern 6,7,8,9,10 liegen an diesem Weg (alle 5 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),151261586,ganz,hoch,"Hausnummern 2,3 liegen an diesem Weg (alle 2 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),151324321,ganz,hoch,"Hausnummern 4,15,16,17,18 liegen an diesem Weg (alle 5 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),484861965,ganz,hoch,"Hausnummern 5,5a,11,12 liegen an diesem Weg (alle 4 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),1185640725,ganz,hoch,"Hausnummern 1a,1b,1c,1d,20 liegen an diesem Weg (alle 6 Adressen des Weges)"
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),1422181869,ganz,mittel,Hausnummern 19 liegen an diesem Weg (1 von 2 Adressen des Weges)
+Zöberitz,Zum Rittergut,(Hausnr. 1 A - 21),1422181886,ganz,mittel,Hausnummern 13 liegen an diesem Weg (1 von 2 Adressen des Weges)
+Braschwitz,Schultze-Gallera-Weg,(Zufahrtsstraße Wohngebiet),,,,"Nicht entscheidbar: alle 6 Wege sind living_street und kurze Stichwege am Brühlweg; Kandidaten für die Zufahrt wären 151603582 (37 m, Brühlweg bis Kreuzung) und 106804057, aber keine eindeutige Abgrenzung zum Hauptteil"
+Dammendorf,Blumenstraße,Rondell Dorfplatz,28731056,ganz,mittel,"Wege 28731056, 975460640 und 390526327 bilden einen geschlossenen Ring (ca. 69 m) neben Kirche und Feuerwehr; Rondell vermutet, in OSM nicht ausdrücklich benannt"
+Dammendorf,Blumenstraße,Rondell Dorfplatz,975460640,ganz,mittel,Teil des Rings um den Dorfplatz (siehe 28731056)
+Dammendorf,Blumenstraße,Rondell Dorfplatz,390526327,ganz,mittel,Teil des Rings um den Dorfplatz (siehe 28731056)
+Gütz,Zörbiger Straße,(Zufahrt EKZ),41123482,ganz,mittel,"Einziger nicht als secondary geführter Abzweig der Zörbiger Straße (residential, 194 m), etwa 60 m von Penny und Einzelhandelsfläche; Zufahrt zum Einkaufszentrum plausibel, nicht eindeutig benannt"
+Hohenthurm,Berliner Straße,(ab Kreuzung Steinbruch bis Sackgasse),1422256661,ganz,hoch,Beginnt an der Kreuzung Berliner Straße/Am Steinbruch (Knoten 9906765227) und endet nach 493 m als Sackgasse (Knoten 267374646)
+Hohenthurm,Steinbruch,(ab Kreuzung Schwarzer Weg bis Mühlberg),,,,"Nicht entscheidbar: Kreuzung Am Schwarzen Weg und Mühlberg liegen am selben Knoten (268927419) am Südende von Weg 186919779 (242 m); Strecke daher unklar, Kandidat 186919779"
+Klepzig,Kirchstraße,(ab Kirche),,,,"Nicht entscheidbar: Kirche St. Marien und Pankratius liegt etwa 25 m vom Weg 224875935 (163 m); Richtung der Strecke unklar, Kandidaten 224875935 und 147041674"
+Maschwitz,An der Schenke,ab Kreuzung Siedlung bis An der Schenke Hausnr. 13,,,,"Nicht zugeordnet: Weg 31966337 (218 m) enthält beide Zusatzzeilen; dieser Abschnitt (Kreuzung Siedlung bis Hausnr. 13) umfasst nur etwa 70 m, also etwa 32 % des Weges"
+Maschwitz,An der Schenke,ab Hausnr. 13,31966337,teil,mittel,"Abschnitt ab Hausnr. 13 bis zum Ende (Sackgasse, Knoten 358114052) umfasst etwa 148 von 218 m (68 %); Grenze bei Hausnr. 13, etwa 148 m vom Sackgassenende, Richtung nach Lage der Hausnummern angenommen"
+Oppin,Am Domhof,ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a,25002057,ganz,hoch,Beginnt an der Einmündung Alte Hauptstraße (Knoten 271796471)
+Oppin,Am Domhof,ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a,1086149305,ganz,hoch,"Verbindet Kreuzung Am Domhof/Burggraben mit dem Folgeweg, liegt vor Hausnr. 6 a"
+Oppin,Am Domhof,ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a,54643641,ganz,mittel,"Hausnr. 6 a liegt bei etwa 92 % der Weglänge (286 von 310 m), Weg daher fast vollständig im Abschnitt"
+Oppin,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,1436926886,ganz,hoch,Endet an der Einmündung Alte Hauptstraße (Knoten 13206878736); lückenlose Kette bis zur Kreuzung Singdrosselweg
+Oppin,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,1436926832,ganz,hoch,Teil der Kette Alte Hauptstraße bis Singdrosselweg (gemeinsame Knoten 4132434920 und 13206858779)
+Oppin,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,1436926831,ganz,hoch,Teil der Kette Alte Hauptstraße bis Singdrosselweg (Knoten 13206858779 und 13206858780)
+Oppin,Maschwitzer Straße,Einmündung Alte Hauptstraße bis Krezuzung Singdrosselweg,24619692,ganz,hoch,Beginnt an der Kreuzung Singdrosselweg/Oppiner Weg (Knoten 1096965376)
+Oppin,Windmühlenweg,zwischen Lindenstraße und Maschwitzer Straße,291864739,ganz,mittel,"Beginnt an der Maschwitzer Straße/Harsdorfer Straße (Knoten 267625502); in OSM gibt es keine Lindenstraße, nur Lindenallee in der Nähe des Westendes, Kreuzung nicht eindeutig"
+Zwebendorf,Reideburger Straße,(zwischen Kreuzung L168 und Hausnr. 5 a),106553840,ganz,mittel,"Beginnt an der Kreuzung L 168/Klepziger Straße (Knoten 265052700); Hausnr. 5 a ist in OSM nicht vorhanden, Hausnr. 5 liegt am Weg 27517011 (nicht zugeordnet)"
+Zwebendorf,Reideburger Straße,(zwischen Kreuzung L168 und Hausnr. 5 a),1421990998,ganz,mittel,Folgt auf 106553840 (Knoten 13068348643) in Richtung Hausnr. 5 a
+Zwebendorf,Reideburger Straße,(zwischen Kreuzung L168 und Hausnr. 5 a),1176275571,ganz,mittel,Folgt auf 1421990998 (Knoten 3696877365) in Richtung Hausnr. 5 a
+Zwebendorf,Reideburger Straße,(Am Mühlteich bis FFW),1057073800,ganz,mittel,"Reicht bis zur Einmündung Am Mühlteich (Knoten 3555748831); Feuerwehr (Weg 338644396) liegt am Ostende des Folgeweges 27517011, der nicht zugeordnet ist, weil er sich mit dem anderen Zusatz überschneidet"
