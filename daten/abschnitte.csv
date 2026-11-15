@@ -16,6 +16,7 @@ Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),260498100,,,,,A,hoch,Adressen,"Hausn
 Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),260498103,,,,,B,hoch,Adressen,"Hausnr. 17,18 an diesem Weg (unbenannter Weg, service); 2 von 2 Adressen des Weges"
 Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),1421567937,,,,,A,mittel,Adressen,"Hausnr. 21 an diesem Weg (benannter Weg der Straße, residential); 1 von 1 Adressen des Weges"
 Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),1425709721,,,,,B,mittel,Adressen,"Hausnr. 33 an diesem Weg (unbenannter Weg, service/driveway); 1 von 1 Adressen des Weges"
+Gütz,Otto-Quandt-Straße,(Hausnr. 13 - 33),1425709704,,,,,B,mittel,sonstiges,"Unbenannter Servicestich (service, 47 m), hängt am Ostende des Teilnetzes (Regel 2: zusammenhängendes Teilnetz abseits der K 2137); keine eigene Adresse"
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 1 - 11),188144125,51.52208,12.09316,51.52165,12.09582,A,mittel,Adressen,Hausnr. 1 bis 6 an diesem Weg (West-Teil bis vor Hausnr. 87/88); die Spanne ab dort gehört zu Zeile (Hausnr. 43 bis Bahnhof)
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 1 - 11),188144125,51.52122,12.09687,51.52122,12.09719,A,mittel,Adressen,Kurzes Ostende mit Hausnr. 10 a; Mittelteil gehört zu Zeile (Hausnr. 43 bis Bahnhof)
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 1 - 11),188144144,,,,,B,hoch,Adressen,"Hausnr. 7,8,10 an diesem Weg (unbenannter Weg, service); 3 von 3 Adressen des Weges"
@@ -29,11 +30,12 @@ Hohenthurm,Alte Bahnhofstraße,(Hausnr. 42 - 42 D),27016990,,,,,A,hoch,sonstiges
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 42 - 42 D),459207003,,,,,A,hoch,Adressen,"Hausnr. 42 an diesem Weg (benannter Weg der Straße, service); 1 von 1 Adressen des Weges; gesamter Bereich westlich der L 168 laut Projekt Stadt, Pflichten bei den Anwohnern"
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),188144125,51.52165,12.09582,51.52122,12.09687,A,mittel,Adressen,"Hausnr. 87, 88 am Mittelteil (Von-Wuthenau-Platz); Abschnitt = Spanne der Adressen mit Puffer; Rest des Weges gehört zu Zeile (Hausnr. 1 - 11)"
 Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),224852960,,,,,C,niedrig,Adressen,"Hausnr. 52 an diesem Weg (Weg ""Fabrikweg"", service/driveway); 1 von 1 Adressen des Weges"
-Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),459207004,,,,,A,hoch,Adressen,"Hausnr. 43,43a,44 an diesem Weg (benannter Weg der Straße, residential); 3 von 3 Adressen des Weges"
+Hohenthurm,Alte Bahnhofstraße,(Hausnr. 43 bis Bahnhof),459207004,,,,,A,hoch,Adressen,"Hausnr. 43,43a,44 an diesem Weg (benannter Weg der Straße, residential); 3 von 3 Adressen des Weges; Wege der L 168 selbst (Regel 10) sind bewusst nicht zugeordnet"
 Hohenthurm,Berliner Straße,"(Hausnr. 41, 42)",,,,,,E,niedrig,Adressen,Keine Adressen mit diesen Hausnummern in OSM (höchste Hausnummer der Straße ist 28); nicht entscheidbar
 Hohenthurm,Niemberger Weg,"(Hausnr. 31, 33, 35)",1422282328,51.52671,12.09539,51.52708,12.09515,A,niedrig,Adressen,"Hausnr. 31,33,35 an diesem Weg (benannter Weg der Straße, residential); 3 von 7 Adressen des Weges; Abschnitt = Spanne der äußersten Adressen mit 15 m Puffer; Häuser liegen etwa 50 m abseits der Straße, vermutlich eigene Zufahrt"
 Hohenthurm,Niemberger Weg,"(Zufahrt Hausnr. 4, 8, 10, 12)",,,,,,E,niedrig,Adressen,"Zufahrt zu Hausnr. 4, 8, 10, 12 ist in OSM nicht als Weg erfasst; der durchgehende Niemberger Weg bleibt beim Haupteintrag"
 Landsberg,Leipziger Straße,(Hausnr. 36 A - 36 D),356954741,,,,,B,hoch,Adressen,"Hausnr. 36a,36b,36c,36d an diesem Weg (unbenannter Weg, service); 4 von 4 Adressen des Weges"
+Landsberg,Leipziger Straße,(Hausnr. 36 A - 36 D),39962397,,,,,B,mittel,sonstiges,"Paralleler Servicestreifen (service, 152 m) schließt mit 356954741 eine Schleife abseits der L 143 (Regel 2); keine eigene Adresse"
 Landsberg,Merseburger Straße,(Hausnr. 17 - 17 C),258736089,51.52305,12.15611,51.5227,12.15757,A,hoch,Adressen,"Hausnr. 17,17a,17b,17c an diesem Weg (benannter Weg der Straße, residential); 4 von 6 Adressen des Weges; Abschnitt = Spanne der äußersten Adressen mit 15 m Puffer"
 Landsberg,Robert-Schumann-Ring,(Hausnr 59 - 81),40059799,,,,,B,hoch,Adressen,"Hausnr. 75,77,79,81 an diesem Weg (unbenannter Weg, service); 4 von 4 Adressen des Weges"
 Landsberg,Robert-Schumann-Ring,(Hausnr 59 - 81),319279764,,,,,B,hoch,Adressen,"Hausnr. 67,71,73 an diesem Weg (unbenannter Weg, residential); 3 von 3 Adressen des Weges"
@@ -50,6 +52,7 @@ Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",82181444,,,,,A,hoch,Adressen,"Hausnr
 Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",82181447,,,,,B,mittel,Adressen,"Hausnr. 5 an diesem Weg (unbenannter Weg, service); 1 von 1 Adressen des Weges"
 Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",400931367,,,,,B,hoch,Adressen,"Hausnr. 6,8a an diesem Weg (unbenannter Weg, service); 2 von 2 Adressen des Weges"
 Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",400931368,,,,,B,mittel,Adressen,"Hausnr. 7b an diesem Weg (unbenannter Weg, service/driveway); 1 von 1 Adressen des Weges"
+Reußen,Hauptstraße,"(Hausnr. 1, 4 - 8 A)",887532620,,,,,B,mittel,sonstiges,"Unbenannter Servicestich (service, 74 m) verbindet das Teilnetz mit der K 2139 (Regel 2); keine eigene Adresse"
 Reußen,Hauptstraße,(Hausnr. 30 - 32),31761719,51.50018,12.13099,51.50003,12.13134,A,mittel,Adressen,"Hausnr. 32 an diesem Weg (benannter Weg der Straße, residential); 1 von 11 Adressen des Weges; Abschnitt = Spanne der äußersten Adressen mit 15 m Puffer"
 Reußen,Hauptstraße,(Hausnr. 30 - 32),82181439,51.49993,12.13058,51.49981,12.13077,A,mittel,Adressen,"Hausnr. 30 an diesem Weg (benannter Weg der Straße, residential); 1 von 2 Adressen des Weges; Abschnitt = Spanne der äußersten Adressen mit 15 m Puffer"
 Reußen,Hauptstraße,(Hausnr. 30 - 32),1421991016,,,,,A,mittel,Adressen,"Hausnr. 31 an diesem Weg (benannter Weg der Straße, residential); 1 von 1 Adressen des Weges"
@@ -91,4 +94,4 @@ Niemberg,An der Bahn,,,,,,,E,niedrig,Adressen,"Keine Adressen, Namensvarianten o
 Plößnitz,Rosenhain,,,,,,,E,niedrig,Adressen,"Keine Adressen, Namensvarianten oder Wege in OSM gefunden (Namens-, Adress- und alt_name-Suche im Ortsteil); nicht entscheidbar"
 Schwerz,Am Berge,,,,,,,E,niedrig,Adressen,"Keine Adressen, Namensvarianten oder Wege in OSM gefunden (Namens-, Adress- und alt_name-Suche im Ortsteil); nicht entscheidbar"
 Sietzsch,Alte Salzstraße,,,,,,,E,niedrig,Adressen,"Keine Adressen, Namensvarianten oder Wege in OSM gefunden (Namens-, Adress- und alt_name-Suche im Ortsteil); nicht entscheidbar"
-Reinsdorf,Merseburger Straße,"(Hausnr. 51, 52)",,,,,,E,hoch,Projekt,"Nur die L/K-Straße selbst in OSM; Abzweig als eigener Weg nicht erfasst, daher keine Zuordnung"
+Reinsdorf,Merseburger Straße,"(Hausnr. 51, 52)",,,,,,E,niedrig,sonstiges,"Hausnr. 51, 52 liegen an der K 2139 selbst (Regel 1/10); kein eigener Abzweig in OSM erfasst, daher keine Zuordnung"
