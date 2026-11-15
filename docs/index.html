@@ -16,6 +16,16 @@ html,body,#k{height:100%;margin:0}
 #pl .tag{flex:none;font-size:11px;padding:0 6px;border-radius:9px;border:1px solid #b38f00;color:#7a6200;white-space:nowrap}
 #pl .tag.k{border-color:#888;color:#555;border-style:dashed}
 #pi .t{font-weight:600}#pi .s{color:#666;font-size:12px}#pi p{margin:4px 0}#pi small{color:#555}
+/* einklappbare Kästen: Kopfzeile antippen */
+.kopf{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;-webkit-tap-highlight-color:transparent}
+.kopf::after{content:'▾';color:#666}.zu .kopf::after{content:'▸'}.zu .rumpf{display:none}
+@media (max-width:700px){
+ .box{font-size:12.5px;padding:6px 8px}
+ #ctl{width:calc(100vw - 32px);max-height:78vh;overflow:auto}
+ #ctl.zu{width:auto}
+ #pl{max-height:26vh}
+ #s{width:125px;left:48px}
+}
 #s{position:absolute;z-index:1000;top:10px;left:50px;padding:6px;font:14px system-ui;width:200px}
 </style></head>
 <body><input id="s" placeholder="Straße suchen …" list="l"><datalist id="l"></datalist><div id="k"></div>
@@ -32,6 +42,7 @@ const ANSICHTEN={
  winter:{t:'Winterdienst Fahrbahn: wer räumt',leg:[[ANL,'Anlieger (gestrichelt)'],...TRAEGER],
   farbe:p=>p.winterdienst==='A'?ANL:p.winterdienst==='B'?BAU[p.baulast]:null}
 };
+const klein=matchMedia('(max-width:700px)').matches;
 let ansicht='baulast',zeigeGrau=true,ort='',alle=false,wahl=null,probleme=[];
 const wer=(c,b)=>c==='A'||c==='Anlieger'?'Anlieger':(b==='gemischt (Text beachten)'?'Baulastträger (gemischt)':b);
 
@@ -60,13 +71,15 @@ document.getElementById('s').onchange=e=>{const a=ebenen[e.target.value];if(a){m
 // Bedienfeld: Ansicht, Ortsteil, Problemfälle
 const ctl=L.control({position:'topright'});let box;
 ctl.onAdd=()=>{box=L.DomUtil.create('div','box');box.id='ctl';L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
- box.innerHTML=`<b>Ansicht</b>
+ box.innerHTML=`<div class="kopf">Karte einstellen</div><div class="rumpf"><b>Ansicht</b>
  <select id="a">${Object.entries(ANSICHTEN).map(([k,v])=>`<option value="${k}">${v.t}`).join('')}</select>
  <select id="o"><option value="">alle Ortsteile</option></select>
  <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>
  <hr style="margin:6px 0"><b>Problemfälle <span id="pn"></span></b>
  <label><input type="checkbox" id="pa"> alle Problemfälle markieren</label>
- <div id="pl"></div><div id="pi"></div>`;
+ <div id="pl"></div><div id="pi"></div></div>`;
+ if(klein)box.classList.add('zu');
+ box.querySelector('.kopf').onclick=()=>box.classList.toggle('zu');
  box.querySelector('#a').onchange=e=>{ansicht=e.target.value;g&&g.setStyle(stil);legende();};
  box.querySelector('#o').onchange=e=>{ort=e.target.value;g&&g.setStyle(stil);liste();
   if(ort&&g){const b=L.featureGroup(g.getLayers().filter(l=>l.feature.properties.ortsteil===ort)).getBounds();if(b.isValid())m.fitBounds(b.pad(.1));}};
@@ -101,10 +114,12 @@ function zeige(zoom){band.clearLayers();const info=box.querySelector('#pi');info
   else if(zoom&&lin.length)m.fitBounds(L.featureGroup(lin.map(l=>L.polyline(l))).getBounds().pad(.6));}
  legende();}
 
-const leg=L.control({position:'bottomright'});leg.onAdd=()=>L.DomUtil.create('div','box');leg.addTo(m);
+const leg=L.control({position:'bottomright'});
+leg.onAdd=()=>{const c=L.DomUtil.create('div','box');L.DomEvent.disableClickPropagation(c);if(klein)c.classList.add('zu');
+ c.onclick=e=>{if(e.target.closest('.kopf'))c.classList.toggle('zu');};return c;};leg.addTo(m);
 function legende(){
  const sw=(c,t)=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`;
- leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>sw(c,t)).join('')+sw(GRAU,'nicht im Verzeichnis')+
-  (band.getLayers().length?`<div style="margin-top:4px"><i style="height:10px;background:${GELB};opacity:.8"></i>Problemfall</div>`:'');}
+ leg.getContainer().innerHTML=`<div class="kopf">${ANSICHTEN[ansicht].t}</div><div class="rumpf">`+ANSICHTEN[ansicht].leg.map(([c,t])=>sw(c,t)).join('')+sw(GRAU,'nicht im Verzeichnis')+
+  (band.getLayers().length?`<div style="margin-top:4px"><i style="height:10px;background:${GELB};opacity:.8"></i>Problemfall</div>`:'')+'</div>';}
 legende();
 </script></body></html>
