@@ -28,7 +28,6 @@ const BAU={'Stadt':'#1f77d4','Kreis':'#f08a00','Privat':'#d62728','Land':'#2ca02
 const GRAU='#9e9e9e', ANL='#d81b9a';
 const Z={A:'Anlieger',B:'Baulastträger'};
 const ARTEN={A:'Teil einer benannten Straße',B:'unbenannter Weg (Zufahrt)',C:'Weg mit anderem Namen',D:'Strecke oder Orientierungspunkt',E:'keine Kartendaten vorhanden'};
-const SICHER={hoch:'sicher',mittel:'plausibel',niedrig:'vermutet'};
 const ANSICHTEN={
  baulast:{t:'Baulast (wer unterhält die Straße)',leg:[['#1f77d4','Stadt'],['#f08a00','Kreis'],['#d62728','Privat'],['#2ca02c','Land'],['#8e44ad','gemischt']],
   farbe:p=>BAU[p.baulast]},
@@ -42,19 +41,19 @@ const ANSICHTEN={
 let ansicht='baulast', zeigeGrau=true, ort='';
 const m=L.map('k').setView([51.45,12.2],12);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap-Mitwirkende'}).addTo(m);
-m.createPane('pruef');m.getPane('pruef').style.zIndex=450;m.getPane('pruef').style.pointerEvents='none';
+m.createPane('pruef');m.getPane('pruef').style.zIndex=380;m.getPane('pruef').style.pointerEvents='none';
 m.createPane('halo');m.getPane('halo').style.zIndex=395;m.getPane('halo').style.pointerEvents='none';
-const ebenen={},nachId={};let g,zdaten=[],halo=L.layerGroup().addTo(m),zwahl='off',merkmale=[],pruefen=true,pruefLayer=L.layerGroup().addTo(m);
+const ebenen={},nachId={};let g,zdaten=[],halo=L.layerGroup().addTo(m),zwahl='off',merkmale=[],pruefen=false,pruefLayer=L.layerGroup().addTo(m);
 function stil(f){const p=f.properties,c=ANSICHTEN[ansicht].farbe(p);
  const aus=(ort&&p.ortsteil!==ort)||(!c&&!zeigeGrau);
  return {color:c||GRAU,weight:c?4:2,opacity:aus?0:(c?0.9:0.5),interactive:!aus,dashArray:c===ANL?'9 7':null};}
 function popup(p){const z=(a,w)=>w?`${a}: ${Z[w]}`:'';
  return `<b>${p.name}</b><br>${p.ortsteil}`+(p.baulast!=='nicht im Verzeichnis'?
   `<br>Baulast: ${p.baulast}<br>${z('Reinigung Fahrbahn',p.reinigung)}<br>${z('Winterdienst Fahrbahn',p.winterdienst)}<br>${z('Gehweg',p.gehweg)}`+
-  (p.art?`<br>Straßenart: ${p.art}`:'')+(p.hinweis?`<br><i>${p.hinweis}</i>`:'')+(p.a_konf?`<br><em>Zuordnung ${SICHER[p.a_konf]} (${ARTEN[p.a_art]||''})${p.pruefen?' – bitte prüfen':''}</em>`:'')+
+  (p.art?`<br>Straßenart: ${p.art}`:'')+(p.hinweis?`<br><i>${p.hinweis}</i>`:'')+(p.pruefen?`<br><em>Zuordnung unsicher – bitte prüfen</em>`:'')+
   (p.osm_status.startsWith('Alias (')?'<br><i>Name wahrscheinlich gleich (nicht bestätigt)</i>':''):'<br><i>nicht im Verzeichnis</i>');}
 fetch('strassen.geojson').then(r=>r.json()).then(d=>{
- merkmale=d.features.filter(f=>f.properties.pruefen);g=L.geoJSON(d,{style:stil,onEachFeature:(f,l)=>{nachId[f.properties.osm_id]=l;l.bindPopup(popup(f.properties));(ebenen[f.properties.name]=ebenen[f.properties.name]||[]).push(l);}}).addTo(m);
+ merkmale=d.features.filter(f=>f.properties.pruefen);ctl.getContainer().querySelector('#pn').textContent='('+new Set(merkmale.map(f=>f.properties.fall)).size+')';g=L.geoJSON(d,{style:stil,onEachFeature:(f,l)=>{nachId[f.properties.osm_id]=l;l.bindPopup(popup(f.properties));(ebenen[f.properties.name]=ebenen[f.properties.name]||[]).push(l);}}).addTo(m);
  m.fitBounds(g.getBounds());zeigePruefen();
  document.getElementById('l').innerHTML=Object.keys(ebenen).sort().map(n=>`<option>${n}`).join('');
  document.getElementById('s').onchange=e=>{const a=ebenen[e.target.value];if(a){m.fitBounds(L.featureGroup(a).getBounds().pad(.3));a[0].openPopup();}};
@@ -66,7 +65,7 @@ ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickProp
  d.innerHTML=`<b>Ansicht</b><select id="a">${Object.entries(ANSICHTEN).map(([k,v])=>`<option value="${k}">${v.t}`).join('')}</select>
  <select id="o"><option value="">alle Ortsteile</option></select>
  <label><input type="checkbox" id="gr" checked> Straßen ohne Verzeichniseintrag (grau)</label>
- <label><input type="checkbox" id="pr" checked> Zuordnung prüfen (vermutete Abschnitte)</label>
+ <label><input type="checkbox" id="pr"> Unsichere Zuordnungen hervorheben <span id="pn"></span></label>
  <hr style="margin:6px 0"><b>Geteilte Straßen</b>
  <div class="rg"><label><input type="radio" name="zr" value="off" checked> Deaktiviert</label><label><input type="radio" name="zr" value="all"> Alle (<span id="zn">0</span>)</label></div>
  <div id="zl"></div><div id="zi"></div>`;
@@ -78,7 +77,7 @@ ctl.onAdd=()=>{const d=L.DomUtil.create('div','box');L.DomEvent.disableClickProp
 ctl.addTo(m);
 fetch('zusatz.json').then(r=>r.json()).then(z=>{zdaten=z;zliste();});
 // Liste der Teilbereiche (folgt dem Ortsteil-Filter): ● eingezeichnet, ○ noch nicht genau verortet
-const TAGTXT={sicher:['eingezeichnet','Abschnitt ist auf der Karte eingezeichnet'],pruefen:['zu prüfen','Abschnitt ist eingezeichnet, die Zuordnung ist aber vermutet'],keine:['nicht möglich','Abschnitt lässt sich aus den Kartendaten nicht bestimmen']};
+const TAGTXT={sicher:['eingezeichnet','Abschnitt ist auf der Karte eingezeichnet'],pruefen:['unsicher','Abschnitt ist eingezeichnet, die Zuordnung ist aber unsicher'],keine:['nicht möglich','Abschnitt lässt sich aus den Kartendaten nicht bestimmen']};
 function zliste(){const c=ctl.getContainer(),z=zdaten.filter(x=>!ort||x.ortsteil===ort);
  c.querySelector('#zn').textContent=z.length;
  if(zwahl!=='off'&&zwahl!=='all'&&!z.some(x=>String(x.id)===zwahl))zwahl='off';
@@ -91,8 +90,8 @@ function zliste(){const c=ctl.getContainer(),z=zdaten.filter(x=>!ort||x.ortsteil
  zeige(false);}
 // Überlagerung "Zuordnung prüfen": vermutete Zuordnungen (mittel/niedrig, Strecken) auf der Verzeichnisfarbe
 function zeigePruefen(){pruefLayer.clearLayers();if(!pruefen)return;
- merkmale.forEach(f=>{const p=f.properties;if(ort&&p.ortsteil!==ort)return;const stark=p.a_konf==='niedrig';
-  L.polyline(f.geometry.coordinates.map(c=>[c[1],c[0]]),{pane:'pruef',color:stark?'#ff5a00':'#ffd800',weight:5,opacity:1,dashArray:stark?'9 6':'1 8',lineCap:stark?'butt':'round'}).addTo(pruefLayer);});}
+ merkmale.forEach(f=>{const p=f.properties;if(ort&&p.ortsteil!==ort)return;
+  L.polyline(f.geometry.coordinates.map(c=>[c[1],c[0]]),{pane:'pruef',color:'#ffe34d',weight:14,opacity:.6,lineCap:'round',lineJoin:'round'}).addTo(pruefLayer);});}
 function linien(ids){return ids.map(i=>nachId[i]).filter(Boolean);}
 function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelector('#zi');info.innerHTML='';
  const wahl=zwahl==='off'?[]:zwahl==='all'?zdaten.filter(x=>!ort||x.ortsteil===ort):zdaten.filter(x=>String(x.id)===zwahl);
@@ -103,8 +102,8 @@ function zeige(zoom){halo.clearLayers();const info=ctl.getContainer().querySelec
   const w=(c,b)=>c==='Anlieger'?'Anlieger':b;   // "Baulastträger" = der Träger der Baulast der jeweiligen Zeile
   const zeile=(n,a,b)=>`<tr><td>${n}</td><td>${a}</td><td>${h?b:'–'}</td></tr>`;
   const art=x.art.map(a=>ARTEN[a]).join(', '),grund=x.grundlage.join(', ');
-  const status=x.status==='sicher'?`<div class="st">● Auf der Karte dunkel hinterlegt. Zuordnung ${SICHER[x.konfidenz]}.</div>`
-   :x.status==='pruefen'?`<div class="st off">◐ Auf der Karte dunkel hinterlegt, aber nur vermutet – bitte prüfen. Zuordnung ${SICHER[x.konfidenz]}${grund?` (nach: ${grund})`:''}.</div>`
+  const status=x.status==='sicher'?`<div class="st">● Auf der Karte dunkel hinterlegt.</div>`
+   :x.status==='pruefen'?`<div class="st off">● Auf der Karte dunkel hinterlegt, aber unsicher – bitte prüfen${grund?` (nach: ${grund})`:''}.</div>`
    :`<div class="st off">○ Nicht eingezeichnet: Aus den Kartendaten lässt sich nicht bestimmen, wo dieser Abschnitt liegt.</div>`;
   info.innerHTML=`<div class="t">${x.strasse} – ${x.zusatz}</div><div class="s">${x.ortsteil} · ${art}</div>
    <table><tr><th></th><th>Dieser Abschnitt</th><th>Übrige Straße</th></tr>
@@ -117,7 +116,7 @@ function aktual(){if(g)g.setStyle(stil);legende();}
 function legende(){
  leg.getContainer().innerHTML=`<b>${ANSICHTEN[ansicht].t}</b>`+ANSICHTEN[ansicht].leg.map(([c,t])=>`<div><i style="background:${c===ANL?`repeating-linear-gradient(90deg,${c} 0 6px,transparent 6px 10px)`:c}"></i>${t}</div>`).join('')+`<div><i style="background:${GRAU}"></i>nicht im Verzeichnis</div>`+
  (zwahl!=='off'?`<div style="margin-top:4px"><i style="background:#111;height:6px;opacity:.7"></i>Teilbereich (Zuständigkeit weicht ab)</div>`:'')+
- (pruefen?`<div style="margin-top:4px"><i style="height:6px;background:repeating-linear-gradient(90deg,#ffd800 0 2px,transparent 2px 8px)"></i>Zuordnung vermutet – bitte prüfen</div><div><i style="height:6px;background:repeating-linear-gradient(90deg,#ff5a00 0 9px,transparent 9px 15px)"></i>… besonders unsicher</div>`:'');}
+ (pruefen?`<div style="margin-top:4px"><i style="height:10px;background:#ffe34d;opacity:.8"></i>gelb hinterlegt = Zuordnung unsicher, bitte prüfen</div>`:'');}
 aktual();
 fetch('offene.json').then(r=>r.json()).then(o=>{if(!o.length)return;const c=L.control({position:'bottomleft'});c.onAdd=()=>{const d=L.DomUtil.create('div','box');
  d.innerHTML='<b>Keine Zuordnung möglich</b><br>'+o.map(x=>`${x.strasse} (${x.ortsteil}, ${x.baulast})`).join('<br>');return d;};c.addTo(m);});

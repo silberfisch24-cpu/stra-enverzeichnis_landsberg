@@ -11,13 +11,15 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from geo import laenge as weg_laenge, projektion, zerlege  # noqa: E402
+from geo import hausnummern_filter, laenge as weg_laenge, projektion, zerlege  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 FARBE = {"S": "#1f77d4", "K": "#f08a00", "P": "#d62728", "L": "#2ca02c", "gemischt": "#8e44ad", None: "#9e9e9e"}
 # OSM-Ortsnamen, die im Verzeichnis anders heißen (Ortsteil mit mehreren Punkten möglich)
 ORT_ALIAS = {"Wölls-Petersdorf": "Petersdorf", "Obermaschwitz": "Maschwitz", "Untermaschwitz": "Maschwitz"}
 ZUST = {"A": "Anlieger", "B": "Baulastträger"}
+# Ab welcher Einstufung aus abschnitte.csv eine Zuordnung auf der Karte als "unsicher" gilt (hoch < mittel < niedrig)
+UNSICHER = {"niedrig"}
 KEINE_STRASSE = {"platform", "rest_area", "services", "steps"}  # Haltestellen, Rastplätze …: nur zeichnen, wenn im Verzeichnis
 NAME = {"S": "Stadt", "K": "Kreis", "P": "Privat", "L": "Land", "gemischt": "gemischt (Text beachten)", None: "nicht im Verzeichnis"}
 
@@ -64,7 +66,7 @@ def merkmal(wid, name, ort, teil, r, hinweis, status, pl):
         z, a = pl["zeile"], pl["a"]
         r, hinweis, status = z, f'Abschnitt {z["zusatz"].strip("()")}', "Abschnitt"
         extra = {"fall": pl["fall"], "a_art": a["art"], "a_konf": a["konfidenz"], "a_grund": a["grundlage"],
-                 "a_notiz": a["notiz"], "pruefen": a["konfidenz"] != "hoch" or a["art"] in ("D", "E")}
+                 "a_notiz": a["notiz"], "pruefen": a["konfidenz"] in UNSICHER or a["art"] == "E"}
     b = r["baulast"] if r else None
     return {"type": "Feature",
             "properties": {"osm_id": wid, "name": name, "ortsteil": ort, "baulast": NAME[b], "hinweis": hinweis,
@@ -107,6 +109,38 @@ def main():
     zeilen = {(r["ortsteil"], r["strasse"], r["zusatz"]): r for r in verz if r["zusatz"]}
     faelle = {k: i for i, k in enumerate(sorted(zeilen))}
     schnitte = defaultdict(list)  # Weg-ID -> [(s0, s1, Nutzlast)] (Bogenlängen in m)
+    adr_je_strasse = defaultdict(list)
+    pa = ROOT / "daten/osm_adressen.json"
+    if pa.exists():
+        for ad in json.loads(pa.read_text("utf-8"))["elements"]:
+            adr_je_strasse[norm(ad["strasse"])].append(ad)
+    wege_des_falls = defaultdict(set)
+    for a in absch:
+        if a["osm_way_id"].strip().isdigit() and int(a["osm_way_id"]) in geom:
+            wege_des_falls[(a["ortsteil"], a["strasse"], a["zusatz"])].add(int(a["osm_way_id"]))
+    gekuerzt = []
+
+    def kuerzen(a, key, wid, g):
+        """Langer Weg, der laut Adressen nur zum Teil zum Zusatz gehört: Spanne der zugehörigen Adressen ±15 m.
+        Zugehörig = Adresse mit passender Hausnummer, deren nächster Weg unter den Wegen dieses Falls dieser Weg ist (≤ 45 m)."""
+        pr = hausnummern_filter(a["zusatz"])
+        L = weg_laenge(g)
+        if not pr or a["grundlage"] != "Adressen" or a["art"] in ("D", "E") or L <= 70:
+            return None
+        ss = []
+        for ad in adr_je_strasse.get(norm(a["strasse"]), []):
+            if not pr(ad["hn"]):
+                continue
+            p = (ad["lon"], ad["lat"])
+            nah = min(wege_des_falls[key], key=lambda i: projektion(geom[i], p)[1])
+            sd = projektion(g, p)
+            if nah == wid and sd[1] <= 45:
+                ss.append(sd[0])
+        if not ss:
+            return None
+        lo, hi = max(0.0, min(ss) - 15), min(L, max(ss) + 15)
+        return (lo, hi) if hi - lo < 0.85 * L else None
+
     for a in absch:
         key = (a["ortsteil"], a["strasse"], a["zusatz"])
         wid = a["osm_way_id"].strip()
@@ -121,7 +155,13 @@ def main():
             s1 = projektion(g, (float(a["bis_lon"]), float(a["bis_lat"])))[0]
         else:
             s0, s1 = 0.0, weg_laenge(g)
+            k_ = kuerzen(a, key, int(wid), g)
+            if k_:
+                (s0, s1), a = k_, {**a, "notiz": (a["notiz"] + " | " if a["notiz"] else "") + "automatisch auf die Lage der Adressen gekürzt"}
+                gekuerzt.append((a["ortsteil"], a["strasse"], a["zusatz"], int(wid), round(weg_laenge(g)), round(s1 - s0)))
         schnitte[int(wid)].append((min(s0, s1), max(s0, s1), {"zeile": zeilen[key], "a": a, "fall": faelle[key]}))
+    for g_ in gekuerzt:
+        print("gekürzt:", g_)
 
     def stuecke(wid, geo):
         return zerlege(geo, schnitte[wid]) if wid in schnitte else [(geo, None)]
@@ -196,7 +236,7 @@ def main():
         h = eintrag.get((z["ortsteil"], norm(z["strasse"])))
         konf = max((a["konfidenz"] for a in rows), key=lambda c: rang.get(c, 3), default="niedrig")
         arten = sorted({a["art"] for a in rows})
-        status = "keine" if not linien[i] else ("pruefen" if konf != "hoch" or set(arten) & {"D", "E"} else "sicher")
+        status = "keine" if not linien[i] else ("pruefen" if konf in UNSICHER else "sicher")
         zj.append({"id": i, "ortsteil": z["ortsteil"], "strasse": z["strasse"], "zusatz": z["zusatz"].strip("()"),
                    "baulast": NAME[z["baulast"]], "reinigung": ZUST[z["reinigung_fahrbahn"]], "winterdienst": ZUST[z["winterdienst"]],
                    "haupt": (None if not h or h["zusatz"] else

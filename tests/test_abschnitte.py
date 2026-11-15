@@ -52,3 +52,14 @@ def test_abschnitte_vollstaendig_und_wege_vorhanden():
     ids |= {e["id"] for e in json.loads(pu.read_text("utf-8"))["elements"]}
     fehlt = [r["osm_way_id"] for r in absch if r["osm_way_id"].strip() and int(r["osm_way_id"]) not in ids]
     assert not fehlt, f"Weg-IDs nicht in den OSM-Dateien: {fehlt}"
+
+
+def test_hausnummern_filter():
+    f = geo.hausnummern_filter("(Hausnr. 1, 4 - 8 A)")
+    assert [f(x) for x in ("1", "2", "4", "8a", "8b", "9")] == [True, False, True, True, False, False]
+    f = geo.hausnummern_filter("(Hausnr. 2 A bis 2 E)")
+    assert f("2c") and not f("2") and not f("2f")
+    assert geo.hausnummern_filter("Zufahrt Hausnr. 4, 8")("8")
+    # Strecken und offene Angaben sind keine Nummernlisten
+    assert geo.hausnummern_filter("ab Einmündung Alte Hauptstraße bis Am Domhof Hausnr. 6 a") is None
+    assert geo.hausnummern_filter("(Hausnr. 43 bis Bahnhof)") is None

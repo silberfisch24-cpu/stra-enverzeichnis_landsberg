@@ -92,3 +92,55 @@ def zerlege(geo, intervalle, mindest=0.5):
         else:
             stuecke.append((a, b, n))
     return [(teilstueck(geo, a, b), n) for a, b, n in stuecke]
+
+
+# ---------- Hausnummern aus den Zusatzangaben des Verzeichnisses ----------
+import re as _re
+
+
+def _hn(tok):
+    """'8a' / '2 A' / '36' -> (Zahl, Buchstabe klein oder '')"""
+    m = _re.fullmatch(r"\s*(\d+)\s*([A-Za-z]?)\s*", tok)
+    return (int(m.group(1)), m.group(2).lower()) if m else None
+
+
+def hausnummern_filter(zusatz):
+    """Prädikat (Hausnummer-Text -> bool) für Angaben wie '(Hausnr. 1, 4 - 8 A)', '2 A bis 2 E', 'Zufahrt Hausnr. 4, 8'.
+
+    Gibt None zurück, wenn die Angabe keine reine Nummernliste ist (z. B. 'bis Bahnhof', 'ab Kreuzung …').
+    """
+    t = zusatz.strip("() ")
+    m = _re.fullmatch(r"(?:Zufahrt\s+)?Hausnr\.?\s*(.*)", t)  # nur reine Nummernangaben, keine Strecken ("ab … bis …")
+    if not m:
+        return None
+    teile = []
+    for part in m.group(1).split(","):
+        r = _re.split(r"\s+(?:-|bis)\s+|\s*-\s*", part.strip())
+        if len(r) == 1:
+            a = _hn(r[0])
+            if not a:
+                return None
+            teile.append((a, a, True))
+        elif len(r) == 2:
+            a, b = _hn(r[0]), _hn(r[1])
+            if not a or not b:
+                return None
+            teile.append((a, b, False))
+        else:
+            return None
+
+    def passt(text):
+        h = _hn(text.replace(" ", ""))
+        if not h:
+            return False
+        for a, b, einzeln in teile:
+            if einzeln:  # einzelne Nummer: auch mit Buchstaben (8 -> 8a), wenn kein Buchstabe genannt ist
+                if h[0] == a[0] and (not a[1] or h[1] == a[1]):
+                    return True
+            else:
+                lo = (a[0], a[1] or "")
+                hi = (b[0], b[1] or "{")  # ohne Buchstaben am Ende: alle Buchstaben dieser Nummer
+                if lo <= h <= hi:
+                    return True
+        return False
+    return passt
