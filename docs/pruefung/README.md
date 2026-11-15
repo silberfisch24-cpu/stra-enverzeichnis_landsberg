@@ -110,7 +110,7 @@ Anlass: Bei Am Landrain 8 A bis 8 E war neben dem Stichweg auch ein Stück der d
 | detail_08 oben | Reußen Hauptstraße 1, 4 - 8 A | Teilstück der durchgehenden Straße (31761719, Hausnr. 8) entfernt; Stichwege bleiben. |
 | detail_08 unten | Schwerz Hoffmannplatz 8, 9 | Teilstück am Hoffmannplatz (164841650) entfernt; Häuser fronten zur Friedrich-Hoffmann-Straße (Art C, niedrig). |
 | detail_09 oben | Stichelsdorf Stichelsdorfer Straße 6 - 21 | Teilstück der durchgehenden Straße (26817831) entfernt; Stichschleife bleibt. |
-| detail_09 unten | Dammendorf Anger 6 - 22 | Ganzes Wegenetz um den Anger ist Stichstraßensystem, bleibt. |
+| detail_09 unten | Dammendorf Anger 6 - 22 | Gemeint ist der gesamte Abschnitt östlich der durchgehenden Nord-Süd-Straße: Wege 28731060, 59984777, 923134922, 1423315161, jeweils ganz (Art A bzw. B, hoch). |
 | detail_10 | Zöberitz Zum Rittergut 1 A - 21 | Teilstück der durchgehenden Straße (153644436, Hausnr. 14) und Mötzlicher Straße (151256996, Hausnr. 13) entfernt. |
 
 Dazu die Notizen in `abschnitte.csv`: Bei jedem Fall steht, welche Hausnummer an der durchgehenden Straße liegt und nicht zugeordnet wurde.
