@@ -2,7 +2,7 @@ ortsteil,strasse,zusatz,osm_way_id,von_lat,von_lon,bis_lat,bis_lon,art,konfidenz
 Braschwitz,Brunnenstraße,(Hausnr. 4 - 6),33050506,,,,,B,mittel,Adressen,"Hausnr. 4 an diesem Weg (unbenannter Weg, service/driveway); 1 von 2 Adressen des Weges; Hausnr. 5 und 6 fehlen in OSM"
 Braschwitz,Zöberitzer Weg,(Hausnr. 17 - 18),33046421,,,,,B,hoch,Adressen,"Hausnr. 17,18 an diesem Weg (unbenannter Weg, service); 2 von 4 Adressen des Weges"
 Braschwitz,Zöberitzer Weg,(Hausnr. 2 A bis 2 E),33046424,,,,,A,hoch,Adressen,"Hausnr. 2a,2b,2c,2d an diesem Weg (benannter Weg der Straße, residential); 4 von 4 Adressen des Weges"
-Braschwitz,Zöberitzer Weg,(Hausnr. 2 A bis 2 E),40463143,,,,,A,mittel,Adressen,"Hausnr. 2e an diesem Weg (benannter Weg der Straße, service); 1 von 1 Adressen des Weges; langer Weg (235 m) mit nur einer Adresse am Anfang, weiter nördlich keine Bebauung"
+Braschwitz,Zöberitzer Weg,(Hausnr. 2 A bis 2 E),40463143,,,,,A,hoch,Adressen,"Gesamter Teil des Zöberitzer Weges (235 m) von der Ewald-Brandt-Straße nach Nordwesten, Hausnr. 2 e am Anfang; laut Projekt Anlieger, nicht Stadt"
 Dammendorf,Anger,(Hausnr. 6 - 22),28731060,,,,,A,hoch,sonstiges,"Gesamter Abschnitt östlich der durchgehenden Nord-Süd-Straße (Am Anger); in OSM heißt die Straße ""Am Anger"", die Adressen ""Anger"""
 Dammendorf,Anger,(Hausnr. 6 - 22),59984777,,,,,A,hoch,sonstiges,"Gesamter Abschnitt östlich der durchgehenden Nord-Süd-Straße (Am Anger); in OSM heißt die Straße ""Am Anger"", die Adressen ""Anger"""
 Dammendorf,Anger,(Hausnr. 6 - 22),923134922,,,,,B,hoch,sonstiges,"Gesamter Abschnitt östlich der durchgehenden Nord-Süd-Straße (Am Anger); in OSM heißt die Straße ""Am Anger"", die Adressen ""Anger""; Fußweg am Bach"
