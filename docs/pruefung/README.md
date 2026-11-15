@@ -11,7 +11,7 @@ Die Karten sind aus OSM-Rohdaten gezeichnet (OSM-API, Stand 15.11.2026), nicht a
 ### blatt_01.jpg
 1. Braschwitz Zöberitzer Weg (Hausnr. 17 - 18): Stichweg 33046421 zwischen 17 und 18, plausibel.
 2. Braschwitz Brunnenstraße (Hausnr. 4 - 6): Stichweg 33050506 an Hausnr. 4; Hausnr. 5 und 6 fehlen in OSM (mittel).
-3. Braschwitz Zöberitzer Weg (2 A bis 2 E): 2a bis 2d an 33046424, 2e an 40463143. Der Weg 40463143 ist 235 m lang mit nur einer Adresse am Anfang (in notiz vermerkt).
+3. Braschwitz Zöberitzer Weg (2 A bis 2 E): 2a bis 2d an 33046424, 2e an 40463143. Der Weg 40463143 ist 235 m lang mit nur einer Adresse am Anfang. Vom Projekt bestätigt: Der gesamte Teil des Zöberitzer Weges ist Anlieger und nicht Stadt, also ganzer Weg (hoch).
 4. Dammendorf Ernst-Thälmann-Straße (1 - 7): Weg 109708394 begleitet 1 bis 7 vollständig, plausibel.
 
 ### blatt_02.jpg
@@ -87,3 +87,44 @@ Hohenthurm Berliner Straße (Hausnr. 41, 42) und die 5 offenen Straßen (Art E):
 
 ## Nachbau
 Die Blätter entstanden im Browser mit der OSM-API: pro Fall `way/ID/full.json` für die zugeordneten Wege und `map.json?bbox=` für Umgebung und Adressen, als SVG gezeichnet. Adressen gelten als „eigene Straße“, wenn `addr:street` (normalisiert, ohne Leerzeichen, Bindestriche und Punkte, „str“ am Ende als „strasse“) dem Straßennamen entspricht.
+
+## Zweite Runde: Stichstraße statt durchgehende Straße (Detailblätter)
+
+Anlass: Bei Am Landrain 8 A bis 8 E war neben dem Stichweg auch ein Stück der durchgehenden Straße zugeordnet. Gemeint ist die Stichstraße; die durchgehende Straße bleibt in der übergeordneten Verantwortung (Haupteintrag). Alle Fälle mit Teilstück einer durchgehenden Straße wurden mit Gebäuden und Hausnummern in größerem Maßstab geprüft (OSM-Gebäudeumrisse, Hausnummern, Wege; Magenta = zugeordnet, dick = Teilstück).
+
+| Blatt | Fall | Ergebnis |
+|---|---|---|
+| detail_01 | Dammendorf Blumenstraße, Rondell Dorfplatz | Der Ring (drei Wege 28731056, 975460640, 390526327) ist die Fahrbahn der Blumenstraße. Gemeint ist die Mittelinsel (Grünfläche, Way 1104039294). Ring entfernt, Insel zugeordnet (Art D, mittel). |
+| detail_02 oben | Gütz Am Landrain 8 A - 8 E | Teilstück der durchgehenden Straße (40353466) entfernt, Stichweg 41312459 bleibt. |
+| detail_02 unten | Gollma Schkeuditzer Straße 6 - 20 | Teilstück der Nord-Süd-Straße (33103043) bei Hausnr. 7 entfernt; die Querstraße mit 6 bis 20 bleibt. |
+| detail_03 oben | Gütz Otto-Quandt-Straße 13 - 33 | Teilstück der durchgehenden Straße (39976868) entfernt. |
+| detail_03 unten | Hohenthurm Alte Bahnhofstraße 42 - 42 D | Teilstück der durchgehenden Straße (27016990) entfernt; die Häuser liegen an den unbenannten Zuwegen im Innern. |
+| detail_04 oben | Hohenthurm Niemberger Weg 31, 33, 35 | Teilstück am Straßenende bleibt, aber niedrig: die Häuser liegen etwa 50 m abseits (vermutlich eigene Zufahrt). |
+| detail_04 unten | Hohenthurm Niemberger Weg, Zufahrt 4, 8, 10, 12 | Es gibt keine Zufahrt als Weg in OSM; Teilstück der durchgehenden Straße entfernt, jetzt Art E. |
+| detail_05 oben | Landsberg Merseburger Straße 17 - 17 C | Das Teilstück ist die Stichstraße selbst (Sackgasse), bleibt. |
+| detail_05 unten | Niemberg An den Teichen 8 | Haus liegt an der Straße selbst, Teilstück bleibt (mittel). |
+| detail_06 oben | Peißen Am Gewölbe 1, 2, 6 | Das Teilstück war praktisch der ganze Stichweg; jetzt ganzer Weg. |
+| detail_06 unten | Queis Delitzscher Chaussee 13, 15 | Drei Zuwegen zu den Häusern, bleiben. |
+| detail_07 oben | Reinsdorf Merseburger Straße 51, 52 | Häuser liegen zwischen Merseburger Straße und Friedensplatz; bleibt als Näherung, niedrig. |
+| detail_07 unten | Reußen Hauptstraße 30 - 32 | Straße selbst, bleibt (mittel). |
+| detail_08 oben | Reußen Hauptstraße 1, 4 - 8 A | Teilstück der durchgehenden Straße (31761719, Hausnr. 8) entfernt; Stichwege bleiben. |
+| detail_08 unten | Schwerz Hoffmannplatz 8, 9 | Teilstück am Hoffmannplatz (164841650) entfernt; Häuser fronten zur Friedrich-Hoffmann-Straße (Art C, niedrig). |
+| detail_09 oben | Stichelsdorf Stichelsdorfer Straße 6 - 21 | Teilstück der durchgehenden Straße (26817831) entfernt; Stichschleife bleibt. |
+| detail_09 unten | Dammendorf Anger 6 - 22 | Gemeint ist der gesamte Abschnitt östlich der durchgehenden Nord-Süd-Straße: Wege 28731060, 59984777, 923134922, 1423315161, jeweils ganz (Art A bzw. B, hoch). |
+| detail_10 | Zöberitz Zum Rittergut 1 A - 21 | Teilstück der durchgehenden Straße (153644436, Hausnr. 14) und Mötzlicher Straße (151256996, Hausnr. 13) entfernt. |
+
+Dazu die Notizen in `abschnitte.csv`: Bei jedem Fall steht, welche Hausnummer an der durchgehenden Straße liegt und nicht zugeordnet wurde.
+
+**Neue Zählung** (104 Zeilen): Art A 40 · B 30 · C 6 · D 21 · E 7; Konfidenz hoch 39 · mittel 49 · niedrig 16.
+
+**Hinweis für die Karte:** Way 1104039294 (Rondell Dorfplatz) ist eine geschlossene Fläche (`landuse=grass`), kein Weg. Sie muss als Fläche (oder ihre Umrisslinie) gezeichnet werden.
+
+**Nachtrag Hohenthurm Alte Bahnhofstraße:** Die Diagonale vom Von-Wuthenau-Platz zur Kreuzung Am Dorfteich (Wege 1176275569, 1422282324, 188144126; Hausnr. 12, 13) ist Stadt und nicht Land. Sie ist der Zeile (Hausnr. 1 - 11) zugeordnet (Art A, hoch), weil sie am Ostende von 188144125 anschließt.
+
+**Nachtrag Hohenthurm Alte Bahnhofstraße 42 - 42 D:** Der gesamte Bereich westlich der L 168 ist Stadt und nicht Land, mit Pflichten bei den Anwohnern. Zugeordnet sind deshalb alle Wege dort ganz: 27016990 (Süd- und Westseite am Gleis), 459207003 (bis zur L 168) und 104384350. Der Weg 604661716 ist nur ein Fußweg (`track`) und entfällt, ebenso der Grasweg 224882490 bei Hausnr. 14 - 17.
+
+
+## Runde 3: Gesamtdurchgang nach Systematik (15.11.2026)
+
+Alle 41 Fälle mit Wegen wurden neu gezeichnet und per Screenshot geprüft (`runde3/blatt_01.jpg` bis `blatt_19.jpg`; Blatt 4 ist die Detailansicht Otto-Quandt-Straße, Blatt 18 die drei geänderten Fälle). Legende: blau = zugeordnet, rot = Teilstück, orange = Kandidat, gestrichelt grau = Pfad, schwarz = Weg mit `ref`. Die Regeln stehen in `docs/ZUORDNUNGSREGELN.md`.
+Änderungen: L/K/B-Wege entfernt (Alte Bahnhofstraße 43 bis Bahnhof, Reideburger Straße, Alte Berliner Straße), Servicestiche ergänzt (1425709704, 39962397, 887532620), Reinsdorf Merseburger Straße 51/52 als Art E.
