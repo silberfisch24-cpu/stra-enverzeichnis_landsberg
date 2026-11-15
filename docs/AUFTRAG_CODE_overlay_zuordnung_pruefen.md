@@ -72,7 +72,7 @@ Regel: Adresse (Knoten oder Gebäudemittelpunkt, `addr:street` gleich Straßenna
 Hohenthurm Niemberger Weg (Zufahrt 4, 8, 10, 12; Hausnr. 8 ohne eigenen Weg), Dammendorf Anger Hausnr. 11, Zöberitz Zum Rittergut Hausnr. 13 (Weg heißt Mötzlicher Straße), Hohenthurm Alte Bahnhofstraße 42 c, Steinbruch, Klepzig Kirchstraße.
 
 ### Prüfstand
-Jeder Fall wurde als Kartenausschnitt gezeichnet (OSM-Straßennetz, Adresspunkte mit Hausnummern, zugeordnete Wege, Teilstücke) und einzeln gesichtet. Korrekturen daraus stehen in PR #2.
+Jeder Fall wurde als Kartenausschnitt gezeichnet (OSM-Straßennetz, Adresspunkte mit Hausnummern, zugeordnete Wege, Teilstücke) und einzeln gesichtet. Die Screenshots (12 Blätter) und die Einzelanalyse aller Fälle stehen in `docs/pruefung/` (README.md). Korrekturen daraus stehen in PR #2.
 
 ## Hinweise zu OSM-Daten
 
